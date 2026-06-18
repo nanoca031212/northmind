@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
       lastUpdated="April 2026"
     >
       <p>
-        At North Mind ("we", "our", or "us"), your privacy is a priority. This Privacy Policy details the information we collect, how it is used, and the strict protocols we follow to ensure its protection when you visit northmind.store or engage with our services.
+        At North Mind (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), your privacy is a priority. This Privacy Policy details the information we collect, how it is used, and the strict protocols we follow to ensure its protection when you visit northmind.store or engage with our services.
       </p>
 
       <h2>1. Information We Collect</h2>
@@ -25,8 +25,8 @@ export default function PrivacyPolicy() {
       <h2>2. Global Compliance (GDPR & CCPA)</h2>
       <p>As an international brand operating across the UK, EU, and US, we adhere to the highest standards of data protection:</p>
       <ul>
-        <li><strong>UK/EU GDPR Rights:</strong> If you are a resident of the European Economic Area (EEA) or the United Kingdom, you have the right to access the personal information we hold about you, to port it to a new service, and to ask that your personal information be corrected, updated, or erased (the "Right to be Forgotten"). If you would like to exercise these rights, please contact us.</li>
-        <li><strong>California Residents (CCPA/CPRA):</strong> We do not "sell" your personal information as defined by California law. You have the right to request access to your data, request deletion, and opt-out of sharing for cross-context behavioral advertising.</li>
+        <li><strong>UK/EU GDPR Rights:</strong> If you are a resident of the European Economic Area (EEA) or the United Kingdom, you have the right to access the personal information we hold about you, to port it to a new service, and to ask that your personal information be corrected, updated, or erased (the &ldquo;Right to be Forgotten&rdquo;). If you would like to exercise these rights, please contact us.</li>
+        <li><strong>California Residents (CCPA/CPRA):</strong> We do not &ldquo;sell&rdquo; your personal information as defined by California law. You have the right to request access to your data, request deletion, and opt-out of sharing for cross-context behavioral advertising.</li>
       </ul>
 
       <h2>3. How We Use Your Information</h2>

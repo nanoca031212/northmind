@@ -10,7 +10,7 @@ export default function DataDeletionPolicy() {
       lastUpdated="April 2026"
     >
       <p>
-        Under the General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA/CPRA), you possess the "Right to be Forgotten." North Mind respects your autonomy over your personal data.
+        Under the General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA/CPRA), you possess the &ldquo;Right to be Forgotten.&rdquo; North Mind respects your autonomy over your personal data.
       </p>
 
       <h2>1. The Right to Erasure</h2>

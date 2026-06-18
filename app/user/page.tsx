@@ -65,7 +65,7 @@ export default async function DashboardPage() {
 
     // 2. Resolve productsDict for OrderCards
     if (user.pedidos && user.pedidos.length > 0) {
-      const allProductIds = Array.from(new Set(user.pedidos.flatMap(p => p.produtosIds)));
+      const allProductIds: string[] = Array.from(new Set(user.pedidos.flatMap((p): string[] => p.produtosIds)));
       if (allProductIds.length > 0) {
         const products = await prisma.produto.findMany({
           where: { id: { in: allProductIds } },
