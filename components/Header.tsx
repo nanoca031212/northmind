@@ -49,13 +49,16 @@ export function Header() {
     setIsMobileMenuOpen(false);
   }, []);
 
+  const isAdmin = (session?.user as any)?.type === "ADMIN";
+  const accountHref = status === "authenticated" ? (isAdmin ? "/admin" : "/user") : "/login";
+
   const icons = [
     { id: "search", icon: Search, label: "Search", action: () => setIsSearchOpen(true) },
     {
       id: "auth",
       icon: User,
-      label: status === "authenticated" ? (session?.user?.name?.split(" ")[0] || "Account") : "Login",
-      action: () => router.push(status === "authenticated" ? "/user" : "/login"),
+      label: status === "authenticated" ? (isAdmin ? "Admin" : (session?.user?.name?.split(" ")[0] || "Account")) : "Login",
+      action: () => router.push(accountHref),
       desktopOnly: true
     },
     {
@@ -213,13 +216,13 @@ export function Header() {
               {/* Drawer Footer - Login/Profile */}
               <div className="p-6 border-t border-white/5 space-y-4" style={{ paddingBottom: 'max(24px, env(safe-area-inset-bottom))' }}>
                 <Link
-                  href={status === "authenticated" ? "/user" : "/login"}
+                  href={accountHref}
                   onClick={closeMobileMenu}
                   className="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all min-h-[52px]"
                 >
                   <User size={20} className="text-accent" />
                   <span className="text-xs font-bold uppercase tracking-widest text-white">
-                    {status === "authenticated" ? (session?.user?.name?.split(" ")[0] || "Profile") : "Sign In"}
+                    {status === "authenticated" ? (isAdmin ? "Admin" : (session?.user?.name?.split(" ")[0] || "Profile")) : "Sign In"}
                   </span>
                 </Link>
               </div>
