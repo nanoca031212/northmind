@@ -18,23 +18,15 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Credenciais inválidas");
         }
-        const admin = await prisma.admin.findUnique({
-          where: { email: credentials.email },
-        });
-        if (!admin || !admin.hashedPassword) {
-          throw new Error("Falha na autenticação do admin");
-        }
-        const isCorrectPassword = await bcrypt.compare(
-          credentials.password,
-          admin.hashedPassword
-        );
-        if (!isCorrectPassword) {
+        const isCorrectEmail = credentials.email === process.env.SECRET_EMAIL;
+        const isCorrectPassword = credentials.password === process.env.SECRET_ADMIN;
+        if (!isCorrectEmail || !isCorrectPassword) {
           throw new Error("Credenciais inválidas");
         }
         return {
-          id: admin.id,
-          name: admin.name,
-          email: admin.email,
+          id: "admin",
+          name: "Admin",
+          email: credentials.email,
           type: "ADMIN",
           accessToken: null,
         };
