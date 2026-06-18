@@ -23,7 +23,7 @@ export default function LoginPage() {
       if (userType === "ADMIN") {
         router.push("/admin");
       } else {
-        router.push("/customer");
+        router.push("/user");
       }
     }
   }, [session?.status, router, session?.data]);

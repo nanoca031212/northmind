@@ -213,7 +213,7 @@ export function Header() {
               {/* Drawer Footer - Login/Profile */}
               <div className="p-6 border-t border-white/5 space-y-4" style={{ paddingBottom: 'max(24px, env(safe-area-inset-bottom))' }}>
                 <Link
-                  href={status === "authenticated" ? "/customer" : "/login"}
+                  href={status === "authenticated" ? "/user" : "/login"}
                   onClick={closeMobileMenu}
                   className="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all min-h-[52px]"
                 >
