@@ -26,9 +26,9 @@ export function ProductCarousel({ products, title }: ProductCarouselProps) {
       </div>
 
       {/* Product List */}
-      <div className="flex flex-row flex-wrap gap-3 md:gap-4">
+      <div className="flex flex-row flex-wrap gap-3 sm:gap-4">
         {products.map((product, index) => (
-          <div key={product.id} className="w-[calc(50%-0.375rem)] md:w-[300px] lg:w-[340px]">
+          <div key={product.id} className="w-[calc(50%-0.375rem)] sm:w-[calc(33.333%-0.667rem)] lg:w-[300px] xl:w-[340px]">
             <ProductCard product={product} index={index} />
           </div>
         ))}
