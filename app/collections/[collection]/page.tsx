@@ -37,6 +37,12 @@ interface PageProps {
 
 export default async function CollectionPage({ params }: PageProps) {
   const collection = await getCollectionByHandle(params.collection);
+
+  // Coleção cadastrada mas marcada como draft no admin: trata como privada (404)
+  if (collection && !collection.publicado) {
+    notFound();
+  }
+
   // Usa o nome da coleção se existir, senão usa o próprio slug decodificado (ex: "jackets" -> "Jackets")
   const decodedName = collection?.name ?? decodeURIComponent(params.collection).replace(/-/g, " ");
   

@@ -132,7 +132,7 @@ export const getCollectionByHandle = cache(async (handle: string): Promise<Colle
     const c = await prisma.collection.findUnique({
       where: { handle },
     });
-    if (!c || !c.publicado) return null;
+    if (!c) return null;
     return {
       id: c.id,
       name: c.name,

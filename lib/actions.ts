@@ -260,6 +260,7 @@ export async function upsertCollection(data: any) {
         handle: handleFormatado,
         description: data.description,
         image: data.image,
+        publicado: data.publicado,
       }
     });
   } else {
@@ -269,12 +270,14 @@ export async function upsertCollection(data: any) {
         handle: handleFormatado,
         description: data.description,
         image: data.image,
+        publicado: data.publicado,
       }
     });
   }
 
   revalidatePath("/admin/collections");
   revalidatePath("/admin/products");
+  revalidatePath("/collections");
   revalidatePath("/");
   return { success: true };
 }
