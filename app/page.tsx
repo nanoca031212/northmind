@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { getCollections, getProductsByCollection } from "@/lib/data-loader";
 
 // Lazy loading components below the fold
-const ProductCarousel = dynamic(() => import("@/components/product/ProductCarousel").then(mod => mod.ProductCarousel), { ssr: true });
+const ThemeAwareCollection = dynamic(() => import("@/components/product/ThemeAwareCollection").then(mod => mod.ThemeAwareCollection), { ssr: true });
 const Footer = dynamic(() => import("@/components/Footer").then(mod => mod.Footer), { ssr: true });
 const ScrollingText = dynamic(() => import("@/components/effects/mobile/ScrollingText").then(mod => mod.ScrollingText), { ssr: true });
 
@@ -41,10 +41,11 @@ async function HomeCollections() {
     <>
       {collectionsWithProducts.map((c, index) => (
         <div key={c.handle}>
-          <ProductCarousel
+          <ThemeAwareCollection
             title={c.name}
             collection={c.name}
             products={c.products}
+            index={index}
           />
         </div>
       ))}
