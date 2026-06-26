@@ -10,9 +10,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface WorldCupGridProps {
   products: Product[];
   title: string;
+  firstWordOnly?: boolean;
 }
 
-export function WorldCupGrid({ products, title }: WorldCupGridProps) {
+export function WorldCupGrid({ products, title, firstWordOnly = false }: WorldCupGridProps) {
   const [active, setActive] = useState(0);
   const touchStartX = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -93,7 +94,7 @@ export function WorldCupGrid({ products, title }: WorldCupGridProps) {
             World Cup Edition
           </p>
           <h3 className="text-xl md:text-3xl font-black uppercase tracking-tight text-white mb-1 leading-tight group-hover:text-accent transition-colors duration-500">
-            {product.title.split(" ")[0]}
+            {firstWordOnly ? product.title.split(" ")[0] : product.title}
           </h3>
           <p className="text-[10px] text-white/40 uppercase tracking-widest mb-6">
             {product.collection}

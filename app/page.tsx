@@ -37,6 +37,33 @@ async function HomeCollections() {
     );
   }
 
+  // Hero card images
+  const worldCupHeroImage = "/Card/cardcopa.png";
+  const limitedEditionHeroImage = "/Card/card2.png";
+
+  // Category card images
+  const allProducts = collectionsWithProducts.flatMap((c) => c.products);
+  const worldCupCatImage = allProducts.find(
+    (p) =>
+      p.collection.toLowerCase().includes("world") ||
+      p.title.toLowerCase().includes("world")
+  )?.images?.[1];
+  const gorhamCatImage = allProducts.find((p) =>
+    p.title.toLowerCase().includes("gorham")
+  )?.images?.[1];
+  const armafCatImage = allProducts.find(
+    (p) =>
+      p.title.toLowerCase().includes("armaf") ||
+      p.title.toLowerCase().includes("club de nuit") ||
+      p.title.toLowerCase().includes("intercen") ||
+      p.title.toLowerCase().includes("intense")
+  )?.images?.[0];
+  const categoryCardImages: (string | undefined)[] = [
+    worldCupCatImage,
+    gorhamCatImage,
+    armafCatImage,
+  ];
+
   return (
     <>
       {collectionsWithProducts.map((c, index) => (
@@ -46,6 +73,9 @@ async function HomeCollections() {
             collection={c.name}
             products={c.products}
             index={index}
+            worldCupHeroImage={worldCupHeroImage}
+            limitedEditionHeroImage={limitedEditionHeroImage}
+            categoryCardImages={categoryCardImages}
           />
         </div>
       ))}
