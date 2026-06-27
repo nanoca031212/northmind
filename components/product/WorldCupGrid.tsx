@@ -11,9 +11,19 @@ interface WorldCupGridProps {
   products: Product[];
   title: string;
   firstWordOnly?: boolean;
+  editionLabel?: string;
+  stripWords?: string[];
+  titleMap?: Record<string, string>;
 }
 
-export function WorldCupGrid({ products, title, firstWordOnly = false }: WorldCupGridProps) {
+export function WorldCupGrid({
+  products,
+  title,
+  firstWordOnly = false,
+  editionLabel = "World Cup Edition",
+  stripWords,
+  titleMap,
+}: WorldCupGridProps) {
   const [active, setActive] = useState(0);
   const touchStartX = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -60,7 +70,15 @@ export function WorldCupGrid({ products, title, firstWordOnly = false }: WorldCu
 
   const desktopActive = Math.min(active, desktopMax);
 
-  const ProductCard = ({ product, i, aspectRatio = "4/5" }: { product: Product; i: number; aspectRatio?: string }) => (
+  const ProductCard = ({
+    product,
+    i,
+    aspectRatio = "4/5",
+  }: {
+    product: Product;
+    i: number;
+    aspectRatio?: string;
+  }) => (
     <Link
       href={`/product/${product.handle}`}
       className="group relative block overflow-hidden"
@@ -91,10 +109,22 @@ export function WorldCupGrid({ products, title, firstWordOnly = false }: WorldCu
 
         <div className="absolute bottom-0 inset-x-0 p-5 md:p-8 z-10">
           <p className="text-[9px] uppercase tracking-[0.5em] text-accent font-black mb-2">
-            World Cup Edition
+            {editionLabel}
           </p>
           <h3 className="text-xl md:text-3xl font-black uppercase tracking-tight text-white mb-1 leading-tight group-hover:text-accent transition-colors duration-500">
-            {firstWordOnly ? product.title.split(" ")[0] : product.title}
+            {(() => {
+              let displayTitle =
+                titleMap?.[product.title] ??
+                (firstWordOnly ? product.title.split(" ")[0] : product.title);
+              if (stripWords?.length) {
+                const lower = stripWords.map((w) => w.toLowerCase());
+                displayTitle = displayTitle
+                  .split(" ")
+                  .filter((w) => !lower.includes(w.toLowerCase()))
+                  .join(" ");
+              }
+              return displayTitle;
+            })()}
           </h3>
           <p className="text-[10px] text-white/40 uppercase tracking-widest mb-6">
             {product.collection}
@@ -110,7 +140,7 @@ export function WorldCupGrid({ products, title, firstWordOnly = false }: WorldCu
       <div className="flex items-end justify-between mb-8 md:mb-12 pb-4">
         <div className="space-y-1">
           <span className="text-[9px] uppercase font-black tracking-[0.5em] text-accent/60 pl-2">
-            World Cup Edition
+            {editionLabel}
           </span>
           <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic">
             {leadWords}

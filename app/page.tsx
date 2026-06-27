@@ -21,13 +21,18 @@ async function HomeCollections() {
     return 0;
   });
 
-  // Fetch products for all collections
-  const collectionsWithProducts = await Promise.all(
-    sortedCollections.map(async (c) => {
-      const products = await getProductsByCollection(c.name);
-      return { ...c, products };
-    })
-  );
+  // Fetch products for all collections + outerwear separately
+  const [collectionsWithProducts, outerwearProducts, silentWarmthProducts, fragranceProducts] = await Promise.all([
+    Promise.all(
+      sortedCollections.map(async (c) => {
+        const products = await getProductsByCollection(c.name);
+        return { ...c, products };
+      })
+    ),
+    getProductsByCollection("Outerwear"),
+    getProductsByCollection("Silent Warmth"),
+    getProductsByCollection("Fragrances"),
+  ]);
 
   if (collectionsWithProducts.length === 0) {
     return (
@@ -76,6 +81,9 @@ async function HomeCollections() {
             worldCupHeroImage={worldCupHeroImage}
             limitedEditionHeroImage={limitedEditionHeroImage}
             categoryCardImages={categoryCardImages}
+            outerwearProducts={outerwearProducts}
+            silentWarmthProducts={silentWarmthProducts}
+            fragranceProducts={fragranceProducts}
           />
         </div>
       ))}
