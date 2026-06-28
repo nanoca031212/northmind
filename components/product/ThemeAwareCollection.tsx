@@ -326,7 +326,7 @@ function FragranceBannerCards({ products }: { products: Product[] }) {
 
   return (
     <div className="max-w-[1600px] mx-auto w-full px-2 md:px-8 pb-2">
-      <div className="grid grid-cols-2 gap-3 md:gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         {left && <CardItem product={left} />}
         {right && <CardItem product={right} />}
       </div>
