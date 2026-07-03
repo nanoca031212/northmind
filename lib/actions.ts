@@ -6,6 +6,8 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import Stripe from "stripe";
+import { sendBrandEmail } from "@/lib/email";
+import { STAGE_ORDER_CONFIRM, STAGE_NEXT, getStageEmailContent } from "@/lib/emailStages";
 
 /**
  * REVIEWS ACTIONS
@@ -58,7 +60,7 @@ export async function getCustomerEmails() {
 
   const orders = await prisma.pedido.findMany({
     orderBy: { dataCompra: "desc" },
-    include: { user: { select: { name: true, email: true } } },
+    include: { user: { select: { name: true, email: true, emailStage: true } } },
   });
 
   const allProductIds = Array.from(new Set(orders.flatMap((o) => o.produtosIds)));
@@ -73,13 +75,14 @@ export async function getCustomerEmails() {
   type Produto = { id: string; nome: string; fotoPrincipal: string | null };
   const customerMap = new Map<
     string,
-    { email: string; name: string; orderCount: number; totalSpent: number; lastPurchase: string | null; produtos: Produto[] }
+    { email: string; name: string; emailStage: string; orderCount: number; totalSpent: number; lastPurchase: string | null; produtos: Produto[] }
   >();
 
   for (const o of orders) {
     const email = o.customerEmail || o.user?.email;
     if (!email) continue;
     const name = o.customerName || o.user?.name || "Guest";
+    const emailStage = o.user?.emailStage || "Order confirm";
     const produtos = o.produtosIds
       .map((id: string) => productMap.get(id))
       .filter(Boolean) as Produto[];
@@ -95,6 +98,7 @@ export async function getCustomerEmails() {
       customerMap.set(email, {
         email,
         name,
+        emailStage,
         orderCount: 1,
         totalSpent: o.totalAmmount,
         lastPurchase: o.dataCompra?.toISOString() || null,
@@ -105,6 +109,36 @@ export async function getCustomerEmails() {
 
   // orders are already sorted desc by dataCompra, so the map preserves most-recent-first order
   return Array.from(customerMap.values());
+}
+
+export async function sendCustomerStageEmails(emails: string[]) {
+  const session = await getServerSession(authOptions);
+  if ((session?.user as any)?.type !== "ADMIN") throw new Error("Unauthorized Admin Only");
+  if (!emails.length) return { sent: 0 };
+
+  const users = await prisma.user.findMany({
+    where: { email: { in: emails } },
+    select: { id: true, email: true, name: true, emailStage: true },
+  });
+
+  let sent = 0;
+  for (const user of users) {
+    if (!user.email) continue;
+    const stage = user.emailStage || STAGE_ORDER_CONFIRM;
+    const content = getStageEmailContent(stage, user.name || "there");
+    if (!content) continue;
+
+    await sendBrandEmail(user.email, content.subject, content.html);
+    sent++;
+
+    const nextStage = STAGE_NEXT[stage];
+    if (nextStage) {
+      await prisma.user.update({ where: { id: user.id }, data: { emailStage: nextStage } });
+    }
+  }
+
+  revalidatePath("/admin/emails");
+  return { sent };
 }
 
 export async function canUserReview(produtoId: string) {

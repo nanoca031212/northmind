@@ -9,7 +9,8 @@ import {
   XCircle,
   Send,
 } from "lucide-react";
-import { getCustomerEmails } from "@/lib/actions";
+import { getCustomerEmails, sendCustomerStageEmails } from "@/lib/actions";
+import { STAGE_OPTIONS } from "@/lib/emailStages";
 
 interface Produto {
   id: string;
@@ -20,6 +21,7 @@ interface Produto {
 interface Customer {
   email: string;
   name: string;
+  emailStage: string;
   orderCount: number;
   totalSpent: number;
   lastPurchase: string | null;
@@ -27,18 +29,6 @@ interface Customer {
 }
 
 type Toast = { type: "success" | "error"; msg: string };
-
-const STAGE_OPTIONS = [
-  "Order confirmed",
-  "In preparation",
-  "Processing update",
-  "Dispatched",
-  "In transit",
-  "Delivery update",
-  "Final stage",
-  "Post-delivery",
-  "Completed",
-];
 
 export default function AdminEmailsClient({
   initialCustomers,
@@ -51,6 +41,7 @@ export default function AdminEmailsClient({
   const [stage, setStage] = useState(STAGE_OPTIONS[0]);
   const [toast, setToast] = useState<Toast | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [sending, setSending] = useState(false);
 
   const showToast = (type: Toast["type"], msg: string) => {
     setToast({ type, msg });
@@ -70,11 +61,12 @@ export default function AdminEmailsClient({
   };
 
   const filteredCustomers = customers.filter((c) => {
-    return (
+    const matchesStage = c.emailStage === stage;
+    const matchesSearch =
       search === "" ||
       c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.email.toLowerCase().includes(search.toLowerCase())
-    );
+      c.email.toLowerCase().includes(search.toLowerCase());
+    return matchesStage && matchesSearch;
   });
 
   const allSelected =
@@ -100,6 +92,21 @@ export default function AdminEmailsClient({
       }
       return next;
     });
+  };
+
+  const handleSend = async () => {
+    if (selected.size === 0 || sending) return;
+    setSending(true);
+    try {
+      const { sent } = await sendCustomerStageEmails(Array.from(selected));
+      showToast("success", `${sent} email${sent !== 1 ? "s" : ""} sent.`);
+      setSelected(new Set());
+      await fetchCustomers();
+    } catch {
+      showToast("error", "Failed to send emails.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -146,7 +153,10 @@ export default function AdminEmailsClient({
         {STAGE_OPTIONS.map((option) => (
           <button
             key={option}
-            onClick={() => setStage(option)}
+            onClick={() => {
+              setStage(option);
+              setSelected(new Set());
+            }}
             className={`px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${
               stage === option
                 ? "bg-white text-black"
@@ -173,10 +183,16 @@ export default function AdminEmailsClient({
         />
       </div>
       <button
-        className="fixed bottom-6 right-6 z-50 size-14 h-12 w-12 rounded-full bg-white text-black flex items-center justify-center shadow-2xl hover:bg-white/90 transition-all"
+        onClick={handleSend}
+        disabled={selected.size === 0 || sending}
+        className="fixed bottom-6 right-6 z-50 size-14 h-12 w-12 rounded-full bg-white text-black flex items-center justify-center shadow-2xl hover:bg-white/90 transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white"
         aria-label="Enviar"
       >
-        <Send size={20} />
+        {sending ? (
+          <RefreshCw size={18} className="animate-spin" />
+        ) : (
+          <Send size={20} />
+        )}
       </button>
 
       {/* Emails Table */}

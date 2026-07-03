@@ -62,6 +62,7 @@ model User {
   aniversario        DateTime?
   localizacao        String?
   statusUltimoPedido String?
+  emailStage         String       @default("Order confirm")
   dataDeEntrada      DateTime     @default(now())
   dataDeUltimoAcesso DateTime     @updatedAt
   accounts           Account[]
