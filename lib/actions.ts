@@ -111,6 +111,23 @@ export async function getCustomerEmails() {
   return Array.from(customerMap.values());
 }
 
+export async function sendOrderConfirmationEmail(userId: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user?.email) return;
+
+  const content = getStageEmailContent(STAGE_ORDER_CONFIRM, user.name || "there");
+  if (!content) return;
+
+  await sendBrandEmail(user.email, content.subject, content.html);
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { emailStage: STAGE_NEXT[STAGE_ORDER_CONFIRM] },
+  });
+
+  revalidatePath("/admin/emails");
+}
+
 export async function sendCustomerStageEmails(emails: string[]) {
   const session = await getServerSession(authOptions);
   if ((session?.user as any)?.type !== "ADMIN") throw new Error("Unauthorized Admin Only");

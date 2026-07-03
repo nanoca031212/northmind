@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { sendOrderConfirmationEmail } from "@/lib/actions";
 
 interface OrderItem {
   id: string;
@@ -77,6 +78,10 @@ export async function POST(req: NextRequest) {
         produtosIds,
         totalAmmount: total,
       },
+    });
+
+    sendOrderConfirmationEmail(user.id).catch((error) => {
+      console.error("Erro ao enviar email de confirmação de pedido:", error);
     });
 
     return NextResponse.json({ id: pedido.id, userId: user.id });
