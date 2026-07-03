@@ -52,6 +52,61 @@ export async function getOrders() {
   }));
 }
 
+export async function getCustomerEmails() {
+  const session = await getServerSession(authOptions);
+  if ((session?.user as any)?.type !== "ADMIN") throw new Error("Unauthorized Admin Only");
+
+  const orders = await prisma.pedido.findMany({
+    orderBy: { dataCompra: "desc" },
+    include: { user: { select: { name: true, email: true } } },
+  });
+
+  const allProductIds = Array.from(new Set(orders.flatMap((o) => o.produtosIds)));
+  const products = allProductIds.length
+    ? await prisma.produto.findMany({
+        where: { id: { in: allProductIds } },
+        select: { id: true, nome: true, fotoPrincipal: true },
+      })
+    : [];
+  const productMap = new Map(products.map((p) => [p.id, p]));
+
+  type Produto = { id: string; nome: string; fotoPrincipal: string | null };
+  const customerMap = new Map<
+    string,
+    { email: string; name: string; orderCount: number; totalSpent: number; lastPurchase: string | null; produtos: Produto[] }
+  >();
+
+  for (const o of orders) {
+    const email = o.customerEmail || o.user?.email;
+    if (!email) continue;
+    const name = o.customerName || o.user?.name || "Guest";
+    const produtos = o.produtosIds
+      .map((id: string) => productMap.get(id))
+      .filter(Boolean) as Produto[];
+
+    const existing = customerMap.get(email);
+    if (existing) {
+      existing.orderCount += 1;
+      existing.totalSpent += o.totalAmmount;
+      for (const p of produtos) {
+        if (!existing.produtos.some((ep) => ep.id === p.id)) existing.produtos.push(p);
+      }
+    } else {
+      customerMap.set(email, {
+        email,
+        name,
+        orderCount: 1,
+        totalSpent: o.totalAmmount,
+        lastPurchase: o.dataCompra?.toISOString() || null,
+        produtos,
+      });
+    }
+  }
+
+  // orders are already sorted desc by dataCompra, so the map preserves most-recent-first order
+  return Array.from(customerMap.values());
+}
+
 export async function canUserReview(produtoId: string) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) return false;

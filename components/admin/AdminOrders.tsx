@@ -16,16 +16,43 @@ import {
 import { getOrders, updateOrderStatus } from "@/lib/actions";
 import OrderDrawer from "@/components/admin/OrderDrawer";
 
-const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; icon: any }> = {
-  PENDENTE: { label: "Pendente", color: "text-amber-400", bg: "bg-amber-500/10", icon: Clock },
-  PAGO:     { label: "Pago",     color: "text-emerald-400", bg: "bg-emerald-500/10", icon: CheckCircle2 },
-  ENVIADO:  { label: "Enviado",  color: "text-blue-400",    bg: "bg-blue-500/10",    icon: Truck },
-  ENTREGUE: { label: "Entregue", color: "text-purple-400",  bg: "bg-purple-500/10",  icon: Package },
+const STATUS_CONFIG: Record<
+  string,
+  { label: string; color: string; bg: string; icon: any }
+> = {
+  PENDENTE: {
+    label: "Pendente",
+    color: "text-amber-400",
+    bg: "bg-amber-500/10",
+    icon: Clock,
+  },
+  PAGO: {
+    label: "Pago",
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10",
+    icon: CheckCircle2,
+  },
+  ENVIADO: {
+    label: "Enviado",
+    color: "text-blue-400",
+    bg: "bg-blue-500/10",
+    icon: Truck,
+  },
+  ENTREGUE: {
+    label: "Entregue",
+    color: "text-purple-400",
+    bg: "bg-purple-500/10",
+    icon: Package,
+  },
 };
 
 const STATUS_OPTIONS = ["PENDENTE", "PAGO", "ENVIADO", "ENTREGUE"];
 
-interface Produto { id: string; nome: string; fotoPrincipal: string | null }
+interface Produto {
+  id: string;
+  nome: string;
+  fotoPrincipal: string | null;
+}
 
 interface Order {
   id: string;
@@ -49,7 +76,11 @@ interface Order {
 
 type Toast = { type: "success" | "error"; msg: string };
 
-export default function AdminOrdersClient({ initialOrders }: { initialOrders: Order[] }) {
+export default function AdminOrdersClient({
+  initialOrders,
+}: {
+  initialOrders: Order[];
+}) {
   const [orders, setOrders] = useState<Order[]>(initialOrders);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("ALL");
@@ -79,8 +110,12 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
     setUpdatingId(orderId);
     try {
       await updateOrderStatus(orderId, newStatus);
-      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
-      setSelectedOrder((prev) => (prev?.id === orderId ? { ...prev, status: newStatus } : prev));
+      setOrders((prev) =>
+        prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)),
+      );
+      setSelectedOrder((prev) =>
+        prev?.id === orderId ? { ...prev, status: newStatus } : prev,
+      );
       showToast("success", "Status updated.");
     } catch {
       showToast("error", "Failed to update status.");
@@ -99,10 +134,13 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
     return matchesFilter && matchesSearch;
   });
 
-  const statusCounts = orders.reduce((acc, o) => {
-    acc[o.status] = (acc[o.status] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+  const statusCounts = orders.reduce(
+    (acc, o) => {
+      acc[o.status] = (acc[o.status] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   return (
     <div className="space-y-8 relative">
@@ -115,7 +153,11 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
               : "bg-rose-500 text-white"
           }`}
         >
-          {toast.type === "success" ? <CheckCircle size={16} /> : <XCircle size={16} />}
+          {toast.type === "success" ? (
+            <CheckCircle size={16} />
+          ) : (
+            <XCircle size={16} />
+          )}
           {toast.msg}
         </div>
       )}
@@ -127,7 +169,8 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
             Order Processing
           </h2>
           <p className="text-xs font-bold uppercase tracking-widest text-white/40">
-            {orders.length} total orders · {statusCounts["PENDENTE"] || 0} awaiting action
+            {orders.length} total orders · {statusCounts["PENDENTE"] || 0}{" "}
+            awaiting action
           </p>
         </div>
         <button
@@ -172,7 +215,10 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
 
       {/* Search */}
       <div className="relative">
-        <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" />
+        <Search
+          size={16}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20"
+        />
         <input
           type="text"
           placeholder="Search by customer name, email or order ID..."
@@ -198,18 +244,33 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-white/5">
-                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">Order</th>
-                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">Customer</th>
-                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">Products</th>
-                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">Date</th>
-                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">Status</th>
-                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20 text-right">Total</th>
-                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20 text-right">Update</th>
+                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">
+                    Order
+                  </th>
+                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">
+                    Customer
+                  </th>
+                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">
+                    Products
+                  </th>
+                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">
+                    Date
+                  </th>
+                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20">
+                    Status
+                  </th>
+                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20 text-right">
+                    Total
+                  </th>
+                  <th className="py-5 px-6 text-[10px] font-black uppercase tracking-widest text-white/20 text-right">
+                    Update
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.02]">
                 {filteredOrders.map((order) => {
-                  const config = STATUS_CONFIG[order.status] || STATUS_CONFIG["PENDENTE"];
+                  const config =
+                    STATUS_CONFIG[order.status] || STATUS_CONFIG["PENDENTE"];
                   const StatusIcon = config.icon;
                   const isUpdating = updatingId === order.id;
                   const orderDate = new Date(order.dataCompra);
@@ -246,7 +307,10 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
                         {order.produtos?.length ? (
                           <div className="flex flex-col gap-1">
                             {order.produtos.slice(0, 2).map((p) => (
-                              <div key={p.id} className="flex items-center gap-2">
+                              <div
+                                key={p.id}
+                                className="flex items-center gap-2"
+                              >
                                 {p.fotoPrincipal && (
                                   <img
                                     src={p.fotoPrincipal}
@@ -267,7 +331,8 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
                           </div>
                         ) : (
                           <span className="text-[10px] text-white/20">
-                            {order.produtosIds.length} item{order.produtosIds.length !== 1 ? "s" : ""}
+                            {order.produtosIds.length} item
+                            {order.produtosIds.length !== 1 ? "s" : ""}
                           </span>
                         )}
                       </td>
@@ -275,18 +340,28 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
                       <td className="py-5 px-6">
                         <div className="flex flex-col">
                           <span className="text-[10px] font-bold text-white/60">
-                            {orderDate.toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}
+                            {orderDate.toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short",
+                            })}
                           </span>
                           <span className="text-[9px] text-white/20">
-                            {orderDate.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                            {orderDate.toLocaleTimeString("en-GB", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
                           </span>
                         </div>
                       </td>
 
                       <td className="py-5 px-6">
-                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full ${config.bg}`}>
+                        <div
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full ${config.bg}`}
+                        >
                           <StatusIcon size={12} className={config.color} />
-                          <span className={`text-[9px] font-black uppercase tracking-widest ${config.color}`}>
+                          <span
+                            className={`text-[9px] font-black uppercase tracking-widest ${config.color}`}
+                          >
                             {config.label}
                           </span>
                         </div>
@@ -298,11 +373,16 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
                         </span>
                       </td>
 
-                      <td className="py-5 px-6 text-right" onClick={(e) => e.stopPropagation()}>
+                      <td
+                        className="py-5 px-6 text-right"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <div className="relative inline-block">
                           <select
                             value={order.status}
-                            onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                            onChange={(e) =>
+                              handleStatusChange(order.id, e.target.value)
+                            }
                             disabled={isUpdating}
                             className={`appearance-none cursor-pointer bg-white/5 border border-white/10 rounded-lg px-3 py-2 pr-7 text-[9px] font-black uppercase tracking-widest outline-none transition-all ${
                               isUpdating
@@ -311,12 +391,19 @@ export default function AdminOrdersClient({ initialOrders }: { initialOrders: Or
                             }`}
                           >
                             {STATUS_OPTIONS.map((s) => (
-                              <option key={s} value={s} className="bg-black text-white">
+                              <option
+                                key={s}
+                                value={s}
+                                className="bg-black text-white"
+                              >
                                 {STATUS_CONFIG[s].label}
                               </option>
                             ))}
                           </select>
-                          <ChevronDown size={10} className="absolute right-2 top-1/2 -translate-y-1/2 text-white/20 pointer-events-none" />
+                          <ChevronDown
+                            size={10}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-white/20 pointer-events-none"
+                          />
                         </div>
                       </td>
                     </tr>

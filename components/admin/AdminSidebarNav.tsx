@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, ShoppingCart, Layout, Settings, ChevronRight } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Layout, Settings, ChevronRight, Mail } from "lucide-react";
 import { LogoutButton } from "./LogoutButton";
 
 const NAV_ITEMS = [
@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: "/admin/products", label: "Products", icon: Package, exact: false },
   { href: "/admin/collections", label: "Collections", icon: Layout, exact: false },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart, exact: false },
+  { href: "/admin/emails", label: "Email", icon: Mail, exact: false },
   { href: "/admin/settings", label: "Settings", icon: Settings, exact: false },
 ];
 
