@@ -73,17 +73,15 @@ export function WorldCupGrid({
   const ProductCard = ({
     product,
     i,
-    aspectRatio = "4/5",
   }: {
     product: Product;
     i: number;
-    aspectRatio?: string;
   }) => (
     <Link
       href={`/product/${product.handle}`}
       className="group relative block overflow-hidden"
     >
-      <div className="relative overflow-hidden" style={{ aspectRatio }}>
+      <div className="relative overflow-hidden aspect-[4/4.7] md:aspect-[4/5]">
         {product.images?.[0] ? (
           <Image
             src={product.images[0]}
@@ -201,7 +199,7 @@ export function WorldCupGrid({
                   key={product.id}
                   className={`w-[25%] flex-shrink-0 ${i < products.length - 1 ? "pr-4" : ""}`}
                 >
-                  <ProductCard product={product} i={i} aspectRatio="4/5" />
+                  <ProductCard product={product} i={i} />
                 </div>
               ))}
             </div>

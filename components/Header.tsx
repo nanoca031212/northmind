@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const mobileNavLinks = [
+  { label: "World Cup", href: "/collections/world-cup" },
   { label: "Outerwear", href: "/collections/outerwear" },
   { label: "Silent Warmth", href: "/collections/silent-warmth" },
   { label: "About", href: "/about" },

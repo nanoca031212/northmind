@@ -32,7 +32,7 @@ const HERO_CARDS = [
 ] as const;
 
 const CATEGORY_CARDS = [
-  { label: "WorldCup", href: "/?theme=worldcup", accent: "30% 40%" },
+  { label: "WorldCup", href: "/collections/world-cup", accent: "30% 40%" },
   { label: "Fashion", href: "/collections/fashion", accent: "50% 30%" },
   { label: "Perfume", href: "/collections/fragrances", accent: "70% 55%" },
 ] as const;
@@ -45,7 +45,7 @@ function CategoryCardInner({
   image?: string;
 }) {
   return (
-    <div className="relative overflow-hidden" style={{ aspectRatio: "3/4" }}>
+    <div className="relative overflow-hidden aspect-[3/3.7] md:aspect-[3/4]">
       {image ? (
         <Image
           src={image}
@@ -290,7 +290,7 @@ function FragranceBannerCards({ products }: { products: Product[] }) {
       href="/collections/fragrances"
       className="group relative block overflow-hidden"
     >
-      <div className="relative overflow-hidden" style={{ aspectRatio: "1/1" }}>
+      <div className="relative overflow-hidden aspect-[1/0.93] md:aspect-[1/1]">
         {product.images?.[0] ? (
           <Image
             src={product.images[0]}
@@ -377,7 +377,16 @@ export function ThemeAwareCollection({
             products={silentWarmthProducts}
             title="Silent Warmth"
             editionLabel="Heritage Collection"
-            stripWords={["the", "jacket", "down", "nuptse", "polo", "jumper", "iconic", "(unisex)"]}
+            stripWords={[
+              "the",
+              "jacket",
+              "down",
+              "nuptse",
+              "polo",
+              "jumper",
+              "iconic",
+              "(unisex)",
+            ]}
             titleMap={{
               "Double-Knit Quarter-Zip Pullover": "Knit Pullover",
               "Cable-Knit Quarter-Zip Jumper": "Cable-Knit Jumper",
