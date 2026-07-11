@@ -16,72 +16,84 @@ function SuccessContent() {
   const [email, setEmail] = React.useState("");
   const [hasPassword, setHasPassword] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
-  const dataRef = React.useRef(false); // Ref to avoid double tracking trigger
+  const trackingRef = React.useRef(false); // Ref to avoid double tracking trigger
+  const verifyRef = React.useRef(false); // Ref to avoid double order verification
 
+  // --- ORDER VERIFICATION (PASSWORD FORM) — runs regardless of payment_intent,
+  // since the custom "northmind" payment method redirects without it ---
   React.useEffect(() => {
-    
-    if (!paymentIntentId || dataRef.current) {
+    if (!orderId || !userId || verifyRef.current) {
+      setLoading(false);
       return;
     }
-    
-    // Mark as processed
-    dataRef.current = true;
 
-    async function processTracking() {
+    verifyRef.current = true;
+
+    async function processVerification() {
       try {
-        // --- 1. S2S AND PIXEL TRACKING ---
-        const utmifyId = typeof window !== 'undefined' 
-          ? (searchParams.get("utmify_id") || 
-             searchParams.get("success-id") || 
-             localStorage.getItem('utmify_id') || 
-             localStorage.getItem('success-id')) 
-          : null;
-
-        
-        const axios = (await import("axios")).default;
-        
-        if (paymentIntentId) {
-          const response = await axios.post(`/api/payment/track-purchase`, {
-            intentId: paymentIntentId,
-            utmifyIdManual: utmifyId
-          });
-          
-          if (response.data.success) {
-            const { trackPurchase, trackUtmfyPurchase } = await import("@/lib/tracking");
-            
-            // Meta & TikTok (GBP)
-            trackPurchase({ 
-              id: paymentIntentId as string, 
-              amount: response.data.amountInGBP || 0 
-            });
-
-            // UTMify (BRL converted)
-            trackUtmfyPurchase({
-              id: paymentIntentId as string,
-              amountInBRL: response.data.amountInBRL || 0
-            });
-          }
+        const { verifyOrder } = await import("./actions");
+        const userData = await verifyOrder(orderId!, userId!);
+        if (userData) {
+          setEmail(userData.email || "");
+          setHasPassword(userData.hasPassword);
         }
-
-        // --- 2. ORDER VERIFICATION (PASSWORD FORM) VIA SERVER ACTION ---
-        if (orderId && userId) {
-          const { verifyOrder } = await import("./actions");
-          const userData = await verifyOrder(orderId, userId);
-          if (userData) {
-            setEmail(userData.email || "");
-            setHasPassword(userData.hasPassword);
-          }
-        }
-
       } catch (error) {
-        console.error('❌ SUCCESS_PAGE_ERROR:', error);
+        console.error('❌ SUCCESS_PAGE_VERIFY_ERROR:', error);
       } finally {
         setLoading(false);
       }
     }
 
+    processVerification();
+  }, [orderId, userId]);
+
+  // --- S2S AND PIXEL TRACKING — only fires for Stripe-redirected payments,
+  // which is when payment_intent is present in the URL ---
+  React.useEffect(() => {
+    if (!paymentIntentId || trackingRef.current) {
+      return;
+    }
+
+    trackingRef.current = true;
+
+    async function processTracking() {
+      try {
+        const utmifyId = typeof window !== 'undefined'
+          ? (searchParams.get("utmify_id") ||
+             searchParams.get("success-id") ||
+             localStorage.getItem('utmify_id') ||
+             localStorage.getItem('success-id'))
+          : null;
+
+        const axios = (await import("axios")).default;
+
+        const response = await axios.post(`/api/payment/track-purchase`, {
+          intentId: paymentIntentId,
+          utmifyIdManual: utmifyId
+        });
+
+        if (response.data.success) {
+          const { trackPurchase, trackUtmfyPurchase } = await import("@/lib/tracking");
+
+          // Meta & TikTok (GBP)
+          trackPurchase({
+            id: paymentIntentId as string,
+            amount: response.data.amountInGBP || 0
+          });
+
+          // UTMify (BRL converted)
+          trackUtmfyPurchase({
+            id: paymentIntentId as string,
+            amountInBRL: response.data.amountInBRL || 0
+          });
+        }
+      } catch (error) {
+        console.error('❌ SUCCESS_PAGE_TRACKING_ERROR:', error);
+      }
+    }
+
     processTracking();
-  }, [paymentIntentId, searchParams, orderId, userId]);
+  }, [paymentIntentId, searchParams]);
 
   return (
     <div className="success-container">
