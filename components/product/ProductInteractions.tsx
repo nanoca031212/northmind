@@ -95,10 +95,9 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
   const handleAddToCart = () => {
     setIsAdding(true);
 
-    const safePrice = currentBasePrice;
     const count = selectedBundle === "single" ? 1 : selectedBundle === "duo" ? 2 : 3;
-    const priceMultiplier = selectedBundle === "single" ? 1 : selectedBundle === "duo" ? 0.9 : 0.8;
-    const discountedPrice = safePrice * priceMultiplier;
+    const bundleTotal = selectedBundle === "single" ? currentBasePrice : selectedBundle === "duo" ? duoPrice : trioPrice;
+    const discountedPrice = bundleTotal / count;
 
     for (let i = 0; i < count; i++) {
       const selection = bundleSelections[i];
@@ -122,6 +121,11 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
   const currentBasePrice = variant ? Number(variant.price) : Number(product.price) || 0;
   const currentBaseOriginal = variant ? Number(variant.originalPrice) : Number(product.originalPrice) || 0;
 
+  // World Cup jerseys use fixed bundle totals instead of the multiplier formula
+  const isWorldCupJersey = product.collection === "World Cup";
+  const duoPrice = isWorldCupJersey ? 79.99 : currentBasePrice * 1.8;
+  const trioPrice = isWorldCupJersey ? 99.99 : currentBasePrice * 2.4;
+
   const bundles = [
     {
       id: "single",
@@ -135,18 +139,18 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
       id: "duo",
       title: "Duo Pack",
       desc: `You save 10%`,
-      price: currentBasePrice * 1.8,
+      price: duoPrice,
       original: currentBaseOriginal * 2,
       isPopular: true,
-      save: currentBaseOriginal * 2 > currentBasePrice * 1.8 ? `SAVE £${(currentBaseOriginal * 2 - currentBasePrice * 1.8).toFixed(2)}` : null,
+      save: currentBaseOriginal * 2 > duoPrice ? `SAVE £${(currentBaseOriginal * 2 - duoPrice).toFixed(2)}` : null,
     },
     {
       id: "trio",
       title: "Trio Pack",
       desc: `You save 20%`,
-      price: currentBasePrice * 2.4,
+      price: trioPrice,
       original: currentBaseOriginal * 3,
-      save: currentBaseOriginal * 3 > currentBasePrice * 2.4 ? `SAVE £${(currentBaseOriginal * 3 - currentBasePrice * 2.4).toFixed(2)}` : null,
+      save: currentBaseOriginal * 3 > trioPrice ? `SAVE £${(currentBaseOriginal * 3 - trioPrice).toFixed(2)}` : null,
     },
   ];
 
