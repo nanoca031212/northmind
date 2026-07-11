@@ -119,9 +119,9 @@ function CartDrawerInner() {
                         onClick={() =>
                           removeFromCart(item.id, item.selectedSize)
                         }
-                        className="text-white hover:text-red-500 transition-colors"
+                        className="text-red-500 hover:text-red-400 transition-colors"
                       >
-                        <X size={14} />
+                        <X size={16} />
                       </button>
                     </div>
                     <p className="text-[9px] text-white/80 uppercase font-black tracking-luxury mb-auto">
