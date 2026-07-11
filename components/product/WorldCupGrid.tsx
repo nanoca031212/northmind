@@ -159,7 +159,7 @@ export function WorldCupGrid({
           style={{ transform: `translateX(-${active * 100}%)` }}
         >
           {products.map((product, i) => (
-            <div key={product.id} className="w-full flex-shrink-0">
+            <div key={product.id} className="w-full flex-shrink-0 px-3">
               <ProductCard product={product} i={i} />
             </div>
           ))}

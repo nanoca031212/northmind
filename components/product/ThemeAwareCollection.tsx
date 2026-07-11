@@ -236,7 +236,7 @@ function WorldCupCategoryCards({
           {CATEGORY_CARDS.map((cat, i) => (
             <div
               key={cat.label}
-              className="w-full flex-shrink-0 px-3"
+              className="w-full flex-shrink-0 px-5"
               style={{
                 opacity: inView ? 1 : 0,
                 transform: inView ? "translateY(0)" : "translateY(24px)",
@@ -325,7 +325,7 @@ function FragranceBannerCards({ products }: { products: Product[] }) {
   if (!left && !right) return null;
 
   return (
-    <div className="max-w-[1600px] mx-auto w-full px-2 md:px-8 pb-2">
+    <div className="max-w-[1600px] mx-auto w-full px-5 md:px-8 pb-2">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         {left && <CardItem product={left} />}
         {right && <CardItem product={right} />}
