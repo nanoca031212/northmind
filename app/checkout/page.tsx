@@ -6,6 +6,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import Image from "next/image";
 import CheckoutForm, { OrderItem } from "@/components/CheckoutForm";
 import { useCart } from "@/lib/CartContext";
+import { SHIPPING_METHODS } from "@/lib/shipping";
 
 // Stripe Public Key
 const stripePromise = loadStripe(
@@ -18,7 +19,9 @@ export default function CheckoutPage() {
   const { cart, totalPrice } = useCart();
   const [clientSecret, setClientSecret] = useState("");
   const [initError, setInitError] = useState("");
-  const totalAmount = totalPrice;
+  const [shippingMethodId, setShippingMethodId] = useState(SHIPPING_METHODS[0].id);
+  const shippingCost = SHIPPING_METHODS.find((m) => m.id === shippingMethodId)?.price ?? 0;
+  const totalAmount = totalPrice + shippingCost;
 
   // Transform global cart items to CheckoutForm format
   const orderItems: OrderItem[] = cart.map((item) => ({
@@ -136,8 +139,13 @@ export default function CheckoutPage() {
           <button onClick={() => window.location.reload()} className="retry-btn">Try Again</button>
         </div>
       ) : clientSecret ? (
-        <Elements stripe={stripePromise} options={options}>
-          <CheckoutForm items={orderItems} clientSecret={clientSecret} />
+        <Elements key={clientSecret} stripe={stripePromise} options={options}>
+          <CheckoutForm
+            items={orderItems}
+            clientSecret={clientSecret}
+            shippingMethodId={shippingMethodId}
+            onShippingChange={setShippingMethodId}
+          />
         </Elements>
       ) : (
         <div className="loading-state">

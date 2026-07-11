@@ -6,6 +6,7 @@ import axios from "axios";
 import Link from "next/link";
 import { trackBeginCheckout } from "@/lib/tracking";
 import { motion, AnimatePresence } from "framer-motion";
+import { SHIPPING_METHODS } from "@/lib/shipping";
 
 const countries = [
   { code: "+44", flag: "🇬🇧", name: "UK" },
@@ -31,9 +32,11 @@ export type OrderItem = {
 interface CheckoutFormProps {
   items: OrderItem[];
   clientSecret: string;
+  shippingMethodId: string;
+  onShippingChange: (id: string) => void;
 }
 
-export default function CheckoutForm({ items, clientSecret }: CheckoutFormProps) {
+export default function CheckoutForm({ items, clientSecret, shippingMethodId, onShippingChange }: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
   const { data: session, status } = useSession();
@@ -83,11 +86,14 @@ export default function CheckoutForm({ items, clientSecret }: CheckoutFormProps)
     0,
   );
   
-  // Total is always the sum of what the customer actually pays (already discounted)
+  const selectedShipping = SHIPPING_METHODS.find((m) => m.id === shippingMethodId) || SHIPPING_METHODS[0];
+  const shippingCost = selectedShipping.price;
+
+  // Total is always the sum of what the customer actually pays (already discounted) plus shipping
   const total = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0,
-  );
+  ) + shippingCost;
 
   // Early trigger for Initiate Checkout (as soon as basic info is filled OR Payment Element is touched)
   const handleEarlyIC = React.useCallback(async (force: boolean | React.FocusEvent = false) => {
@@ -278,6 +284,8 @@ export default function CheckoutForm({ items, clientSecret }: CheckoutFormProps)
             utm_term: localStorage.getItem('utm_term') || '',
             order_id: orderResponse.id,
             user_id: orderResponse.userId,
+            shipping_rate_id: selectedShipping.id,
+            shipping_method: selectedShipping.name,
           }
         });
       }
@@ -515,11 +523,22 @@ export default function CheckoutForm({ items, clientSecret }: CheckoutFormProps)
           <div className="section-header mt-8">
             <h2 className="section-title">Shipping method</h2>
           </div>
-          <div className="shipping-card selected">
-            <div className="shipping-left">
-              <span className="shipping-method">Shipping</span>
-            </div>
-            <span className="shipping-price">FREE</span>
+          <div className="shipping-options">
+            {SHIPPING_METHODS.map((method) => (
+              <div
+                key={method.id}
+                className={`shipping-card ${shippingMethodId === method.id ? "selected" : ""}`}
+                onClick={() => onShippingChange(method.id)}
+              >
+                <div className="shipping-left">
+                  <span className="shipping-method">{method.name}</span>
+                  <span className="shipping-eta">{method.eta}</span>
+                </div>
+                <span className="shipping-price">
+                  {method.price === 0 ? "FREE" : formatCurrency(method.price)}
+                </span>
+              </div>
+            ))}
           </div>
 
           <div className="section-header mt-8 flex-col-start">
@@ -622,7 +641,9 @@ export default function CheckoutForm({ items, clientSecret }: CheckoutFormProps)
             </div>
             <div className="total-row">
               <span className="total-label">Shipping</span>
-              <span className="total-value green">£0.00</span>
+              <span className="total-value green">
+                {shippingCost === 0 ? "FREE" : formatCurrency(shippingCost)}
+              </span>
             </div>
             {totalDiscounts > 0 && (
               <div className="total-row">
@@ -803,6 +824,12 @@ export default function CheckoutForm({ items, clientSecret }: CheckoutFormProps)
           cursor: pointer;
         }
 
+        .shipping-options {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
         .shipping-card {
           border: 1px solid #d1dbd3;
           border-radius: 6px;
@@ -811,6 +838,8 @@ export default function CheckoutForm({ items, clientSecret }: CheckoutFormProps)
           justify-content: space-between;
           align-items: center;
           background-color: #e4e4e4;
+          cursor: pointer;
+          transition: border-color 0.2s, background-color 0.2s;
         }
 
         .shipping-card.selected {
@@ -819,9 +848,20 @@ export default function CheckoutForm({ items, clientSecret }: CheckoutFormProps)
           backdrop-filter: blur(10px);
         }
 
+        .shipping-left {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+
         .shipping-method {
           font-size: 14px;
           color: #000000;
+        }
+
+        .shipping-eta {
+          font-size: 12px;
+          color: #6b7280;
         }
 
         .shipping-price {
