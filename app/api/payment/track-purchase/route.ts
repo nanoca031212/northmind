@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { sendToAllUtmfyPixels } from "@/lib/utmfy";
+import { sendMetaCapiEvent } from "@/lib/metaCapi";
 import prisma from "@/lib/prisma";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
@@ -88,6 +89,24 @@ export async function POST(req: NextRequest) {
     };
 
     await sendToAllUtmfyPixels(data, utmifyKeys);
+
+    // Meta Conversions API (S2S) — event_id matches the browser fbq call for dedup
+    sendMetaCapiEvent({
+      eventName: "Purchase",
+      eventId: paymentIntent.id,
+      eventSourceUrl: process.env.NEXT_PUBLIC_APP_URL || "https://northmind.uk",
+      value: Number((paymentIntent.amount / 100).toFixed(2)),
+      currency: "GBP",
+      contentType: "product",
+      user: {
+        email: data.customer.email,
+        phone: data.customer.phone,
+        clientIp: req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null,
+        userAgent: req.headers.get("user-agent"),
+        fbc: req.cookies.get("_fbc")?.value || null,
+        fbp: req.cookies.get("_fbp")?.value || null,
+      },
+    }).catch((err) => console.error("[MetaCAPI] Purchase failed:", err));
 
     return NextResponse.json({
       success: true,

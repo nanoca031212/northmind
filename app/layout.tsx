@@ -30,9 +30,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://northmind.uk"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://northmind.uk",
+  ),
   title: "North Mind | Premium British Heritage",
-  description: "Premium British Heritage menswear. Crafted for durability and contemporary sophistication.",
+  description:
+    "Premium British Heritage menswear. Crafted for durability and contemporary sophistication.",
   icons: { icon: "/assets/logo.svg", apple: "/assets/logo.svg" },
   other: {
     "mobile-web-app-capable": "yes",
@@ -43,29 +46,41 @@ export const metadata: Metadata = {
 const getPixelConfig = unstable_cache(
   async () => {
     try {
-      return await prisma.storeSettings.findUnique({ where: { id: "singleton" } });
+      return await prisma.storeSettings.findUnique({
+        where: { id: "singleton" },
+      });
     } catch {
       return null;
     }
   },
   ["store-settings"],
-  { revalidate: 3600, tags: ["store-settings"] }
+  { revalidate: 3600, tags: ["store-settings"] },
 );
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const [session, settings] = await Promise.all([
     getServerSession(authOptions),
     getPixelConfig(),
   ]);
 
-  const metaPixelId = settings?.metaPixelId || process.env.NEXT_PUBLIC_FB_PIXEL_ID || "636389112021100";
-  const tiktokPixelId = settings?.tiktokPixelId || process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID || "D4LDB1RC77UDM7TK2810";
-  const googleTagId = settings?.googleTagId || process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || null;
-  const utmifyPixelId = settings?.utmifyPixelId || process.env.NEXT_PUBLIC_UTMIFY_PIXEL_ID;
+  const metaPixelId =
+    settings?.metaPixelId || process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+  const tiktokPixelId =
+    settings?.tiktokPixelId || process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
+  const googleTagId =
+    settings?.googleTagId || process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || null;
+  const utmifyPixelId =
+    settings?.utmifyPixelId || process.env.NEXT_PUBLIC_UTMIFY_PIXEL_ID;
   const gbpToBrlRate = settings?.gbpToBrlRate || 7.4;
 
   return (
-    <html lang="pt-BR" className={cn("dark", "font-sans", inter.variable)} suppressHydrationWarning>
+    <html
+      lang="pt-BR"
+      className={cn("dark", "font-sans", inter.variable)}
+      suppressHydrationWarning
+    >
       <head>
         <link rel="apple-touch-icon" href="/assets/logo.svg" />
       </head>

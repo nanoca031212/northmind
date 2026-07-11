@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendToAllUtmfyPixels } from "@/lib/utmfy";
+import { sendMetaCapiEvent } from "@/lib/metaCapi";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { customer, trackingParameters, amount, products } = body;
+    const { customer, trackingParameters, amount, products, eventId } = body;
 
     // Read settings from DB
     let GBP_TO_BRL = 7.4;
@@ -75,6 +76,27 @@ export async function POST(req: NextRequest) {
     };
 
     await sendToAllUtmfyPixels(data, utmifyKeys);
+
+    // Meta Conversions API (S2S) — event_id (when provided by the client) matches the fbq call for dedup
+    sendMetaCapiEvent({
+      eventName: "InitiateCheckout",
+      eventId: eventId || data.orderId,
+      eventSourceUrl: process.env.NEXT_PUBLIC_APP_URL || "https://northmind.uk",
+      value: Number(amount?.toFixed?.(2) ?? amount ?? 0),
+      currency: "GBP",
+      contentIds: products?.map((p: any) => p.id) || undefined,
+      contentType: "product",
+      numItems: products?.reduce((acc: number, p: any) => acc + (p.quantity || 1), 0),
+      user: {
+        email: customer?.email,
+        phone: customer?.phone,
+        clientIp: req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null,
+        userAgent: req.headers.get("user-agent"),
+        fbc: req.cookies.get("_fbc")?.value || null,
+        fbp: req.cookies.get("_fbp")?.value || null,
+      },
+    }).catch((err) => console.error("[MetaCAPI] InitiateCheckout failed:", err));
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[UTMify] Error tracking IC:", error);

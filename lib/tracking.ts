@@ -128,7 +128,7 @@ export const trackAddToCart = (product: Product, quantity: number = 1) => {
   console.groupEnd();
 };
 
-export const trackBeginCheckout = (cart: Product[], totalPrice: number) => {
+export const trackBeginCheckout = (cart: Product[], totalPrice: number, eventId?: string) => {
   if (typeof window === 'undefined') return;
 
   const fbq = (window as any).fbq;
@@ -157,7 +157,7 @@ export const trackBeginCheckout = (cart: Product[], totalPrice: number) => {
       value: Number(totalPrice.toFixed(2)),
       currency: 'GBP',
       num_items: cart.reduce((acc, item) => acc + (item.quantity ?? 1), 0),
-    });
+    }, eventId ? { eventID: eventId } : undefined);
   }
 
   // TikTok Pixel
@@ -218,7 +218,7 @@ export const trackPurchase = (order: { id: string; amount: number; email?: strin
       currency: 'GBP',
       order_id: order.id,
       content_type: 'product',
-    });
+    }, { eventID: order.id });
   }
 
   // TikTok Pixel — identify then fire CompletePayment

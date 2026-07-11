@@ -56,6 +56,7 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
   const [county, setCounty] = useState("");
   const [saveInfo, setSaveInfo] = useState(false);
   const icTriggered = React.useRef(false);
+  const icEventId = React.useRef("");
 
   // Auto-fill form if session exists
   useEffect(() => {
@@ -120,9 +121,11 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
       }
 
       // Browser Pixel Tracking
+      const eventId = icEventId.current || (icEventId.current = crypto.randomUUID());
       trackBeginCheckout(
         items.map(i => ({ id: i.id, title: i.name, price: i.price, quantity: i.quantity })),
-        total
+        total,
+        eventId
       );
 
       await axios.post(`/api/payment/track-ic`, {
@@ -146,7 +149,8 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
           utm_term: localStorage.getItem('utm_term'),
         },
         amount: total,
-        products: items.map(i => ({ id: i.id, name: i.name, quantity: i.quantity, priceInCents: Math.round(i.price * 100) }))
+        products: items.map(i => ({ id: i.id, name: i.name, quantity: i.quantity, priceInCents: Math.round(i.price * 100) })),
+        eventId
       });
     } catch (e) {
       console.warn('⚠️ Early IC failed', e);
@@ -179,6 +183,7 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
       
       if (!icTriggered.current) {
         icTriggered.current = true;
+        const eventId = icEventId.current || (icEventId.current = crypto.randomUUID());
         axios.post(`/api/payment/track-ic`, {
           customer: {
             name: `${firstName} ${lastName}`,
@@ -200,7 +205,8 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
             utm_term: localStorage.getItem('utm_term'),
           },
           amount: total,
-          products: items.map(i => ({ id: i.id, name: i.name, quantity: i.quantity, priceInCents: Math.round(i.price * 100) }))
+          products: items.map(i => ({ id: i.id, name: i.name, quantity: i.quantity, priceInCents: Math.round(i.price * 100) })),
+          eventId
         }).catch(e => console.warn('IC tracking fallback failed', e));
       }
 
