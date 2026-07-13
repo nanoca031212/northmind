@@ -22,8 +22,15 @@ const getCustomerData = () => {
   return email ? { email } : {};
 };
 
+// PageView dispara sempre (ver ConsentScripts/PixelTracker); demais eventos de
+// conversão exigem consent="all" no banner LGPD.
+const hasMarketingConsent = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem('nm_cookie_consent') === 'all';
+};
+
 export const trackViewProduct = (product: Product) => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
 
   const fbq = (window as any).fbq;
   const ttq = (window as any).ttq;
@@ -76,7 +83,7 @@ export const trackViewProduct = (product: Product) => {
 };
 
 export const trackAddToCart = (product: Product, quantity: number = 1) => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
 
   const fbq = (window as any).fbq;
   const ttq = (window as any).ttq;
@@ -129,7 +136,7 @@ export const trackAddToCart = (product: Product, quantity: number = 1) => {
 };
 
 export const trackBeginCheckout = (cart: Product[], totalPrice: number, eventId?: string) => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
 
   const fbq = (window as any).fbq;
   const ttq = (window as any).ttq;
@@ -193,7 +200,7 @@ export const trackBeginCheckout = (cart: Product[], totalPrice: number, eventId?
 };
 
 export const trackPurchase = (order: { id: string; amount: number; email?: string }) => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
 
   const fbq = (window as any).fbq;
   const ttq = (window as any).ttq;

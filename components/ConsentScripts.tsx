@@ -11,9 +11,6 @@ interface ConsentScriptsProps {
 export function ConsentScripts({ metaPixelId, tiktokPixelId, googleTagId }: ConsentScriptsProps) {
   useEffect(() => {
     const loadPixels = () => {
-      const consent = localStorage.getItem("nm_cookie_consent");
-      if (consent !== "all") return;
-
       // Meta Pixel
       if (metaPixelId && !(window as any).fbq) {
         const s = document.createElement("script");
@@ -74,12 +71,6 @@ export function ConsentScripts({ metaPixelId, tiktokPixelId, googleTagId }: Cons
     };
 
     loadPixels();
-
-    const handler = (e: Event) => {
-      if ((e as CustomEvent).detail === "all") loadPixels();
-    };
-    window.addEventListener("nm_consent_changed", handler);
-    return () => window.removeEventListener("nm_consent_changed", handler);
   }, [metaPixelId, tiktokPixelId, googleTagId]);
 
   return null;

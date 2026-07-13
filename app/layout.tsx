@@ -103,7 +103,7 @@ export default async function RootLayout({
           strategy="afterInteractive"
         />
 
-        {/* Meta, TikTok, Google — loaded client-side only after LGPD consent */}
+        {/* Meta, TikTok, Google — PageView sempre disparado; demais eventos exigem consent="all" (ver lib/tracking.ts) */}
         <ConsentScripts
           metaPixelId={metaPixelId}
           tiktokPixelId={tiktokPixelId}
