@@ -57,7 +57,7 @@ export function ProductGallery({ images, title, discount, opcoesCor, isFragrance
                 key={i}
                 onClick={() => setActiveIndex(i)}
                 className={`relative bg-white w-full aspect-[3/4] shrink-0 overflow-hidden rounded-md transition-all duration-300 ${i === activeIndex
-                  ? "border border-white/60 scale-100 opacity-100"
+                  ? "border border-white/60 scale-100 opacity-100 light:border-black/40"
                   : "border border-transparent opacity-40 hover:opacity-100 cursor-pointer"
                   }`}
               >

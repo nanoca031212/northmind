@@ -11,10 +11,10 @@ interface ProductReviewsProps {
   canReviewInitially?: boolean;
 }
 
-export function ProductReviews({ 
-  produtoId, 
-  initialReviews = [], 
-  canReviewInitially = false 
+export function ProductReviews({
+  produtoId,
+  initialReviews = [],
+  canReviewInitially = false
 }: ProductReviewsProps) {
   const [reviews, setReviews] = useState<any[]>(initialReviews);
   const [canReview, setCanReview] = useState(canReviewInitially);
@@ -66,16 +66,16 @@ export function ProductReviews({
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
         <div className="md:col-span-5 space-y-6">
           <div className="space-y-2">
-            <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-tight">
+            <h2 className="text-xl md:text-2xl font-bold text-white uppercase tracking-tight light:text-black">
               Verified Experience
             </h2>
-            <p className="text-[10px] font-medium text-white/50 uppercase tracking-[0.2em]">
+            <p className="text-[10px] font-medium text-white/50 uppercase tracking-[0.2em] light:text-black/50">
               Real feedback from our global community
             </p>
           </div>
 
           <div className="flex items-center gap-6">
-            <div className="text-6xl font-black text-white tracking-tighter">
+            <div className="text-6xl font-black text-white tracking-tighter light:text-black">
               {stats?.average.toFixed(1) || "5.0"}
             </div>
             <div className="space-y-1">
@@ -84,11 +84,11 @@ export function ProductReviews({
                   <Star
                     key={i}
                     size={16}
-                    className={i < Math.round(stats?.average || 5) ? "fill-accent text-accent" : "text-white/10"}
+                    className={i < Math.round(stats?.average || 5) ? "fill-accent text-accent" : "text-white/10 light:text-black/10"}
                   />
                 ))}
               </div>
-              <p className="text-[10px] font-black uppercase text-white/60 tracking-luxury">
+              <p className="text-[10px] font-black uppercase text-white/60 tracking-luxury light:text-black/60">
                 Based on {reviews.length} reviews
               </p>
             </div>
@@ -97,7 +97,7 @@ export function ProductReviews({
           {canReview && !showForm && (
             <button
               onClick={() => setShowForm(true)}
-              className="group flex items-center gap-3 px-6 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-accent transition-all"
+              className="group flex items-center gap-3 px-6 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-accent transition-all light:bg-black light:text-white"
             >
               <Plus size={14} />
               Share Your Experience
@@ -105,17 +105,17 @@ export function ProductReviews({
           )}
         </div>
 
-        <div className="md:col-span-7 space-y-4 bg-white/[0.02] p-6 md:p-8 rounded-2xl border border-white/5">
+        <div className="md:col-span-7 space-y-4 bg-white/[0.02] p-6 md:p-8 rounded-2xl border border-white/5 light:bg-black/[0.02] light:border-black/10">
           {stats ? (
             stats.counts.map((count, i) => {
               const stars = 5 - i;
               const percentage = (count / stats.total) * 100;
               return (
                 <div key={stars} className="flex items-center gap-4 group">
-                  <span className="w-4 text-xs font-medium text-white/60 group-hover:text-white transition-colors">
+                  <span className="w-4 text-xs font-medium text-white/60 group-hover:text-white transition-colors light:text-black/60 light:group-hover:text-black">
                     {stars}
                   </span>
-                  <div className="flex-grow h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                  <div className="flex-grow h-1 bg-white/[0.05] rounded-full overflow-hidden light:bg-black/10">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${percentage}%` }}
@@ -123,7 +123,7 @@ export function ProductReviews({
                       className="h-full bg-accent"
                     />
                   </div>
-                  <span className="w-8 text-[10px] font-bold text-white/60 text-right">
+                  <span className="w-8 text-[10px] font-bold text-white/60 text-right light:text-black/60">
                     {Math.round(percentage)}%
                   </span>
                 </div>
@@ -131,7 +131,7 @@ export function ProductReviews({
             })
           ) : (
             <div className="py-4 text-center">
-              <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Awaiting your first review</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-white/20 light:text-black/30">Awaiting your first review</p>
             </div>
           )}
         </div>
@@ -145,14 +145,14 @@ export function ProductReviews({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             onSubmit={handleSubmit}
-            className="p-10 bg-white/[0.03] rounded-[2rem] border border-white/10 space-y-8 backdrop-blur-xl"
+            className="p-10 bg-white/[0.03] rounded-[2rem] border border-white/10 space-y-8 backdrop-blur-xl light:bg-black/[0.03] light:border-black/10"
           >
             <div className="flex justify-between items-center">
-              <h3 className="text-base font-black text-white uppercase tracking-luxury">Submit Your Review</h3>
+              <h3 className="text-base font-black text-white uppercase tracking-luxury light:text-black">Submit Your Review</h3>
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="text-white/40 hover:text-white transition-colors"
+                className="text-white/40 hover:text-white transition-colors light:text-black/40 light:hover:text-black"
               >
                 Cancel
               </button>
@@ -160,7 +160,7 @@ export function ProductReviews({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-white/40">Overall Rating</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-white/40 light:text-black/40">Overall Rating</label>
                 <div className="flex gap-3">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
@@ -171,7 +171,7 @@ export function ProductReviews({
                     >
                       <Star
                         size={28}
-                        className={`${star <= rating ? "fill-accent text-accent" : "text-white/10 group-hover:text-white/30"} transition-colors`}
+                        className={`${star <= rating ? "fill-accent text-accent" : "text-white/10 group-hover:text-white/30 light:text-black/10 light:group-hover:text-black/30"} transition-colors`}
                       />
                     </button>
                   ))}
@@ -179,12 +179,12 @@ export function ProductReviews({
               </div>
 
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-white/40">Review Content</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-white/40 light:text-black/40">Review Content</label>
                 <textarea
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="The craftsmanship of this piece exceeded my expectations..."
-                  className="w-full bg-black/40 border border-white/10 rounded-2xl p-6 text-sm text-white placeholder:text-white/10 focus:outline-none focus:border-accent/50 min-h-[140px] transition-all resize-none"
+                  className="w-full bg-black/40 border border-white/10 rounded-2xl p-6 text-sm text-white placeholder:text-white/10 focus:outline-none focus:border-accent/50 min-h-[140px] transition-all resize-none light:bg-black/5 light:border-black/10 light:text-black light:placeholder:text-black/30"
                 />
               </div>
             </div>
@@ -193,7 +193,7 @@ export function ProductReviews({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-12 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-accent disabled:opacity-50 transition-all shadow-xl shadow-white/5"
+                className="px-12 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-accent disabled:opacity-50 transition-all shadow-xl shadow-white/5 light:bg-black light:text-white light:shadow-black/5"
               >
                 {isSubmitting ? "Processing..." : "Publish Review"}
               </button>
@@ -220,12 +220,12 @@ export function ProductReviews({
                   <div className="md:w-64 shrink-0 space-y-4">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-black uppercase text-white tracking-widest">
+                        <span className="text-[11px] font-black uppercase text-white tracking-widest light:text-black">
                           {review.userName}
                         </span>
                         <CheckCircle2 size={12} className="text-accent" />
                       </div>
-                      <p className="text-[9px] font-black text-white/20 uppercase tracking-widest">
+                      <p className="text-[9px] font-black text-white/20 uppercase tracking-widest light:text-black/30">
                         {new Date(review.createdAt).toLocaleDateString('en-GB', {
                           day: '2-digit',
                           month: 'short',
@@ -234,24 +234,24 @@ export function ProductReviews({
                       </p>
                     </div>
 
-                    <div className="flex gap-1 pb-4 border-b border-white/5">
+                    <div className="flex gap-1 pb-4 border-b border-white/5 light:border-black/10">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
                           size={12}
-                          className={i < review.rating ? "fill-accent text-accent" : "text-white/5"}
+                          className={i < review.rating ? "fill-accent text-accent" : "text-white/5 light:text-black/10"}
                         />
                       ))}
                     </div>
 
-                    <span className="inline-block px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-luxury text-white/40">
+                    <span className="inline-block px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-luxury text-white/40 light:text-black/40">
                       North Mind Verified
                     </span>
                   </div>
 
                   {/* Right Column: Content & Media */}
                   <div className="flex-grow space-y-6">
-                    <p className="text-sm md:text-base leading-relaxed text-white/80 font-medium font-plus-jakarta-sans italic">
+                    <p className="text-sm md:text-base leading-relaxed text-white/80 font-medium font-plus-jakarta-sans italic light:text-black/70">
                       &quot;{review.texto}&quot;
                     </p>
 
@@ -274,7 +274,7 @@ export function ProductReviews({
                           </div>
                         )}
                         {review.fotos?.map((foto: string, i: number) => (
-                          <div key={i} className="relative h-40 aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-white/5 shrink-0 hover:border-white/30 transition-all duration-700 hover:scale-[1.02]">
+                          <div key={i} className="relative h-40 aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-white/5 shrink-0 hover:border-white/30 transition-all duration-700 hover:scale-[1.02] light:border-black/10 light:bg-black/5 light:hover:border-black/20">
                             <img
                               src={foto}
                               alt="Review detail"
@@ -288,16 +288,16 @@ export function ProductReviews({
                 </div>
 
                 {/* Visual Separator */}
-                <div className="absolute -bottom-6 left-0 right-0 h-[1px] bg-gradient-to-r from-white/10 to-transparent opacity-50" />
+                <div className="absolute -bottom-6 left-0 right-0 h-[1px] bg-gradient-to-r from-white/10 to-transparent opacity-50 light:from-black/10" />
               </motion.div>
             ))}
           </div>
         ) : (
-          <div className="py-24 text-center bg-white/[0.02] border border-dashed border-white/5 rounded-[3rem] group hover:border-white/10 transition-all duration-1000">
-            <div className="size-20 mx-auto rounded-full border border-white/5 flex items-center justify-center mb-6 bg-black/40">
-              <MessageSquare size={24} className="text-white/10 group-hover:text-accent transition-colors" />
+          <div className="py-24 text-center bg-white/[0.02] border border-dashed border-white/5 rounded-[3rem] group hover:border-white/10 transition-all duration-1000 light:bg-black/[0.02] light:border-black/10 light:hover:border-black/20">
+            <div className="size-20 mx-auto rounded-full border border-white/5 flex items-center justify-center mb-6 bg-black/40 light:border-black/10 light:bg-black/5">
+              <MessageSquare size={24} className="text-white/10 group-hover:text-accent transition-colors light:text-black/20" />
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 group-hover:text-white/40 transition-colors">
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 group-hover:text-white/40 transition-colors light:text-black/30 light:group-hover:text-black/50">
               Pristine · No feedback yet
             </p>
           </div>

@@ -70,13 +70,7 @@ export function WorldCupGrid({
 
   const desktopActive = Math.min(active, desktopMax);
 
-  const ProductCard = ({
-    product,
-    i,
-  }: {
-    product: Product;
-    i: number;
-  }) => (
+  const ProductCard = ({ product, i }: { product: Product; i: number }) => (
     <Link
       href={`/product/${product.handle}`}
       className="group relative block overflow-hidden"
@@ -103,13 +97,13 @@ export function WorldCupGrid({
           </>
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        <div className="absolute inset-x-0 top-0 bottom-0 light:top-auto light:h-1/4 bg-gradient-to-t from-black via-black/10 to-transparent light:from-white light:via-white/100" />
 
         <div className="absolute bottom-0 inset-x-0 p-5 md:p-8 z-10">
-          <p className="text-[9px] uppercase tracking-[0.5em] text-accent font-black mb-2">
+          <p className="text-[9px] uppercase tracking-[0.5em]  text-accent font-black mb-2">
             {editionLabel}
           </p>
-          <h3 className="text-xl md:text-3xl font-black uppercase tracking-tight text-white mb-1 leading-tight group-hover:text-accent transition-colors duration-500">
+          <h3 className="text-xl md:text-3xl font-black uppercase tracking-tight text-white mb-1 leading-tight group-hover:text-accent transition-colors duration-500 light:text-[#1f1f1f]">
             {(() => {
               let displayTitle =
                 titleMap?.[product.title] ??
@@ -124,7 +118,7 @@ export function WorldCupGrid({
               return displayTitle;
             })()}
           </h3>
-          <p className="text-[10px] text-white/40 uppercase tracking-widest mb-6">
+          <p className="text-[10px] text-white/40 uppercase tracking-widest mb-6 light:text-accent">
             {product.collection}
           </p>
         </div>
@@ -140,10 +134,10 @@ export function WorldCupGrid({
           <span className="text-[9px] uppercase font-black tracking-[0.5em] text-accent/60 pl-2">
             {editionLabel}
           </span>
-          <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic">
+          <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic light:text-black/90">
             {leadWords}
             {leadWords ? " " : ""}
-            <span className="font-bold not-italic">{lastWord}</span>
+            <span className="font-bold not-italic ">{lastWord}</span>
           </h2>
         </div>
       </div>

@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -41,5 +43,12 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // Opt-in "light:" variant — only applies when <html> has the "light" class,
+    // set by ThemeContext. Storefront components add light: overrides explicitly;
+    // anything without them (e.g. admin) is unaffected by the toggle.
+    plugin(({ addVariant }) => {
+      addVariant("light", "html.light &");
+    }),
+  ],
 };

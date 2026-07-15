@@ -96,13 +96,15 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
     setIsAdding(true);
 
     const count = selectedBundle === "single" ? 1 : selectedBundle === "duo" ? 2 : 3;
-    const bundleTotal = selectedBundle === "single" ? currentBasePrice : selectedBundle === "duo" ? duoPrice : trioPrice;
+    const bundleTotal = selectedBundle === "single" ? singlePrice : selectedBundle === "duo" ? duoPrice : trioPrice;
     const discountedPrice = bundleTotal / count;
 
     for (let i = 0; i < count; i++) {
       const selection = bundleSelections[i];
       const selectedProduct = allProducts.find(p => p.id === selection.productId) || product;
-      const productToAdd = { ...selectedProduct, price: discountedPrice };
+      const colorOption = selectedProduct.opcoesCor?.find((c) => c.name === selection.color);
+      const images = colorOption?.fotos && colorOption.fotos.length > 0 ? colorOption.fotos : selectedProduct.images;
+      const productToAdd = { ...selectedProduct, price: discountedPrice, images };
       const combinedSize = selection.color ? `${selection.color} - ${selection.size}` : selection.size;
       addToCart(productToAdd, combinedSize);
     }
@@ -123,7 +125,8 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
 
   // World Cup jerseys use fixed bundle totals instead of the multiplier formula
   const isWorldCupJersey = product.collection === "World Cup";
-  const duoPrice = isWorldCupJersey ? 79.99 : currentBasePrice * 1.8;
+  const singlePrice = isWorldCupJersey ? 39.99 : currentBasePrice;
+  const duoPrice = isWorldCupJersey ? 69.99 : currentBasePrice * 1.8;
   const trioPrice = isWorldCupJersey ? 99.99 : currentBasePrice * 2.4;
 
   const bundles = [
@@ -131,7 +134,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
       id: "single",
       title: "Single Pack",
       desc: "Standard price",
-      price: currentBasePrice,
+      price: singlePrice,
       original: currentBaseOriginal,
       save: null,
     },
@@ -184,8 +187,8 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
       {/* Visual Color Selection */}
       {colors.length > 0 && (
         <div className="space-y-4">
-          <h1 className="text-xs font-bold uppercase tracking-widest text-white/90">
-            Color: <span className="font-light text-white/60">{selectedColor}</span>
+          <h1 className="text-xs font-bold uppercase tracking-widest text-white/90 light:text-black/70">
+            Color: <span className="font-light text-white/60 light:text-black/60">{selectedColor}</span>
           </h1>
           <div className="flex gap-3">
             {colors.map((color: any) => (
@@ -197,7 +200,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                 <div
                   className={`absolute inset-0 border-[2px] rounded-lg transition-all duration-500 group-hover:scale-105 ${selectedColor === color.name
                     ? "border-yellow-300"
-                    : "border-white/10 opacity-0 group-hover:opacity-100"
+                    : "border-white/10 opacity-0 group-hover:opacity-100 light:border-black/10"
                     }`}
                 />
                 <div className="size-[100%] bg-[#F2F2F2] rounded-lg overflow-hidden flex items-center justify-center p-1.5 transition-transform duration-500 group-hover:scale-105">
@@ -216,20 +219,20 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
       {/* Visual Size Selection */}
       <div>
         <div className="flex items-center justify-between mb-5">
-          <h4 className="text-xs uppercase font-medium tracking-[0.2em] text-white/60">
+          <h4 className="text-xs uppercase font-medium tracking-[0.2em] text-white/60 light:text-black/60">
             {isFragrance ? "Select Volume" : "Select Size"}
           </h4>
           {!isFragrance && product.guiaTamanho && (
             <button
               onClick={() => setIsSizeGuideOpen(true)}
-              className="text-[10px] font-black uppercase tracking-widest text-[#C5A358] hover:text-white transition-colors underline underline-offset-4 flex items-center gap-1.5"
+              className="text-[10px] font-black uppercase tracking-widest text-[#C5A358] hover:text-white transition-colors underline underline-offset-4 flex items-center gap-1.5 light:hover:text-black"
             >
               <Ruler size={12} /> Size Guide
             </button>
           )}
         </div>
         {product.detalhesModelo && (
-          <p className="text-[10px] font-medium text-white/90 italic mb-4">
+          <p className="text-[10px] font-medium text-white/90 italic mb-4 light:text-black/70">
             * {product.detalhesModelo}
           </p>
         )}
@@ -246,8 +249,8 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
               key={size}
               onClick={() => setSelectedSize(size)}
               className={`aspect-square h-12 w-20 flex items-center justify-center text-sm font-medium transition-all duration-300 rounded-md ${selectedSize === size
-                ? "bg-white text-black shadow-lg"
-                : "bg-white/[0.03] text-white/40 hover:bg-white/10 hover:text-white"
+                ? "bg-white text-black shadow-lg light:bg-black light:text-white"
+                : "bg-white/[0.03] text-white/40 hover:bg-white/10 hover:text-white light:bg-black/[0.03] light:text-black/40 light:hover:bg-black/10 light:hover:text-black"
                 }`}
             >
               {size}
@@ -259,18 +262,18 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
       {/* Bundle Selection */}
       <div className="">
         <div className="flex items-center">
-          <h3 className="text-sm font-bold uppercase tracking-widest text-white/90">
+          <h3 className="text-sm font-bold uppercase tracking-widest text-white/90 light:text-black/70">
             Bundle & Save
           </h3>
-          <div className="h-[1px] flex-grow bg-white/10 ml-4" />
+          <div className="h-[1px] flex-grow bg-white/10 ml-4 light:bg-black/10" />
         </div>
 
         {bundles.map((bundle) => (
           <div key={bundle.id} className="relative">
             {bundle.isPopular && (
               <div className="absolute top-[-12px] inset-x-0 flex justify-end z-20">
-                <div className="bg-black px-4 h-6 flex items-center justify-center rounded-full border border-white/10 shadow-lg">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-white whitespace-nowrap">
+                <div className="bg-black px-4 h-6 flex items-center justify-center rounded-full border border-white/10 shadow-lg light:bg-white light:border-black/10">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-white whitespace-nowrap light:text-black">
                     Most Popular
                   </span>
                 </div>
@@ -279,22 +282,22 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
             <div
               onClick={() => setSelectedBundle(bundle.id)}
               className={`relative w-full cursor-pointer rounded-xl transition-all duration-300 border overflow-hidden ${selectedBundle === bundle.id
-                ? "bg-white/[0.05] border-white/50 shadow-[0_4px_30px_rgba(255,255,255,0.05)] backdrop-blur-md"
-                : "bg-transparent border-white/10 hover:border-white/20"
+                ? "bg-white/[0.05] border-white/50 shadow-[0_4px_30px_rgba(255,255,255,0.05)] backdrop-blur-md light:bg-black/[0.04] light:border-black/30"
+                : "bg-transparent border-white/10 hover:border-white/20 light:border-black/10 light:hover:border-black/20"
                 }`}
             >
               <div className="p-5 flex items-center justify-between">
                 <div className="flex gap-6 items-center flex-grow">
-                  <div className="relative h-6 w-6 rounded-full border-2 border-white/20 flex items-center justify-center transition-colors duration-500 group-hover:border-white/40 shrink-0">
+                  <div className="relative h-6 w-6 rounded-full border-2 border-white/20 flex items-center justify-center transition-colors duration-500 group-hover:border-white/40 shrink-0 light:border-black/20 light:group-hover:border-black/40">
                     <div
                       className={`h-5 w-5 rounded-full transition-all duration-500 ${selectedBundle === bundle.id
-                        ? "bg-white/90 scale-100"
+                        ? "bg-white/90 scale-100 light:bg-black/80"
                         : "bg-transparent scale-0"
                         }`}
                     />
                   </div>
                   <div className="space-y-1">
-                    <h4 className="text-base md:text-lg font-bold text-white uppercase tracking-tight leading-none">
+                    <h4 className="text-base md:text-lg font-bold text-white uppercase tracking-tight leading-none light:text-black">
                       {bundle.title}
                     </h4>
                     {bundle.save && (
@@ -307,11 +310,11 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <h4 className="text-lg md:text-xl font-black text-white leading-none">
+                  <h4 className="text-lg md:text-xl font-black text-white leading-none light:text-black">
                     £{Number(bundle.price || 0).toFixed(2)}
                   </h4>
                   {bundle.original > 0 && bundle.original > bundle.price && (
-                    <p className="text-xs line-through font-bold text-white/80 tracking-widest mt-1">
+                    <p className="text-xs line-through font-bold text-white/80 tracking-widest mt-1 light:text-black/60">
                       £{Number(bundle.original || 0).toFixed(2)}
                     </p>
                   )}
@@ -320,14 +323,14 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
 
               {/* Advanced Bundle Accordion */}
               <div
-                className={`transition-all duration-500 ease-in-out border-t border-white/5 bg-black/20 ${selectedBundle === bundle.id && bundle.id !== "single"
+                className={`transition-all duration-500 ease-in-out border-t border-white/5 bg-black/20 light:border-black/10 light:bg-black/5 ${selectedBundle === bundle.id && bundle.id !== "single"
                   ? "max-h-64 opacity-100"
                   : "max-h-0 opacity-0"
                   }`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="p-5 pt-3 space-y-4">
-                  <p className="text-[10px] font-black uppercase tracking-luxury text-white/90 mb-2">
+                  <p className="text-[10px] font-black uppercase tracking-luxury text-white/90 mb-2 light:text-black/70">
                     Configure your items: Color & Size
                   </p>
                   {[...Array(bundle.id === "single" ? 1 : bundle.id === "duo" ? 2 : 3)].map((_, idx) => {
@@ -337,7 +340,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
 
                     return (
                       <div key={idx} className="flex items-center gap-3">
-                        <div className="size-10 bg-[#F2F2F2] rounded-md overflow-hidden flex items-center justify-center p-1 shrink-0 border border-white/5">
+                        <div className="size-10 bg-[#F2F2F2] rounded-md overflow-hidden flex items-center justify-center p-1 shrink-0 border border-white/5 light:border-black/10">
                           <img
                             src={isFragrance ? itemThumb : (colors.find(c => c.name === bundleSelections[idx].color)?.image || safeImage)}
                             alt="Thumbnail"
@@ -349,11 +352,11 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                           <div className="relative flex-grow">
                             <button
                               onClick={() => handleOpenPicker(idx)}
-                              className="w-full h-12 bg-white/5 border border-white/20 rounded-xl px-4 flex items-center justify-between group/btn hover:border-accent/40 transition-all"
+                              className="w-full h-12 bg-white/5 border border-white/20 rounded-xl px-4 flex items-center justify-between group/btn hover:border-accent/40 transition-all light:bg-black/5 light:border-black/20"
                             >
                               <div className="flex flex-col items-start">
                                 <span className="text-[8px] font-black uppercase tracking-widest text-[#C5A358]">Select Fragrance</span>
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-white truncate max-w-[120px]">
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-white truncate max-w-[120px] light:text-black">
                                   {selectedItemProduct.title}
                                 </span>
                               </div>
@@ -367,7 +370,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                                 <select
                                   value={bundleSelections[idx].color}
                                   onChange={(e) => updateBundleSelection(idx, 'color', e.target.value)}
-                                  className="w-full h-full bg-white/5 border border-white/10 rounded-md px-3 pr-8 text-[10px] font-bold uppercase tracking-widest text-white appearance-none focus:outline-none focus:border-accent/50 transition-colors cursor-pointer"
+                                  className="w-full h-full bg-white/5 border border-white/10 rounded-md px-3 pr-8 text-[10px] font-bold uppercase tracking-widest text-white appearance-none focus:outline-none focus:border-accent/50 transition-colors cursor-pointer light:bg-black/5 light:border-black/10 light:text-black"
                                 >
                                   {colors.map((c: any) => (
                                     <option
@@ -379,7 +382,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                                     </option>
                                   ))}
                                 </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 size-3 text-white/90 pointer-events-none" />
+                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 size-3 text-white/90 pointer-events-none light:text-black/70" />
                               </div>
                             )}
                           </>
@@ -389,7 +392,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                           <select
                             value={bundleSelections[idx].size}
                             onChange={(e) => updateBundleSelection(idx, 'size', e.target.value)}
-                            className="w-full h-full bg-white/5 border border-white/10 rounded-md px-3 pr-8 text-[10px] font-bold uppercase tracking-widest text-white appearance-none focus:outline-none focus:border-accent/50 transition-colors cursor-pointer"
+                            className="w-full h-full bg-white/5 border border-white/10 rounded-md px-3 pr-8 text-[10px] font-bold uppercase tracking-widest text-white appearance-none focus:outline-none focus:border-accent/50 transition-colors cursor-pointer light:bg-black/5 light:border-black/10 light:text-black"
                           >
                             {sizes.map((s: string) => (
                               <option
@@ -401,7 +404,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                               </option>
                             ))}
                           </select>
-                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 size-3 text-white/90 pointer-events-none" />
+                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 size-3 text-white/90 pointer-events-none light:text-black/70" />
                         </div>
                       </div>
                     );
@@ -414,18 +417,18 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
       </div>
 
       {/* Checkout Buttons */}
-      <div className="flex flex-col gap-3 pt-6 border-t border-white/5 relative z-10">
+      <div className="flex flex-col gap-3 pt-6 border-t border-white/5 relative z-10 light:border-black/10">
         <button
           onClick={handleAddToCart}
           disabled={isAdding}
-          className="relative overflow-hidden w-full font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 rounded-lg py-4 transition-all duration-500 bg-gradient-to-r from-white to-gray-200 text-black shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_60px_rgba(255,255,255,0.3)] hover:scale-[1.02] active:scale-[0.98]"
+          className="relative overflow-hidden w-full font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 rounded-lg py-4 transition-all duration-500 bg-gradient-to-r from-white to-gray-200 text-black shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_60px_rgba(255,255,255,0.3)] hover:scale-[1.02] active:scale-[0.98] light:from-black light:to-neutral-800 light:text-white light:shadow-[0_0_40px_rgba(0,0,0,0.1)] light:hover:shadow-[0_0_60px_rgba(0,0,0,0.18)]"
         >
           {isAdding ? "Adding to Vault..." : "Add to Cart"}
-          <div className="absolute inset-0 bg-white/20 translate-y-full hover:translate-y-0 transition-transform duration-500 ease-out" />
+          <div className="absolute inset-0 bg-white/20 translate-y-full hover:translate-y-0 transition-transform duration-500 ease-out light:bg-black/10" />
         </button>
         <button
           onClick={handleDirectCheckout}
-          className="w-full font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 rounded-lg py-4 transition-all duration-300 bg-white/[0.03] backdrop-blur-md text-white border border-white/10 hover:bg-white/10 hover:border-white/30 active:scale-[0.98]"
+          className="w-full font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 rounded-lg py-4 transition-all duration-300 bg-white/[0.03] backdrop-blur-md text-white border border-white/10 hover:bg-white/10 hover:border-white/30 active:scale-[0.98] light:bg-black/[0.03] light:text-black light:border-black/10 light:hover:bg-black/10 light:hover:border-black/20"
         >
           Checkout Now
         </button>
@@ -439,16 +442,16 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
             onClick={() => setIsPickerOpen(false)}
           />
 
-          <div className="relative w-full h-full bg-[#0A0A09] overflow-hidden flex flex-col shadow-[0_0_100px_rgba(197,163,88,0.1)]">
+          <div className="relative w-full h-full bg-[#0A0A09] overflow-hidden flex flex-col shadow-[0_0_100px_rgba(197,163,88,0.1)] light:bg-white">
             {/* Modal Header */}
-            <div className="p-6 md:p-10 border-b border-white/5 flex items-center justify-between bg-black/50 backdrop-blur-md">
+            <div className="p-6 md:p-10 border-b border-white/5 flex items-center justify-between bg-black/50 backdrop-blur-md light:border-black/10 light:bg-black/[0.03]">
               <div className="space-y-1">
-                <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-white">Fragrance Selection Vault</h2>
+                <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-white light:text-black">Fragrance Selection Vault</h2>
                 <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-accent italic">Select your next essence from the house of North Mind</p>
               </div>
               <button
                 onClick={() => setIsPickerOpen(false)}
-                className="size-12 md:size-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+                className="size-12 md:size-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all light:border-black/10 light:text-black light:hover:bg-black light:hover:text-white"
               >
                 <X size={24} />
               </button>
@@ -478,8 +481,8 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
             </div>
 
             {/* Modal Footer */}
-            <div className="p-8 border-t border-white/5 bg-black/50 text-center">
-              <p className="text-[9px] font-black uppercase tracking-widest text-white/30 italic">
+            <div className="p-8 border-t border-white/5 bg-black/50 text-center light:border-black/10 light:bg-black/[0.03]">
+              <p className="text-[9px] font-black uppercase tracking-widest text-white/30 italic light:text-black/30">
                 Choose a fragment of your story
               </p>
             </div>

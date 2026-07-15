@@ -8,7 +8,7 @@ const faqData = [
   {
     id: 1,
     question: "What are the delivery times?",
-    icon: <Plane size={18} className="text-white/60" />,
+    icon: <Plane size={18} className="text-white/60 light:text-black/60" />,
     answer: (
       <>
         We dispatch orders within <strong>1–3 business days</strong>.<br />
@@ -21,7 +21,7 @@ const faqData = [
   {
     id: 2,
     question: "How can I track my order?",
-    icon: <MapPin size={18} className="text-white/60" />,
+    icon: <MapPin size={18} className="text-white/60 light:text-black/60" />,
     answer: (
       <>
         You will receive a <strong>tracking number by email</strong> once your
@@ -35,7 +35,7 @@ const faqData = [
   {
     id: 3,
     question: "What is your returns policy?",
-    icon: <RotateCcw size={18} className="text-white/60" />,
+    icon: <RotateCcw size={18} className="text-white/60 light:text-black/60" />,
     answer: (
       <>
         We accept returns within <strong>14 days</strong> of delivery,
@@ -49,7 +49,7 @@ const faqData = [
   {
     id: 4,
     question: "What should I do if my item is faulty?",
-    icon: <HelpCircle size={18} className="text-white/60" />,
+    icon: <HelpCircle size={18} className="text-white/60 light:text-black/60" />,
     answer: (
       <>
         If your product arrives damaged or defective, please email us within{" "}
@@ -68,16 +68,16 @@ export function ProductFaqBox() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4 mb-8">
-        <h3 className="text-sm font-bold uppercase tracking-widest text-white/90">
+        <h3 className="text-sm font-bold uppercase tracking-widest text-white/90 light:text-black/70">
           Frequently Asked
         </h3>
-        <div className="h-[1px] flex-grow bg-white/10" />
+        <div className="h-[1px] flex-grow bg-white/10 light:bg-black/10" />
       </div>
       <div className="grid grid-cols-1 gap-3">
         {faqData.map((faq) => (
           <div
             key={faq.id}
-            className={`overflow-hidden transition-all duration-300 border-b ${activeFaq === faq.id ? "border-white/30 bg-white/[0.02]" : "border-white/10 bg-transparent"
+            className={`overflow-hidden transition-all duration-300 border-b ${activeFaq === faq.id ? "border-white/30 bg-white/[0.02] light:border-black/30 light:bg-black/[0.02]" : "border-white/10 bg-transparent light:border-black/10"
               }`}
           >
             <button
@@ -89,14 +89,14 @@ export function ProductFaqBox() {
                 <span className="p-0 transition-colors">
                   {faq.icon}
                 </span>
-                <span className="text-[11px] font-medium uppercase tracking-widest text-white/80 group-hover:text-white transition-colors">
+                <span className="text-[11px] font-medium uppercase tracking-widest text-white/80 group-hover:text-white transition-colors light:text-black/70 light:group-hover:text-black">
                   {faq.question}
                 </span>
               </div>
               {activeFaq === faq.id ? (
                 <ChevronUp size={16} className="text-accent" />
               ) : (
-                <ChevronDown size={16} className="text-white/20 group-hover:text-white/60 transition-colors" />
+                <ChevronDown size={16} className="text-white/20 group-hover:text-white/60 transition-colors light:text-black/20 light:group-hover:text-black/50" />
               )}
             </button>
             <AnimatePresence>
@@ -107,7 +107,7 @@ export function ProductFaqBox() {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.4, ease: "circOut" }}
                 >
-                  <div className="px-6 pb-6 pt-2 text-xs leading-relaxed text-white/60 max-w-md ml-14">
+                  <div className="px-6 pb-6 pt-2 text-xs leading-relaxed text-white/60 max-w-md ml-14 light:text-black/60">
                     {faq.answer}
                   </div>
                 </motion.div>

@@ -19,12 +19,12 @@ export async function CollectionSection({
         <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tighter">
           {title}
         </h2>
-        <div className="h-[1px] flex-grow mx-8 bg-white/10 hidden md:block" />
+        <div className="h-[1px] flex-grow mx-8 bg-white/10 hidden md:block light:bg-black/10" />
         <Link
           href={`/collections/${encodeURIComponent(collection.toLowerCase().replace(/ /g, "-"))}`}
           className="shrink-0"
         >
-          <span className="text-[14px] cursor-pointer hover:text-white/100 uppercase font-bold tracking-[0.3em] text-white/90 transition-colors whitespace-nowrap">
+          <span className="text-[14px] cursor-pointer hover:text-white/100 uppercase font-bold tracking-[0.3em] text-white/90 transition-colors whitespace-nowrap light:text-black/70 light:hover:text-black">
             View all
           </span>
         </Link>

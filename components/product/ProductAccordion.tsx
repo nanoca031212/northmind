@@ -25,8 +25,8 @@ export function ProductAccordion({ items }: ProductAccordionProps) {
           <div
             key={item.id}
             className={`overflow-hidden transition-all duration-500 border-b ${activeId === item.id
-              ? "border-white/30"
-              : "border-white/10"
+              ? "border-white/30 light:border-black/30"
+              : "border-white/10 light:border-black/10"
               }`}
           >
             <button
@@ -36,12 +36,12 @@ export function ProductAccordion({ items }: ProductAccordionProps) {
             >
               <div className="flex items-center gap-4">
                 <span className={`p-0 transition-all duration-500 ${activeId === item.id
-                  ? "text-white"
-                  : "text-white/60 group-hover:text-white"
+                  ? "text-white light:text-black"
+                  : "text-white/60 group-hover:text-white light:text-black/60 light:group-hover:text-black"
                   }`}>
                   {item.icon}
                 </span>
-                <span className={`text-[11px] font-medium uppercase tracking-[0.2em] transition-colors ${activeId === item.id ? "text-white" : "text-white/60 group-hover:text-white"
+                <span className={`text-[11px] font-medium uppercase tracking-[0.2em] transition-colors ${activeId === item.id ? "text-white light:text-black" : "text-white/60 group-hover:text-white light:text-black/60 light:group-hover:text-black"
                   }`}>
                   {item.title}
                 </span>
@@ -49,7 +49,7 @@ export function ProductAccordion({ items }: ProductAccordionProps) {
               {activeId === item.id ? (
                 <ChevronUp size={16} className="text-accent" />
               ) : (
-                <ChevronDown size={16} className="text-white/90 group-hover:text-white/60" />
+                <ChevronDown size={16} className="text-white/90 group-hover:text-white/60 light:text-black/70 light:group-hover:text-black/50" />
               )}
             </button>
             <AnimatePresence>
@@ -60,8 +60,8 @@ export function ProductAccordion({ items }: ProductAccordionProps) {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
                 >
-                  <div className="px-4 py-2 bg-white/5 border-t border-white/10">
-                    <div className="text-sm md:text-base leading-relaxed text-white/80 font-medium">
+                  <div className="px-4 py-2 bg-white/5 border-t border-white/10 light:bg-black/5 light:border-black/10">
+                    <div className="text-sm md:text-base leading-relaxed text-white/80 font-medium light:text-black/70">
                       {item.content}
                     </div>
                   </div>

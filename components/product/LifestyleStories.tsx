@@ -23,9 +23,9 @@ export function LifestyleStories({ videos = [] }: LifestyleStoriesProps) {
   ];
 
   return (
-    <div className="pt-12 pb-8 border-t border-white/5 space-y-6">
+    <div className="pt-12 pb-8 border-t border-white/5 space-y-6 light:border-black/10">
       <div className="flex items-center justify-between">
-        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/80">
+        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/80 light:text-black/70">
           Lifestyle Experience
         </h2>
       </div>

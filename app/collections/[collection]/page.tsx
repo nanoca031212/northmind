@@ -57,11 +57,11 @@ export default async function CollectionPage({ params }: PageProps) {
 
   return (
     <>
-      <div className="min-h-screen bg-[#000000] text-white">
+      <div className="min-h-screen bg-[#000000] text-white light:bg-white light:text-black">
         <div className="max-w-[1400px] mx-auto pt-10 pb-24 px-4 sm:px-6 lg:px-8">
           <div className="mb-14">
-            <nav className="text-[11px] uppercase tracking-widest text-white mb-6 flex items-center gap-3">
-              <Link href="/" className="hover:text-white transition-colors">
+            <nav className="text-[11px] uppercase tracking-widest text-white mb-6 flex items-center gap-3 light:text-black">
+              <Link href="/" className="hover:text-white transition-colors light:hover:text-black">
                 Home
               </Link>
               <ChevronRight size={10} />
@@ -71,7 +71,7 @@ export default async function CollectionPage({ params }: PageProps) {
             </nav>
 
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white leading-none">
+              <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white leading-none light:text-black">
                 {decodedName}
               </h1>
               <p className="text-[13px] font-medium text-accent uppercase tracking-widest">
@@ -88,7 +88,7 @@ export default async function CollectionPage({ params }: PageProps) {
             </div>
           ) : (
             <div className="py-24 text-center border border-dashed border-gray-200 rounded-2xl">
-              <h3 className="text-xl font-bold text-white">
+              <h3 className="text-xl font-bold text-white light:text-black">
                 No products available.
               </h3>
               <p className="text-[#868A91] mt-2 text-sm">

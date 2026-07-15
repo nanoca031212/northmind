@@ -73,7 +73,7 @@ function CategoryCardInner({
           />
         </>
       )}
-      <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black to-transparent light:hidden" />
       <div className="absolute bottom-4 left-4 z-10">
         <span className="text-xs md:text-md uppercase tracking-[0.35em] font-black text-white/90 border border-white/10 px-3 py-1.5 group-hover:text-white group-hover:border-white/25 transition-all duration-300">
           {cat.label}
@@ -131,7 +131,7 @@ function WorldCupHeroCards({
                     />
                   </>
                 )}
-                <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black to-transparent light:hidden" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-10">
                   <h3 className="text-base md:text-2xl font-black uppercase tracking-tight text-white leading-tight mb-3">
                     {card.title}
@@ -216,7 +216,7 @@ function WorldCupCategoryCards({
     >
       <div className="flex items-end justify-between  my-8 md:my-12  pb-4">
         <div className="space-y-1">
-          <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic">
+          <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic light:text-black">
             other
             <span className="font-bold not-italic">products</span>
           </h2>
@@ -312,7 +312,7 @@ function FragranceBannerCards({ products }: { products: Product[] }) {
             />
           </>
         )}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black to-transparent light:hidden" />
         <div className="absolute bottom-4 left-4 z-10">
           <span className="text-xs uppercase tracking-[0.35em] font-black text-white/90 border border-white/10 px-3 py-1.5 group-hover:text-white group-hover:border-white/25 transition-all duration-300">
             Fragrances

@@ -72,7 +72,7 @@ export default async function ProductPage({
   ]);
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-black light:bg-white">
       <Header />
       <ProductDetail 
         product={product} 

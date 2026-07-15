@@ -56,14 +56,14 @@ export function ProductDetail({
   return (
     <>
       <div className="pt-10 md:pt-32 pb-14 max-w-[100%] lg:max-w-[90%] md:max-w-[70%] mx-auto animate-fade-in">
-        <nav className="text-[10px] pl-4 pt-8 md:pt-0 uppercase font-medium tracking-[0.2em] text-white/60 mb-6 flex items-center gap-1">
-          <Link href="/" className="hover:text-white transition-colors">
+        <nav className="text-[10px] pl-4 pt-8 md:pt-0 uppercase font-medium tracking-[0.2em] text-white/60 mb-6 flex items-center gap-1 light:text-black/60">
+          <Link href="/" className="hover:text-white transition-colors light:hover:text-black">
             Home
           </Link>
-          <span className="bg-white/40" />/
-          <span className="text-white/90">{product.collection}</span>
+          <span className="bg-white/40 light:bg-black/40" />/
+          <span className="text-white/90 light:text-black/70">{product.collection}</span>
         </nav>
-        <h1 className="text-3xl md:text-5xl font-bold px-4 md:px-0 uppercase tracking-tight mb-3 leading-[0.95] text-white break-words">
+        <h1 className="text-3xl md:text-5xl font-bold px-4 md:px-0 uppercase tracking-tight mb-3 leading-[0.95] text-white break-words light:text-black">
           {product.title}
         </h1>
 
@@ -79,8 +79,8 @@ export function ProductDetail({
                 isFragrance={product.collection?.toLowerCase().includes('fragrance') || product.collection?.toLowerCase().includes('offer')}
               />
             ) : (
-              <div className="aspect-[4/5] bg-white/5 border border-white/10 rounded-xl flex items-center justify-center">
-                <p className="text-[10px] font-black uppercase tracking-widest text-white/20 italic">No assets available for this item</p>
+              <div className="aspect-[4/5] bg-white/5 border border-white/10 rounded-xl flex items-center justify-center light:bg-black/5 light:border-black/10">
+                <p className="text-[10px] font-black uppercase tracking-widest text-white/20 italic light:text-black/30">No assets available for this item</p>
               </div>
             )}
           </div>
@@ -89,11 +89,11 @@ export function ProductDetail({
           <div className="flex px-4 md:px-0 flex-col justify-center">
 
             <div className="flex items-baseline gap-4 mb-6">
-              <span className="text-3xl font-medium text-white tracking-tight">
+              <span className="text-3xl font-medium text-white tracking-tight light:text-black">
                 £{safePrice.toFixed(2)}
               </span>
               {discount > 0 && (
-                <span className="text-lg text-white/40 line-through font-light">
+                <span className="text-lg text-white/40 line-through font-light light:text-black/40">
                   £{safeOriginalPrice.toFixed(2)}
                 </span>
               )}
@@ -106,10 +106,10 @@ export function ProductDetail({
             {/* Trust & Shipping Info - Vercel Compact Version */}
             <div className="mt-8 space-y-4">
               {/* Shipping Badge Row */}
-              <div className="flex items-center justify-between px-3 py-2.5 bg-white/5 rounded-lg backdrop-blur-sm">
+              <div className="flex items-center justify-between px-3 py-2.5 bg-white/5 rounded-lg backdrop-blur-sm light:bg-black/5">
                 <div className="flex items-center gap-2.5">
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-white/70">
-                    Ships by <span className="text-white">Next In 5 Days</span>
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-white/70 light:text-black/60">
+                    Ships by <span className="text-white light:text-black">Next In 5 Days</span>
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -121,19 +121,19 @@ export function ProductDetail({
               </div>
 
               {/* Trust Card */}
-              <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl p-6 space-y-5 transition-colors duration-500 hover:bg-white/[0.04]">
+              <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl p-6 space-y-5 transition-colors duration-500 hover:bg-white/[0.04] light:bg-black/[0.02] light:border-black/10 light:hover:bg-black/[0.04]">
                 <div className="flex gap-4">
                   <div className="space-y-1.5">
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-white">Authorized Premium Retailer</h4>
-                    <p className="text-[10px] font-medium leading-relaxed text-white/60">Original inventory, guaranteed provenance, and responsive customer support.</p>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-white light:text-black">Authorized Premium Retailer</h4>
+                    <p className="text-[10px] font-medium leading-relaxed text-white/60 light:text-black/60">Original inventory, guaranteed provenance, and responsive customer support.</p>
                   </div>
                 </div>
-                <p className="text-sm leading-relaxed text-white/80 mb-10 font-light max-w-lg">
+                <p className="text-sm leading-relaxed text-white/80 mb-10 font-light max-w-lg light:text-black/70">
                   {product.description || "Crafted for the modern heritage aesthetic, this piece embodies the peak of British craftsmanship and durability."}
                 </p>
-                <div className="flex items-center gap-3 bg-white/[0.05] border border-white/5 rounded-lg p-3 transition-colors hover:bg-white/10">
-                  <Package size={16} className="text-white/80" />
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-white/80 leading-none">Secure Purchase & Easy Returns</p>
+                <div className="flex items-center gap-3 bg-white/[0.05] border border-white/5 rounded-lg p-3 transition-colors hover:bg-white/10 light:bg-black/[0.05] light:border-black/10 light:hover:bg-black/10">
+                  <Package size={16} className="text-white/80 light:text-black/70" />
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-white/80 leading-none light:text-black/70">Secure Purchase & Easy Returns</p>
                 </div>
               </div>
             </div>
@@ -156,7 +156,7 @@ export function ProductDetail({
                             </li>
                           ))
                         ) : (
-                          <li className="italic text-white/30 tracking-tight">No additional technical specs listed for this item.</li>
+                          <li className="italic text-white/30 tracking-tight light:text-black/30">No additional technical specs listed for this item.</li>
                         )}
                       </ul>
                     )
@@ -173,7 +173,7 @@ export function ProductDetail({
                             {product.materiais.map((m, i) => (
                               <div key={i} className="space-y-1">
                                 <p className="text-[10px] font-black uppercase tracking-widest text-[#C5A358]">{m.percentage}</p>
-                                <p className="text-[11px] font-medium text-white/60">{m.item}</p>
+                                <p className="text-[11px] font-medium text-white/60 light:text-black/60">{m.item}</p>
                               </div>
                             ))}
                           </div>
@@ -216,11 +216,11 @@ export function ProductDetail({
                     content: (
                       <div className="space-y-4">
                         <div className="flex gap-3">
-                          <span className="w-1.5 h-1.5 rounded-full bg-white mt-2 shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-white mt-2 shrink-0 light:bg-black" />
                           <p><strong>Free Standard Shipping</strong> on all UK orders. Delivered within 10-20 business days.</p>
                         </div>
                         <div className="flex gap-3">
-                          <span className="w-1.5 h-1.5 rounded-full bg-white mt-2 shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-white mt-2 shrink-0 light:bg-black" />
                           <p>Returns accepted within 14 days for all unworn assets in original condition.</p>
                         </div>
                       </div>
@@ -245,10 +245,10 @@ export function ProductDetail({
         {/* North Mind Community */}
         <section className="overflow-hidden px-4 pt-24 md:pt-32">
           <div className="text-center space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight text-white">
+            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight text-white light:text-black">
               North Mind Community
             </h2>
-            <p className="text-xs md:text-sm font-light text-white/50 uppercase tracking-[0.2em] max-w-xl mx-auto">
+            <p className="text-xs md:text-sm font-light text-white/50 uppercase tracking-[0.2em] max-w-xl mx-auto light:text-black/50">
               Many people already live our style. Here are some of them.
             </p>
           </div>
@@ -259,7 +259,7 @@ export function ProductDetail({
               {[1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5].map((imageNum, i) => (
                 <div
                   key={i}
-                  className="relative w-[250px] md:w-[300px] aspect-[10/14] rounded-3xl flex-shrink-0 border border-white/90 transition-transform duration-700 hover:scale-[1.05] overflow-hidden"
+                  className="relative w-[250px] md:w-[300px] aspect-[10/14] rounded-3xl flex-shrink-0 border border-white/90 transition-transform duration-700 hover:scale-[1.05] overflow-hidden light:border-black/10"
                 >
                   <Image
                     src={`/assets/community/${imageNum}.png`}
@@ -278,7 +278,7 @@ export function ProductDetail({
         {/* Other Products Section */}
         <section className="max-w-7xl mx-auto px-4 md:px-8 space-y-12 pb-24">
           <div className="text-center space-y-3">
-            <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-tight text-white">
+            <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-tight text-white light:text-black">
               Heritage Collection
             </h2>
             <p className="text-[10px] md:text-xs text-accent uppercase tracking-[0.2em] max-w-xl mx-auto font-medium">

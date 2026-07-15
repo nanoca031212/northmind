@@ -89,29 +89,29 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
             <div className="w-[90vw] max-w-xl pointer-events-auto">
               {/* Border Glow wrapper */}
               <div className="border-glow-card rounded-2xl p-[1px]">
-                <div className="bg-[#0a0a09] rounded-2xl p-6 space-y-6">
+                <div className="bg-[#0a0a09] rounded-2xl p-6 space-y-6 light:bg-white">
                   {/* Header */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold">
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold light:text-black/40">
                       Intelligent Search
                     </span>
                     <button
                       onClick={onClose}
-                      className="p-1.5 rounded-full hover:bg-white/5 text-white/40 hover:text-white transition-all"
+                      className="p-1.5 rounded-full hover:bg-white/5 text-white/40 hover:text-white transition-all light:text-black/40 light:hover:text-black light:hover:bg-black/5"
                     >
                       <X size={16} />
                     </button>
                   </div>
 
                   {/* Input */}
-                  <div className="flex items-center gap-3 border border-white/10 rounded-xl px-4 py-4 focus-within:border-white/30 transition-all bg-white/5">
-                    <Search size={18} className="text-white/30 flex-shrink-0" />
+                  <div className="flex items-center gap-3 border border-white/10 rounded-xl px-4 py-4 focus-within:border-white/30 transition-all bg-white/5 light:border-black/10 light:focus-within:border-black/30 light:bg-black/5">
+                    <Search size={18} className="text-white/30 flex-shrink-0 light:text-black/30" />
                     <input
                       ref={inputRef}
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
                       placeholder="What are you looking for?"
-                      className="bg-transparent w-full text-base text-white placeholder:text-white/25 outline-none"
+                      className="bg-transparent w-full text-base text-white placeholder:text-white/25 outline-none light:text-black light:placeholder:text-black/30"
                     />
                   </div>
 
@@ -121,21 +121,21 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
                     {/* Collections */}
                     {(query === "" || filteredCollections.length > 0) && (
                       <div className="space-y-4">
-                        <span className="text-[9px] uppercase tracking-[0.25em] text-white/30 font-bold">
+                        <span className="text-[9px] uppercase tracking-[0.25em] text-white/30 font-bold light:text-black/30">
                           Collections
                         </span>
                         <div className="space-y-2">
                           {filteredCollections.map((c) => {
                             // Find products that belong to this collection
-                            const collectionProducts = products.filter(p => 
+                            const collectionProducts = products.filter(p =>
                               p.collection && (
-                                p.collection.toLowerCase() === c.name.toLowerCase() || 
+                                p.collection.toLowerCase() === c.name.toLowerCase() ||
                                 p.collection.toLowerCase() === c.handle.toLowerCase()
                               )
                             );
                             const productCount = collectionProducts.length;
-                            const coverImage = collectionProducts.length > 0 && collectionProducts[0].images?.length > 0 
-                              ? collectionProducts[0].images[0] 
+                            const coverImage = collectionProducts.length > 0 && collectionProducts[0].images?.length > 0
+                              ? collectionProducts[0].images[0]
                               : "/assets/community/1.png"; // Fallback image
 
                             return (
@@ -143,9 +143,9 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
                                 key={c.handle}
                                 href={`/collections/${c.handle}`}
                                 onClick={onClose}
-                                className="flex items-center gap-4 p-2 rounded-xl hover:bg-white/5 group transition-all"
+                                className="flex items-center gap-4 p-2 rounded-xl hover:bg-white/5 group transition-all light:hover:bg-black/5"
                               >
-                                <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-white border border-white/10">
+                                <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-white border border-white/10 light:border-black/10">
                                   <Image
                                     src={coverImage}
                                     alt={c.name}
@@ -154,15 +154,15 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
                                   />
                                 </div>
                                 <div className="flex-grow min-w-0">
-                                  <h4 className="text-sm font-bold text-white/90 group-hover:text-white truncate">
+                                  <h4 className="text-sm font-bold text-white/90 group-hover:text-white truncate light:text-black/80 light:group-hover:text-black">
                                     {c.name}
                                   </h4>
-                                  <p className="text-[10px] uppercase tracking-luxury text-white/40 mt-1">
+                                  <p className="text-[10px] uppercase tracking-luxury text-white/40 mt-1 light:text-black/40">
                                     North Mind
                                   </p>
                                 </div>
                                 <div className="text-right">
-                                  <span className="text-xs font-bold text-white">
+                                  <span className="text-xs font-bold text-white light:text-black">
                                     {productCount} {productCount === 1 ? 'Piece' : 'Pieces'}
                                   </span>
                                 </div>
@@ -175,14 +175,14 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
 
                     {/* Products */}
                     <div className="space-y-4">
-                      <span className="text-[9px] uppercase tracking-[0.25em] text-white/30 font-bold">
+                      <span className="text-[9px] uppercase tracking-[0.25em] text-white/30 font-bold light:text-black/30">
                         {query ? "Product Results" : "Featured Products"}
                       </span>
 
                       <div className="space-y-2">
                         {isLoading ? (
                           <div className="py-8 flex justify-center">
-                            <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                            <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin light:border-black/20 light:border-t-black" />
                           </div>
                         ) : filteredProducts.length > 0 ? (
                           filteredProducts.map((p) => (
@@ -190,9 +190,9 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
                               key={p.id}
                               href={`/product/${p.handle}`}
                               onClick={onClose}
-                              className="flex items-center gap-4 p-2 rounded-xl hover:bg-white/5 group transition-all"
+                              className="flex items-center gap-4 p-2 rounded-xl hover:bg-white/5 group transition-all light:hover:bg-black/5"
                             >
-                              <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-white border border-white/10">
+                              <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-white border border-white/10 light:border-black/10">
                                 <Image
                                   src={p.images[0] || "/assets/community/1.png"}
                                   alt={p.title}
@@ -201,19 +201,19 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
                                 />
                               </div>
                               <div className="flex-grow min-w-0">
-                                <h4 className="text-sm font-bold text-white/90 group-hover:text-white truncate">
+                                <h4 className="text-sm font-bold text-white/90 group-hover:text-white truncate light:text-black/80 light:group-hover:text-black">
                                   {p.title}
                                 </h4>
-                                <p className="text-[10px] uppercase tracking-luxury text-white/40 mt-1">
+                                <p className="text-[10px] uppercase tracking-luxury text-white/40 mt-1 light:text-black/40">
                                   {p.collection}
                                 </p>
                               </div>
                               <div className="text-right">
-                                <span className="text-sm font-bold text-white">
+                                <span className="text-sm font-bold text-white light:text-black">
                                   £{p.price.toFixed(2)}
                                 </span>
                                 {p.originalPrice > p.price && (
-                                  <p className="text-[10px] text-white/30 line-through mt-0.5">
+                                  <p className="text-[10px] text-white/30 line-through mt-0.5 light:text-black/30">
                                     £{p.originalPrice.toFixed(2)}
                                   </p>
                                 )}
@@ -221,7 +221,7 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
                             </Link>
                           ))
                         ) : (
-                          <p className="text-xs text-white/30 py-8 text-center bg-white/5 rounded-xl border border-dashed border-white/10">
+                          <p className="text-xs text-white/30 py-8 text-center bg-white/5 rounded-xl border border-dashed border-white/10 light:text-black/30 light:bg-black/5 light:border-black/10">
                             No products found matching &quot;{query}&quot;
                           </p>
                         )}

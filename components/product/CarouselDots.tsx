@@ -32,7 +32,7 @@ export function CarouselDots({ total, active, goTo }: CarouselDotsProps) {
             onClick={() => goTo(idx)}
             style={{ transform: `scale(${scale})` }}
             className={`h-1.5 rounded-full transition-all duration-300 origin-center ${
-              isActive ? "w-5 bg-accent" : "w-1.5 bg-white/20"
+              isActive ? "w-5 bg-accent" : "w-1.5 bg-white/20 light:bg-black/20"
             }`}
           />
         );

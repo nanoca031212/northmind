@@ -1102,6 +1102,36 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
           text-decoration: underline;
         }
 
+        :global(html.light) .right-col {
+          background-color: #ffffff;
+          border-left: 1px solid #e5e7eb;
+        }
+
+        :global(html.light) .item-name,
+        :global(html.light) .item-desc,
+        :global(html.light) .item-price,
+        :global(html.light) .total-row,
+        :global(html.light) .total-value,
+        :global(html.light) .final-total .total-label {
+          color: #111827;
+        }
+
+        :global(html.light) .total-value.green {
+          color: #16a34a;
+        }
+
+        :global(html.light) .totals-section {
+          border-top-color: #d1d5db;
+        }
+
+        :global(html.light) .item-discount {
+          color: #9ca3af;
+        }
+
+        :global(html.light) .currency-label {
+          color: #6b7280;
+        }
+
         /* Responsividade (Mobile: Abaixo de 768px -> 1 coluna com resumo primeiro) */
         @media (max-width: 768px) {
           .checkout-container {

@@ -8,6 +8,7 @@ import { getCollections, getProductsByCollection } from "@/lib/data-loader";
 const ThemeAwareCollection = dynamic(() => import("@/components/product/ThemeAwareCollection").then(mod => mod.ThemeAwareCollection), { ssr: true });
 const Footer = dynamic(() => import("@/components/Footer").then(mod => mod.Footer), { ssr: true });
 const ScrollingText = dynamic(() => import("@/components/effects/mobile/ScrollingText").then(mod => mod.ScrollingText), { ssr: true });
+const VideoSection = dynamic(() => import("@/components/VideoSection").then(mod => mod.VideoSection), { ssr: true });
 
 export const revalidate = 3600; // Cache de 1 hora para a home
 
@@ -91,6 +92,42 @@ async function HomeCollections() {
   );
 }
 
+async function CollectionsShowcase() {
+  const collections = await getCollections();
+
+  const items = collections
+    .filter((c) => c.image)
+    .map((c) => ({
+      text: c.name,
+      href: `/collections/${c.handle}`,
+      image: c.image,
+    }));
+
+  // World Cup isn't one of the core seeded collections (no dedicated image
+  // in public/collections), so reuse the same product image used for the
+  // World Cup card in the "other products" category grid.
+  const worldCupCollection = collections.find(
+    (c) =>
+      c.name.toLowerCase().includes("world") ||
+      c.handle.toLowerCase().includes("world"),
+  );
+  if (worldCupCollection) {
+    const worldCupProducts = await getProductsByCollection(worldCupCollection.name);
+    const worldCupImage = worldCupProducts[0]?.images?.[1] || worldCupProducts[0]?.images?.[0];
+    if (worldCupImage) {
+      items.unshift({
+        text: worldCupCollection.name,
+        href: `/collections/${worldCupCollection.handle}`,
+        image: worldCupImage,
+      });
+    }
+  }
+
+  if (items.length === 0) return null;
+
+  return <VideoSection items={items} />;
+}
+
 function CollectionsSkeleton() {
   return (
     <div className="py-24 space-y-12">
@@ -109,8 +146,8 @@ function CollectionsSkeleton() {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black" suppressHydrationWarning>
-      <Header />
+    <main className="min-h-screen bg-black light:bg-white" suppressHydrationWarning>
+      <Header overHero />
       <Hero />
       <ScrollingText />
 
@@ -119,6 +156,10 @@ export default function Home() {
           <HomeCollections />
         </Suspense>
       </div>
+
+      <Suspense fallback={null}>
+        <CollectionsShowcase />
+      </Suspense>
 
       <Footer />
     </main>

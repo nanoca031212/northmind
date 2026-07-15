@@ -10,6 +10,12 @@
   --accent-gold: #daa025;
 }
 
+/* Light mode (storefront only) — toggled via .light class on <html>, set by ThemeContext */
+html.light {
+  --foreground-rgb: 17, 17, 16;
+  --background-rgb: 247, 246, 243;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -76,6 +82,14 @@ a,
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-gold);
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #f7f6f3;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #ddd9d1;
 }
 
 @layer base {
@@ -173,6 +187,10 @@ a,
 
   .premium-border {
     @apply border border-white/5 transition-colors duration-500 hover:border-accent/30;
+  }
+
+  html.light .premium-border {
+    border-color: rgba(10, 10, 9, 0.08);
   }
 
   .gold-gradient-text {

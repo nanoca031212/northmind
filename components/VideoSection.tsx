@@ -13,21 +13,21 @@ const CircularGallery = dynamic(() => import("./effects/mobile/CircularGallery")
 });
 
 interface VideoSectionProps {
-  collections?: {
-    name: string;
-    handle: string;
+  items?: {
+    text: string;
+    href: string;
     image?: string;
   }[];
 }
 
-export function VideoSection({ collections = [] }: VideoSectionProps) {
+export function VideoSection({ items = [] }: VideoSectionProps) {
   const isMobile = useIsMobile();
   const router = useRouter();
 
-  const galleryItems = collections.map(c => ({
-    image: c.image || "/collections/placeholder.png",
-    text: c.name,
-    href: `/collections/${c.handle}`
+  const galleryItems = items.map(item => ({
+    image: item.image || "/collections/placeholder.png",
+    text: item.text,
+    href: item.href
   }));
 
   const handleItemClick = useCallback((item: any) => {

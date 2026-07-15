@@ -19,7 +19,7 @@ export function ProductCarousel({ products, title }: ProductCarouselProps) {
           <span className="text-[9px] uppercase font-black tracking-[0.5em] text-accent/60 pl-2">
             Heritage Collection
           </span>
-          <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic">
+          <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic light:text-black">
             {title.split(' ').slice(0, -1).join(' ')} <span className="font-bold not-italic">{title.split(' ').slice(-1)}</span>
           </h2>
         </div>

@@ -82,9 +82,9 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
         </div>
       </div>
 
-      <div className="flex flex-col p-4 flex-grow bg-[#0a0a09] border-t border-white/5">
+      <div className="flex flex-col p-4 flex-grow bg-[#0a0a09] border-t border-white/5 light:bg-white light:border-black/5">
         <div className="flex justify-between items-start mb-1">
-          <h3 className="text-[10px] md:text-[11px] font-extrabold uppercase tracking-luxury text-white truncate flex-grow">
+          <h3 className="text-[10px] md:text-[11px] font-extrabold uppercase tracking-luxury text-white truncate flex-grow light:text-black">
             {product.title}
           </h3>
           {/* Color Dots */}
@@ -92,7 +92,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
             {product.opcoesCor?.slice(0, 3).map((color, i) => (
               <div
                 key={i}
-                className="w-2.5 h-2.5 rounded-full border border-white/20"
+                className="w-2.5 h-2.5 rounded-full border border-white/20 light:border-black/20"
                 style={{ backgroundColor: color.hex }}
                 title={color.name}
               />
@@ -100,7 +100,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
           </div>
         </div>
 
-        <p className="text-[9px] md:text-[10px] font-medium uppercase tracking-widest text-white/40 mb-3">
+        <p className="text-[9px] md:text-[10px] font-medium uppercase tracking-widest text-white/40 mb-3 light:text-black/40">
           {product.collection}
         </p>
 
@@ -111,19 +111,19 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
               <Star
                 key={s}
                 size={10}
-                className={`${s <= Math.round(rating) ? "fill-accent text-accent" : "text-white/10"}`}
+                className={`${s <= Math.round(rating) ? "fill-accent text-accent" : "text-white/10 light:text-black/10"}`}
                 strokeWidth={1.5}
               />
             ))}
           </div>
-          <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest">
+          <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest light:text-black/40">
             ({totalReviews})
           </span>
         </div>
 
         <div className="mt-auto space-y-1">
           {discount > 0 && (
-            <span className="text-[11px] md:text-sm text-white/40 line-through font-medium">
+            <span className="text-[11px] md:text-sm text-white/40 line-through font-medium light:text-black/40">
               £{product.originalPrice.toFixed(2)}
             </span>
           )}
@@ -131,7 +131,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
             {hasPriceVariation && (
               <span className="text-[9px] text-accent font-black uppercase tracking-widest italic">From</span>
             )}
-            <span className="text-base md:text-xl font-black text-white tracking-tight">
+            <span className="text-base md:text-xl font-black text-white tracking-tight light:text-black">
               £{minPrice.toFixed(2)}
             </span>
           </div>
@@ -140,7 +140,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
     </>
   );
 
-  const baseClassName = "group flex flex-col overflow-hidden transition-all duration-700 hover:shadow-[0_20px_50px_rgba(255,255,255,0.03)] no-underline cursor-pointer border border-white/5 bg-[#0a0a09]";
+  const baseClassName = "group flex flex-col overflow-hidden transition-all duration-700 hover:shadow-[0_20px_50px_rgba(255,255,255,0.03)] no-underline cursor-pointer border border-white/5 bg-[#0a0a09] light:border-black/5 light:bg-white";
 
   if (onClick) {
     return (

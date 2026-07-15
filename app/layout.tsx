@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { CartProvider } from "@/lib/CartContext";
+import { ThemeProvider, THEME_BOOTSTRAP_SCRIPT } from "@/lib/ThemeContext";
 import { CartDrawer } from "@/components/CartDrawer";
 import { PixelTracker } from "@/components/PixelTracker";
 import { ConsentScripts } from "@/components/ConsentScripts";
@@ -83,6 +84,7 @@ export default async function RootLayout({
     >
       <head>
         <link rel="apple-touch-icon" href="/assets/logo.svg" />
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
       </head>
       <body className={`${plusJakartaSans.variable} antialiased font-sans`}>
         {/* Runtime config — read by lib/tracking.ts via window.__NM_CONFIG__ */}
@@ -115,10 +117,12 @@ export default async function RootLayout({
         </Suspense>
 
         <AuthContext session={session}>
-          <CartProvider>
-            {children}
-            <CartDrawer />
-          </CartProvider>
+          <ThemeProvider>
+            <CartProvider>
+              {children}
+              <CartDrawer />
+            </CartProvider>
+          </ThemeProvider>
         </AuthContext>
 
         <LgpdBanner />

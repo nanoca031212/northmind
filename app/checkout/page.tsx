@@ -120,7 +120,7 @@ export default function CheckoutPage() {
               width={160}
               height={50}
               priority
-              className="h-8 md:h-10 w-auto opacity-100 hover:opacity-70 transition-opacity"
+              className="h-8 md:h-10 w-auto opacity-100 hover:opacity-70 transition-opacity light:invert light:brightness-0"
             />
           </a>
         </div>
@@ -163,6 +163,11 @@ export default function CheckoutPage() {
         .checkout-header {
            background-color: #000000;
            border-bottom: 1px solid #adadad;
+        }
+
+        :global(html.light) .checkout-header {
+          background-color: #ffffff;
+          border-bottom: 1px solid #e5e7eb;
         }
 
         .loading-state, .error-state {

@@ -36,32 +36,32 @@ export function ProductSizeGuide({ isOpen, onClose, guide }: ProductSizeGuidePro
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-end">
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-black/80 backdrop-blur-md animate-in fade-in duration-500"
         onClick={onClose}
       />
-      
+
       {/* Drawer */}
-      <div className="relative w-full max-w-xl h-full bg-[#0a0a0b] border-l border-white/5 shadow-2xl p-8 md:p-12 animate-in slide-in-from-right duration-700 ease-in-out overflow-y-auto">
-        <button 
+      <div className="relative w-full max-w-xl h-full bg-[#0a0a0b] border-l border-white/5 shadow-2xl p-8 md:p-12 animate-in slide-in-from-right duration-700 ease-in-out overflow-y-auto light:bg-white light:border-black/5">
+        <button
           onClick={onClose}
-          className="absolute top-8 right-8 text-white/30 hover:text-white transition-colors"
+          className="absolute top-8 right-8 text-white/30 hover:text-white transition-colors light:text-black/40 light:hover:text-black"
         >
           <X size={24} />
         </button>
 
         <div className="space-y-12">
           <header className="space-y-4">
-            <h2 className="text-3xl font-black uppercase tracking-tighter text-white">Size Guide</h2>
-            <p className="text-sm font-medium text-white/40 uppercase tracking-widest leading-relaxed">
+            <h2 className="text-3xl font-black uppercase tracking-tighter text-white light:text-black">Size Guide</h2>
+            <p className="text-sm font-medium text-white/40 uppercase tracking-widest leading-relaxed light:text-black/40">
               Find your perfect fit. Our garments are tailored to the North Mind standard of excellence.
             </p>
           </header>
 
-          <div className="overflow-hidden border border-white/5 rounded-2xl bg-white/[0.02]">
+          <div className="overflow-hidden border border-white/5 rounded-2xl bg-white/[0.02] light:border-black/10 light:bg-black/[0.02]">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-white/5 bg-white/[0.03]">
+                <tr className="border-b border-white/5 bg-white/[0.03] light:border-black/10 light:bg-black/[0.03]">
                   {data.headers.map((h: string, i: number) => (
                     <th key={i} className="px-6 py-4 text-[10px] font-black uppercase tracking-luxury text-accent">
                       {h}
@@ -69,11 +69,11 @@ export function ProductSizeGuide({ isOpen, onClose, guide }: ProductSizeGuidePro
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.05]">
+              <tbody className="divide-y divide-white/[0.05] light:divide-black/10">
                 {data.rows.map((row: string[], rowIndex: number) => (
-                  <tr key={rowIndex} className="hover:bg-white/[0.01] transition-colors">
+                  <tr key={rowIndex} className="hover:bg-white/[0.01] transition-colors light:hover:bg-black/[0.02]">
                     {row.map((cell: string, cellIndex: number) => (
-                      <td key={cellIndex} className={`px-6 py-5 text-xs font-medium ${cellIndex === 0 ? "text-white font-black" : "text-white/60"}`}>
+                      <td key={cellIndex} className={`px-6 py-5 text-xs font-medium ${cellIndex === 0 ? "text-white font-black light:text-black" : "text-white/60 light:text-black/60"}`}>
                         {cell}
                       </td>
                     ))}
@@ -84,21 +84,21 @@ export function ProductSizeGuide({ isOpen, onClose, guide }: ProductSizeGuidePro
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-[10px] font-black uppercase tracking-luxury text-white/30">How to Measure</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-luxury text-white/30 light:text-black/30">How to Measure</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <p className="text-xs font-bold text-white uppercase tracking-widest">1. Chest</p>
-                <p className="text-[11px] font-medium leading-relaxed text-white/40">Measure around the fullest part of your chest, keeping the tape horizontal.</p>
+                <p className="text-xs font-bold text-white uppercase tracking-widest light:text-black">1. Chest</p>
+                <p className="text-[11px] font-medium leading-relaxed text-white/40 light:text-black/40">Measure around the fullest part of your chest, keeping the tape horizontal.</p>
               </div>
               <div className="space-y-2">
-                <p className="text-xs font-bold text-white uppercase tracking-widest">2. Length</p>
-                <p className="text-[11px] font-medium leading-relaxed text-white/40">Measure from the highest point of your shoulder down to the hem.</p>
+                <p className="text-xs font-bold text-white uppercase tracking-widest light:text-black">2. Length</p>
+                <p className="text-[11px] font-medium leading-relaxed text-white/40 light:text-black/40">Measure from the highest point of your shoulder down to the hem.</p>
               </div>
             </div>
           </div>
 
-          <footer className="pt-12 border-t border-white/5">
-            <p className="text-[10px] font-medium italic text-white/20">
+          <footer className="pt-12 border-t border-white/5 light:border-black/10">
+            <p className="text-[10px] font-medium italic text-white/20 light:text-black/30">
               * Measurements are in centimeters. Fit may vary slightly depending on the collection&apos;s silhouette.
             </p>
           </footer>
