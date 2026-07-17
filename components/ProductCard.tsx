@@ -24,6 +24,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
   // Elite Pricing Logic: Check if there are variants with different prices
   const variants = product.variantes || [];
   const isFragrance = product.tipo === "PERFUME" || product.collection?.toLowerCase().includes("fragrance");
+  const isEyewear = product.collection?.toLowerCase() === "eyewear";
   
   // For fragrances, we prioritize the 100ml variant price if available, 
   // as it is the default selected variant on the product page.
@@ -42,7 +43,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
   const content = (
     <>
       <div
-        className={`relative w-full overflow-hidden ${isFragrance ? 'bg-[#F2F2F2]' : 'bg-[#050505]'} flex items-center justify-center group`}
+        className={`relative w-full overflow-hidden ${isFragrance || isEyewear ? 'bg-[#F2F2F2]' : 'bg-[#050505]'} flex items-center justify-center group ${isEyewear ? 'p-9' : ''}`}
         style={{ aspectRatio: '4/5' }}
       >
         {/* Main Image */}
@@ -53,7 +54,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
           quality={80}
           priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          className={`object-cover transition-transform duration-1000 ease-in-out ${isHovered && product.images[1] ? 'opacity-0 scale-105' : 'opacity-100 scale-100'}`}
+          className={`${isEyewear ? 'object-contain' : 'object-cover'} transition-transform duration-1000 ease-in-out ${isHovered && product.images[1] ? 'opacity-0 scale-105' : 'opacity-100 scale-100'}`}
         />
 
         {/* Hover Image (Secondary) */}
@@ -64,7 +65,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
             fill
             quality={80}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            className={`object-cover transition-transform duration-1000 ease-in-out absolute inset-0 ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-110'}`}
+            className={`${isEyewear ? 'object-contain' : 'object-cover'} transition-transform duration-1000 ease-in-out absolute inset-0 ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-110'}`}
           />
         )}
 

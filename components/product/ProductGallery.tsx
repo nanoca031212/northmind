@@ -10,9 +10,10 @@ interface ProductGalleryProps {
   discount: number;
   opcoesCor?: { name: string; image?: string }[];
   isFragrance?: boolean;
+  isEyewear?: boolean;
 }
 
-export function ProductGallery({ images, title, discount, opcoesCor, isFragrance }: ProductGalleryProps) {
+export function ProductGallery({ images, title, discount, opcoesCor, isFragrance, isEyewear }: ProductGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -67,7 +68,7 @@ export function ProductGallery({ images, title, discount, opcoesCor, isFragrance
                   fill
                   quality={60}
                   sizes="80px"
-                  className="object-cover"
+                  className={isEyewear && i < 2 ? 'object-contain p-1.5' : 'object-cover'}
                 />
               </motion.button>
             ))}
@@ -80,7 +81,7 @@ export function ProductGallery({ images, title, discount, opcoesCor, isFragrance
           initial={{ opacity: 0.5, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="relative flex-grow w-full bg-[#F5F5F5] overflow-hidden group rounded-lg"
+          className={`relative flex-grow w-full bg-[#F5F5F5] overflow-hidden group rounded-lg ${isEyewear && activeIndex < 2 ? 'p-9' : ''}`}
           style={isFragrance ? { aspectRatio: '1/1' } : { aspectRatio: '4/5' }}
         >
           <Image
@@ -90,7 +91,7 @@ export function ProductGallery({ images, title, discount, opcoesCor, isFragrance
             quality={85}
             priority
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
+            className={isEyewear && activeIndex < 2 ? 'object-contain' : 'object-cover'}
           />
           {discount > 0 && (
             <div className="absolute top-4 left-4 z-10 bg-black text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-sm">
@@ -111,7 +112,7 @@ export function ProductGallery({ images, title, discount, opcoesCor, isFragrance
           {safeImages.map((imgSrc, i) => (
             <div
               key={i}
-              className="relative w-full flex-shrink-0 snap-center bg-[#F5F5F5] rounded-xl overflow-hidden mr-2 last:mr-0"
+              className={`relative w-full flex-shrink-0 snap-center bg-[#F5F5F5] rounded-xl overflow-hidden mr-2 last:mr-0 ${isEyewear && i < 2 ? 'p-9' : ''}`}
               style={isFragrance ? { aspectRatio: '1/1' } : { aspectRatio: '3/4' }}
             >
               <Image
@@ -121,7 +122,7 @@ export function ProductGallery({ images, title, discount, opcoesCor, isFragrance
                 quality={85}
                 priority={i === 0}
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
+                className={isEyewear && i < 2 ? 'object-contain' : 'object-cover'}
               />
               {discount > 0 && i === 0 && (
                 <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-md text-black text-[10px] font-bold px-3 py-1 uppercase tracking-widest rounded-sm shadow-sm">

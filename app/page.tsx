@@ -23,7 +23,7 @@ async function HomeCollections() {
   });
 
   // Fetch products for all collections + outerwear separately
-  const [collectionsWithProducts, outerwearProducts, silentWarmthProducts, fragranceProducts] = await Promise.all([
+  const [collectionsWithProducts, outerwearProducts, silentWarmthProducts, eyewearProducts, fragranceProducts] = await Promise.all([
     Promise.all(
       sortedCollections.map(async (c) => {
         const products = await getProductsByCollection(c.name);
@@ -32,6 +32,7 @@ async function HomeCollections() {
     ),
     getProductsByCollection("Outerwear"),
     getProductsByCollection("Silent Warmth"),
+    getProductsByCollection("Eyewear"),
     getProductsByCollection("Fragrances"),
   ]);
 
@@ -84,6 +85,7 @@ async function HomeCollections() {
             categoryCardImages={categoryCardImages}
             outerwearProducts={outerwearProducts}
             silentWarmthProducts={silentWarmthProducts}
+            eyewearProducts={eyewearProducts}
             fragranceProducts={fragranceProducts}
           />
         </div>
@@ -92,34 +94,55 @@ async function HomeCollections() {
   );
 }
 
+// Local collection photos in public/collections, keyed by collection handle.
+const LOCAL_COLLECTION_IMAGES: Record<string, string> = {
+  "world-cup": "/collections/world-cup-brazil.png",
+  outerwear: "/collections/jackets.png",
+  "silent-warmth": "/collections/silent-warmth.png",
+  fragrances: "/collections/3x1-fragrances-banner.png",
+  eyewear: "/collections/kits.png",
+  "t-shirts": "/collections/t-shirts.png",
+  "special-promo": "/collections/special-promo.png",
+  kits: "/collections/kits.png",
+};
+
 async function CollectionsShowcase() {
   const collections = await getCollections();
 
   const items = collections
-    .filter((c) => c.image)
     .map((c) => ({
       text: c.name,
       href: `/collections/${c.handle}`,
-      image: c.image,
-    }));
+      image: LOCAL_COLLECTION_IMAGES[c.handle] || c.image,
+    }))
+    .filter((i) => i.image);
 
-  // World Cup isn't one of the core seeded collections (no dedicated image
-  // in public/collections), so reuse the same product image used for the
-  // World Cup card in the "other products" category grid.
-  const worldCupCollection = collections.find(
-    (c) =>
-      c.name.toLowerCase().includes("world") ||
-      c.handle.toLowerCase().includes("world"),
-  );
-  if (worldCupCollection) {
-    const worldCupProducts = await getProductsByCollection(worldCupCollection.name);
-    const worldCupImage = worldCupProducts[0]?.images?.[1] || worldCupProducts[0]?.images?.[0];
-    if (worldCupImage) {
-      items.unshift({
-        text: worldCupCollection.name,
-        href: `/collections/${worldCupCollection.handle}`,
-        image: worldCupImage,
-      });
+  // World Cup isn't guaranteed to have a dedicated collection image, so
+  // fall back to a product image — but only if it isn't already present
+  // above (it now has its own image, which was causing a duplicate entry).
+  const hasWorldCup = items.some((i) => i.text.toLowerCase().includes("world"));
+  if (!hasWorldCup) {
+    const worldCupCollection = collections.find(
+      (c) =>
+        c.name.toLowerCase().includes("world") ||
+        c.handle.toLowerCase().includes("world"),
+    );
+    if (worldCupCollection) {
+      const worldCupProducts = await getProductsByCollection(worldCupCollection.name);
+      // Same product/image picked for the World Cup category card elsewhere on the page.
+      const worldCupProduct = worldCupProducts.find(
+        (p) =>
+          p.collection.toLowerCase().includes("world") ||
+          p.title.toLowerCase().includes("world"),
+      ) || worldCupProducts[0];
+      const worldCupImage = worldCupProduct?.images?.[1] || worldCupProduct?.images?.[0];
+      if (worldCupImage) {
+        items.unshift({
+          text: worldCupCollection.name,
+          href: `/collections/${worldCupCollection.handle}`,
+          image: worldCupImage,
+        });
+      }
     }
   }
 

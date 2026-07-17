@@ -1,0 +1,149 @@
+{
+  "id": "black-amour",
+  "sourceUrl": "https://www.jamesoro.com/products/black-amour",
+  "name": "BLACK AMOUR",
+  "description": "A modern take on iconic frames of the 90’s: Amour features a modified rectangular silhouette that gracefully compliments a variety of face shapes. Built to last with premium materials like five barrell hinges and triacetate polarized lenses/UV400 Lenses.\n\nSpecifications:\nMeasurements:\nA (Lens Width): 54mm\nB (Nose Bridge Width): 19mm\nC (Temple Length): 145mm\nD (Front Frame Width): 148mm\nMaterials:\nNylon Lenses\nPremium 8MM Acetate\n5 Barrell Stainless Steel Hinges\nEnamel Filled Steel Oro Star Emblem\nStainless Steel Metal Detailing\nBrushed Stainless Steel Wire-Core",
+  "extractedAt": "2026-07-16T19:05:39.346Z",
+  "images": [
+    {
+      "filename": "imagem-01.jpg",
+      "originalUrl": "http://www.jamesoro.com/cdn/shop/products/J_041.jpg?v=1762198199",
+      "alt": "BLACK AMOUR"
+    },
+    {
+      "filename": "imagem-02.jpg",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/files/preview_images/9203e278c4874d418bb3aa0670f8cc9c.thumbnail.0000000000_2048x.jpg?v=1728501051",
+      "alt": "BLACK AMOUR"
+    },
+    {
+      "filename": "imagem-03.jpg",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/files/PACKAGING_2_SQUARE_bbb849e4-f18a-41a7-b0f8-973e1eeb7b02.jpg?v=1708115527&width=1946",
+      "alt": "BLACK AMOUR"
+    },
+    {
+      "filename": "imagem-04.png",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/files/1_3f09e797-fe12-4d45-91a8-ea4971e081d6.png?v=1729618798&width=1946",
+      "alt": "BLACK AMOUR"
+    },
+    {
+      "filename": "imagem-05.jpg",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/products/J_044.jpg?v=1708115527&width=1946",
+      "alt": "BLACK AMOUR"
+    },
+    {
+      "filename": "imagem-06.png",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/files/blk-amour-detail-1.png?v=1708115527&width=1946",
+      "alt": "BLACK AMOUR"
+    },
+    {
+      "filename": "imagem-07.png",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/files/2_667e9129-35ca-4ce2-aeff-676ba58ea132.png?v=1729620052&width=1946",
+      "alt": "BLACK AMOUR"
+    },
+    {
+      "filename": "imagem-08.png",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/files/blk-amour-detail-2.png?v=1708115527&width=1946",
+      "alt": "BLACK AMOUR"
+    },
+    {
+      "filename": "imagem-09.jpg",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/products/J_042.jpg?v=1708115527&width=1946",
+      "alt": "BLACK AMOUR"
+    }
+  ],
+  "videos": [
+    {
+      "filename": "video-01.mp4",
+      "originalUrl": "https://www.jamesoro.com/cdn/shop/videos/c/vp/9203e278c4874d418bb3aa0670f8cc9c/9203e278c4874d418bb3aa0670f8cc9c.HD-720p-1.6Mbps-36062339.mp4?v=0",
+      "alt": "BLACK AMOUR",
+      "kind": "file"
+    }
+  ],
+  "variations": [
+    {
+      "label": "Core",
+      "slug": "core",
+      "sourceUrl": "https://www.jamesoro.com/collections/amour/products/champagne-amour",
+      "name": "CHAMPAGNE AMOUR",
+      "description": "A modern take on iconic frames of the 90’s: Amour features a modified rectangular silhouette that gracefully compliments a variety of face shapes. Built to last with premium materials like five barrell hinges and triacetate polarized lenses/UV400 Lenses.\n\nSpecifications:\nMeasurements:\nA (Lens Width): 54mm\nB (Nose Bridge Width): 19mm\nC (Temple Length): 145mm\nD (Front Frame Width): 148mm\nMaterials:\nNylon Lenses\nPremium 8MM Acetate\n5 Barrell Stainless Steel Hinges\nEnamel Filled Steel Oro Star Emblem\nStainless Steel Metal Detailing\nBrushed Stainless Steel Wire-Core",
+      "images": [
+        {
+          "filename": "imagem-01.jpg",
+          "originalUrl": "http://www.jamesoro.com/cdn/shop/files/A_22_32b19f83-df93-4a1f-8b4a-ba5cc0986752.jpg?v=1762198561",
+          "alt": "CHAMPAGNE AMOUR"
+        },
+        {
+          "filename": "imagem-02.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/B_22_28cd5109-35ac-4398-af4c-07a5f51c9f58.jpg?v=1708700344&width=1946",
+          "alt": "CHAMPAGNE AMOUR"
+        },
+        {
+          "filename": "imagem-03.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/D_22_37119554-505d-4760-989b-a3341d6381fc.jpg?v=1708700633&width=1946",
+          "alt": "CHAMPAGNE AMOUR"
+        },
+        {
+          "filename": "imagem-04.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/PACKAGING_2_SQUARE_1_1_0a635c41-0b28-4719-a029-4db0ec22d7cd.jpg?v=1708700633&width=1946",
+          "alt": "CHAMPAGNE AMOUR"
+        },
+        {
+          "filename": "imagem-05.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/C_22_c8ff0b39-c6d1-405c-be8a-4c65fca4e5c4.jpg?v=1708700633&width=1946",
+          "alt": "CHAMPAGNE AMOUR"
+        }
+      ],
+      "videos": []
+    },
+    {
+      "label": "Limited Edition",
+      "slug": "limited-edition",
+      "sourceUrl": "https://www.jamesoro.com/collections/amour/products/coastal-amour",
+      "name": "EMERALD AMOUR",
+      "description": "A modern take on iconic frames of the 90’s: Amour features a modified rectangular silhouette that gracefully compliments a variety of face shapes. Built to last with premium materials like five barrell hinges and triacetate polarized lenses/UV400 Lenses.\n\nSpecifications:\nMeasurements:\nA (Lens Width): 54mm\nB (Nose Bridge Width): 19mm\nC (Temple Length): 145mm\nD (Front Frame Width): 148mm\nMaterials:\nNylon Lenses\nPremium 8MM Acetate\n5 Barrell Stainless Steel Hinges\nEnamel Filled Steel Oro Star Emblem\nStainless Steel Metal Detailing\nBrushed Stainless Steel Wire-Core",
+      "images": [
+        {
+          "filename": "imagem-01.jpg",
+          "originalUrl": "http://www.jamesoro.com/cdn/shop/files/Emerald_03.jpg?v=1762198628",
+          "alt": "EMERALD AMOUR"
+        },
+        {
+          "filename": "imagem-02.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/PDP_EMERALD_AMOUR.jpg?v=1729272959&width=1946",
+          "alt": "EMERALD AMOUR"
+        },
+        {
+          "filename": "imagem-03.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/PACKAGING_2_SQUARE_b8cc5607-2915-4ba5-a072-61d866f0ab60.jpg?v=1751996494&width=1946",
+          "alt": "EMERALD AMOUR"
+        },
+        {
+          "filename": "imagem-04.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/Emerald_04.jpg?v=1728689245&width=1946",
+          "alt": "EMERALD AMOUR"
+        },
+        {
+          "filename": "imagem-05.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/MC_JO_OCt_9_2024_Atwater5088_Low_Res.jpg?v=1729273024&width=1946",
+          "alt": "EMERALD AMOUR"
+        },
+        {
+          "filename": "imagem-06.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/Emerald_01.jpg?v=1728689245&width=1946",
+          "alt": "EMERALD AMOUR"
+        },
+        {
+          "filename": "imagem-07.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/Emerald_02.jpg?v=1728689245&width=1946",
+          "alt": "EMERALD AMOUR"
+        },
+        {
+          "filename": "imagem-08.jpg",
+          "originalUrl": "https://www.jamesoro.com/cdn/shop/files/Emerald_00.jpg?v=1728689245&width=1946",
+          "alt": "EMERALD AMOUR"
+        }
+      ],
+      "videos": []
+    }
+  ]
+}

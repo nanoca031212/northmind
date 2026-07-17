@@ -5,7 +5,15 @@ import { useState, useEffect } from "react";
 import { useCart } from "@/lib/CartContext";
 import { Product } from "@/lib/data-loader";
 import { useRouter } from "next/navigation";
-import { ShoppingCart, CheckCircle2, ChevronDown, Ruler, X, Search, Sparkles } from "lucide-react";
+import {
+  ShoppingCart,
+  CheckCircle2,
+  ChevronDown,
+  Ruler,
+  X,
+  Search,
+  Sparkles,
+} from "lucide-react";
 import { ProductSizeGuide } from "./ProductSizeGuide";
 import { ProductCard } from "../ProductCard";
 
@@ -14,7 +22,10 @@ interface ProductInteractionsProps {
   allProducts?: Product[];
 }
 
-export function ProductInteractions({ product, allProducts = [] }: ProductInteractionsProps) {
+export function ProductInteractions({
+  product,
+  allProducts = [],
+}: ProductInteractionsProps) {
   const { addToCart, setIsDrawerOpen } = useCart();
   const router = useRouter();
 
@@ -24,45 +35,51 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [activeSlotIdx, setActiveSlotIdx] = useState<number | null>(null);
 
-  const isFragrance = product.tipo === "PERFUME" || product.collection?.toLowerCase().includes("fragrance") || product.collection?.toLowerCase().includes("3x1");
+  const isFragrance =
+    product.tipo === "PERFUME" ||
+    product.collection?.toLowerCase().includes("fragrance") ||
+    product.collection?.toLowerCase().includes("3x1");
 
   // Force 100ml for all fragrances (individual or sets)
   const sizes = isFragrance
     ? ["100ml"]
-    : (product.opcoesTamanho && product.opcoesTamanho.length > 0
+    : product.opcoesTamanho && product.opcoesTamanho.length > 0
       ? product.opcoesTamanho
-      : ["S", "M", "L", "XL", "XXL"]);
+      : ["S", "M", "L", "XL", "XXL"];
 
   const isSet = selectedBundle !== "single" && isFragrance;
 
   const safeImage = product?.images?.[0] || "/assets/community/1.png";
 
-  const colors = (product as any).opcoesCor && (product as any).opcoesCor.length > 0
-    ? (product as any).opcoesCor.map((c: any) => ({
-      name: c.name,
-      image: c.image || safeImage
-    }))
-    : [];
+  const colors =
+    (product as any).opcoesCor && (product as any).opcoesCor.length > 0
+      ? (product as any).opcoesCor.map((c: any) => ({
+          name: c.name,
+          image: c.image || safeImage,
+        }))
+      : [];
 
-  const collectionProducts = allProducts.filter(p => p.collection === product.collection);
+  const collectionProducts = allProducts.filter(
+    (p) => p.collection === product.collection,
+  );
 
   const [bundleSelections, setBundleSelections] = useState([
     { productId: product.id, color: colors[0]?.name || "", size: sizes[0] },
     { productId: product.id, color: colors[0]?.name || "", size: sizes[0] },
-    { productId: product.id, color: colors[0]?.name || "", size: sizes[0] }
+    { productId: product.id, color: colors[0]?.name || "", size: sizes[0] },
   ]);
 
   // Reset sizes to 100ml for Fragrance sets
   useEffect(() => {
     if (isSet) {
-      setBundleSelections(prev => prev.map(s => ({ ...s, size: "100ml" })));
+      setBundleSelections((prev) => prev.map((s) => ({ ...s, size: "100ml" })));
     }
   }, [isSet]);
 
   // Global selections (applies to "SINGLE" or serves as base for Duo/Trio)
   const selectedSize = bundleSelections[0].size;
   const setSelectedSize = (size: string) => {
-    setBundleSelections(prev => {
+    setBundleSelections((prev) => {
       const next = [...prev];
       for (let i = 0; i < 3; i++) next[i] = { ...next[i], size };
       return next;
@@ -72,7 +89,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
   const selectedColor = bundleSelections[0]?.color || "";
   const setSelectedColor = (color: string) => {
     // Update State
-    setBundleSelections(prev => {
+    setBundleSelections((prev) => {
       const next = [...prev];
       for (let i = 0; i < 3; i++) next[i] = { ...next[i], color };
       return next;
@@ -80,12 +97,18 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
 
     // Update URL for Gallery Sync
     const params = new URLSearchParams(window.location.search);
-    params.set('color', color);
-    router.replace(`${window.location.pathname}?${params.toString()}`, { scroll: false });
+    params.set("color", color);
+    router.replace(`${window.location.pathname}?${params.toString()}`, {
+      scroll: false,
+    });
   };
 
-  const updateBundleSelection = (index: number, field: 'color' | 'size', value: string) => {
-    setBundleSelections(prev => {
+  const updateBundleSelection = (
+    index: number,
+    field: "color" | "size",
+    value: string,
+  ) => {
+    setBundleSelections((prev) => {
       const next = [...prev];
       next[index] = { ...next[index], [field]: value };
       return next;
@@ -95,17 +118,35 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
   const handleAddToCart = () => {
     setIsAdding(true);
 
-    const count = selectedBundle === "single" ? 1 : selectedBundle === "duo" ? 2 : 3;
-    const bundleTotal = selectedBundle === "single" ? singlePrice : selectedBundle === "duo" ? duoPrice : trioPrice;
+    const count =
+      selectedBundle === "single" ? 1 : selectedBundle === "duo" ? 2 : 3;
+    const bundleTotal =
+      selectedBundle === "single"
+        ? singlePrice
+        : selectedBundle === "duo"
+          ? duoPrice
+          : trioPrice;
     const discountedPrice = bundleTotal / count;
 
     for (let i = 0; i < count; i++) {
       const selection = bundleSelections[i];
-      const selectedProduct = allProducts.find(p => p.id === selection.productId) || product;
-      const colorOption = selectedProduct.opcoesCor?.find((c) => c.name === selection.color);
-      const images = colorOption?.fotos && colorOption.fotos.length > 0 ? colorOption.fotos : selectedProduct.images;
-      const productToAdd = { ...selectedProduct, price: discountedPrice, images };
-      const combinedSize = selection.color ? `${selection.color} - ${selection.size}` : selection.size;
+      const selectedProduct =
+        allProducts.find((p) => p.id === selection.productId) || product;
+      const colorOption = selectedProduct.opcoesCor?.find(
+        (c) => c.name === selection.color,
+      );
+      const images =
+        colorOption?.fotos && colorOption.fotos.length > 0
+          ? colorOption.fotos
+          : selectedProduct.images;
+      const productToAdd = {
+        ...selectedProduct,
+        price: discountedPrice,
+        images,
+      };
+      const combinedSize = selection.color
+        ? `${selection.color} - ${selection.size}`
+        : selection.size;
       addToCart(productToAdd, combinedSize);
     }
 
@@ -119,15 +160,34 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
   };
 
   // DYNAMIC PRICING ENGINE: Find currently selected variant price
-  const variant = (product as any).variantes?.find((v: any) => (v.label || v.name) === selectedSize);
-  const currentBasePrice = variant ? Number(variant.price) : Number(product.price) || 0;
-  const currentBaseOriginal = variant ? Number(variant.originalPrice) : Number(product.originalPrice) || 0;
+  const variant = (product as any).variantes?.find(
+    (v: any) => (v.label || v.name) === selectedSize,
+  );
+  const currentBasePrice = variant
+    ? Number(variant.price)
+    : Number(product.price) || 0;
+  const currentBaseOriginal = variant
+    ? Number(variant.originalPrice)
+    : Number(product.originalPrice) || 0;
 
-  // World Cup jerseys use fixed bundle totals instead of the multiplier formula
+  // World Cup jerseys and Eyewear use fixed bundle totals instead of the multiplier formula
   const isWorldCupJersey = product.collection === "World Cup";
-  const singlePrice = isWorldCupJersey ? 39.99 : currentBasePrice;
-  const duoPrice = isWorldCupJersey ? 69.99 : currentBasePrice * 1.8;
-  const trioPrice = isWorldCupJersey ? 99.99 : currentBasePrice * 2.4;
+  const isEyewear = product.collection === "Eyewear";
+  const singlePrice = isWorldCupJersey
+    ? 39.99
+    : isEyewear
+      ? 39.9
+      : currentBasePrice;
+  const duoPrice = isWorldCupJersey
+    ? 69.99
+    : isEyewear
+      ? 69.9
+      : currentBasePrice * 1.8;
+  const trioPrice = isWorldCupJersey
+    ? 99.99
+    : isEyewear
+      ? 99.9
+      : currentBasePrice * 2.4;
 
   const bundles = [
     {
@@ -145,7 +205,10 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
       price: duoPrice,
       original: currentBaseOriginal * 2,
       isPopular: true,
-      save: currentBaseOriginal * 2 > duoPrice ? `SAVE £${(currentBaseOriginal * 2 - duoPrice).toFixed(2)}` : null,
+      save:
+        currentBaseOriginal * 2 > duoPrice
+          ? `SAVE £${(currentBaseOriginal * 2 - duoPrice).toFixed(2)}`
+          : null,
     },
     {
       id: "trio",
@@ -153,7 +216,10 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
       desc: `You save 20%`,
       price: trioPrice,
       original: currentBaseOriginal * 3,
-      save: currentBaseOriginal * 3 > trioPrice ? `SAVE £${(currentBaseOriginal * 3 - trioPrice).toFixed(2)}` : null,
+      save:
+        currentBaseOriginal * 3 > trioPrice
+          ? `SAVE £${(currentBaseOriginal * 3 - trioPrice).toFixed(2)}`
+          : null,
     },
   ];
 
@@ -162,10 +228,9 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
     setIsPickerOpen(true);
   };
 
-
   const handleSelectFragrance = (selectedProd: Product) => {
     if (activeSlotIdx !== null) {
-      updateBundleSelection(activeSlotIdx, 'productId' as any, selectedProd.id);
+      updateBundleSelection(activeSlotIdx, "productId" as any, selectedProd.id);
       setIsPickerOpen(false);
       setActiveSlotIdx(null);
     }
@@ -183,12 +248,14 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
 
   return (
     <div className="space-y-10">
-
       {/* Visual Color Selection */}
       {colors.length > 0 && (
         <div className="space-y-4">
           <h1 className="text-xs font-bold uppercase tracking-widest text-white/90 light:text-black/70">
-            Color: <span className="font-light text-white/60 light:text-black/60">{selectedColor}</span>
+            Color:{" "}
+            <span className="font-light text-white/60 light:text-black/60">
+              {selectedColor}
+            </span>
           </h1>
           <div className="flex gap-3">
             {colors.map((color: any) => (
@@ -198,10 +265,11 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                 className="relative group flex items-center justify-center size-20"
               >
                 <div
-                  className={`absolute inset-0 border-[2px] rounded-lg transition-all duration-500 group-hover:scale-105 ${selectedColor === color.name
-                    ? "border-yellow-300"
-                    : "border-white/10 opacity-0 group-hover:opacity-100 light:border-black/10"
-                    }`}
+                  className={`absolute inset-0 border-[2px] rounded-lg transition-all duration-500 group-hover:scale-105 ${
+                    selectedColor === color.name
+                      ? "border-yellow-300"
+                      : "border-white/10 opacity-0 group-hover:opacity-100 light:border-black/10"
+                  }`}
                 />
                 <div className="size-[100%] bg-[#F2F2F2] rounded-lg overflow-hidden flex items-center justify-center p-1.5 transition-transform duration-500 group-hover:scale-105">
                   <img
@@ -248,10 +316,11 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
             <button
               key={size}
               onClick={() => setSelectedSize(size)}
-              className={`aspect-square h-12 w-20 flex items-center justify-center text-sm font-medium transition-all duration-300 rounded-md ${selectedSize === size
-                ? "bg-white text-black shadow-lg light:bg-black light:text-white"
-                : "bg-white/[0.03] text-white/40 hover:bg-white/10 hover:text-white light:bg-black/[0.03] light:text-black/40 light:hover:bg-black/10 light:hover:text-black"
-                }`}
+              className={`aspect-square h-12 w-20 flex items-center justify-center text-sm font-medium transition-all duration-300 rounded-md ${
+                selectedSize === size
+                  ? "bg-white text-black shadow-lg light:bg-black light:text-white"
+                  : "bg-white/[0.03] text-white/40 hover:bg-white/10 hover:text-white light:bg-black/[0.03] light:text-black/40 light:hover:bg-black/10 light:hover:text-black"
+              }`}
             >
               {size}
             </button>
@@ -261,7 +330,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
 
       {/* Bundle Selection */}
       <div className="">
-        <div className="flex items-center">
+        <div className="flex  items-center">
           <h3 className="text-sm font-bold uppercase tracking-widest text-white/90 light:text-black/70">
             Bundle & Save
           </h3>
@@ -269,7 +338,7 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
         </div>
 
         {bundles.map((bundle) => (
-          <div key={bundle.id} className="relative">
+          <div key={bundle.id} className="relative space-y-2 pt-2">
             {bundle.isPopular && (
               <div className="absolute top-[-12px] inset-x-0 flex justify-end z-20">
                 <div className="bg-black px-4 h-6 flex items-center justify-center rounded-full border border-white/10 shadow-lg light:bg-white light:border-black/10">
@@ -281,19 +350,21 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
             )}
             <div
               onClick={() => setSelectedBundle(bundle.id)}
-              className={`relative w-full cursor-pointer rounded-xl transition-all duration-300 border overflow-hidden ${selectedBundle === bundle.id
-                ? "bg-white/[0.05] border-white/50 shadow-[0_4px_30px_rgba(255,255,255,0.05)] backdrop-blur-md light:bg-black/[0.04] light:border-black/30"
-                : "bg-transparent border-white/10 hover:border-white/20 light:border-black/10 light:hover:border-black/20"
-                }`}
+              className={`relative w-full cursor-pointer rounded-xl transition-all duration-300 border overflow-hidden ${
+                selectedBundle === bundle.id
+                  ? "bg-white/[0.05] border-white/50 shadow-[0_4px_30px_rgba(255,255,255,0.05)] backdrop-blur-md light:bg-black/[0.04] light:border-black/30"
+                  : "bg-transparent border-white/10 hover:border-white/20 light:border-black/10 light:hover:border-black/20"
+              }`}
             >
               <div className="p-5 flex items-center justify-between">
                 <div className="flex gap-6 items-center flex-grow">
                   <div className="relative h-6 w-6 rounded-full border-2 border-white/20 flex items-center justify-center transition-colors duration-500 group-hover:border-white/40 shrink-0 light:border-black/20 light:group-hover:border-black/40">
                     <div
-                      className={`h-5 w-5 rounded-full transition-all duration-500 ${selectedBundle === bundle.id
-                        ? "bg-white/90 scale-100 light:bg-black/80"
-                        : "bg-transparent scale-0"
-                        }`}
+                      className={`h-5 w-5 rounded-full transition-all duration-500 ${
+                        selectedBundle === bundle.id
+                          ? "bg-white/90 scale-100 light:bg-black/80"
+                          : "bg-transparent scale-0"
+                      }`}
                     />
                   </div>
                   <div className="space-y-1">
@@ -323,26 +394,42 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
 
               {/* Advanced Bundle Accordion */}
               <div
-                className={`transition-all duration-500 ease-in-out border-t border-white/5 bg-black/20 light:border-black/10 light:bg-black/5 ${selectedBundle === bundle.id && bundle.id !== "single"
-                  ? "max-h-64 opacity-100"
-                  : "max-h-0 opacity-0"
-                  }`}
+                className={`transition-all duration-500 ease-in-out border-t border-white/5 bg-black/20 light:border-black/10 light:bg-black/5 ${
+                  selectedBundle === bundle.id && bundle.id !== "single"
+                    ? "max-h-64 opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="p-5 pt-3 space-y-4">
                   <p className="text-[10px] font-black uppercase tracking-luxury text-white/90 mb-2 light:text-black/70">
                     Configure your items: Color & Size
                   </p>
-                  {[...Array(bundle.id === "single" ? 1 : bundle.id === "duo" ? 2 : 3)].map((_, idx) => {
+                  {[
+                    ...Array(
+                      bundle.id === "single" ? 1 : bundle.id === "duo" ? 2 : 3,
+                    ),
+                  ].map((_, idx) => {
                     const currentSelection = bundleSelections[idx];
-                    const selectedItemProduct = allProducts.find(p => p.id === currentSelection.productId) || product;
-                    const itemThumb = selectedItemProduct.images?.[0] || safeImage;
+                    const selectedItemProduct =
+                      allProducts.find(
+                        (p) => p.id === currentSelection.productId,
+                      ) || product;
+                    const itemThumb =
+                      selectedItemProduct.images?.[0] || safeImage;
 
                     return (
                       <div key={idx} className="flex items-center gap-3">
                         <div className="size-10 bg-[#F2F2F2] rounded-md overflow-hidden flex items-center justify-center p-1 shrink-0 border border-white/5 light:border-black/10">
                           <img
-                            src={isFragrance ? itemThumb : (colors.find(c => c.name === bundleSelections[idx].color)?.image || safeImage)}
+                            src={
+                              isFragrance
+                                ? itemThumb
+                                : colors.find(
+                                    (c) =>
+                                      c.name === bundleSelections[idx].color,
+                                  )?.image || safeImage
+                            }
                             alt="Thumbnail"
                             className="w-full h-full object-contain"
                           />
@@ -355,12 +442,17 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                               className="w-full h-12 bg-white/5 border border-white/20 rounded-xl px-4 flex items-center justify-between group/btn hover:border-accent/40 transition-all light:bg-black/5 light:border-black/20"
                             >
                               <div className="flex flex-col items-start">
-                                <span className="text-[8px] font-black uppercase tracking-widest text-[#C5A358]">Select Fragrance</span>
+                                <span className="text-[8px] font-black uppercase tracking-widest text-[#C5A358]">
+                                  Select Fragrance
+                                </span>
                                 <span className="text-[10px] font-bold uppercase tracking-widest text-white truncate max-w-[120px] light:text-black">
                                   {selectedItemProduct.title}
                                 </span>
                               </div>
-                              <Sparkles size={14} className="text-accent group-hover/btn:scale-110 transition-transform" />
+                              <Sparkles
+                                size={14}
+                                className="text-accent group-hover/btn:scale-110 transition-transform"
+                              />
                             </button>
                           </div>
                         ) : (
@@ -369,7 +461,13 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                               <div className="relative flex-grow h-10">
                                 <select
                                   value={bundleSelections[idx].color}
-                                  onChange={(e) => updateBundleSelection(idx, 'color', e.target.value)}
+                                  onChange={(e) =>
+                                    updateBundleSelection(
+                                      idx,
+                                      "color",
+                                      e.target.value,
+                                    )
+                                  }
                                   className="w-full h-full bg-white/5 border border-white/10 rounded-md px-3 pr-8 text-[10px] font-bold uppercase tracking-widest text-white appearance-none focus:outline-none focus:border-accent/50 transition-colors cursor-pointer light:bg-black/5 light:border-black/10 light:text-black"
                                 >
                                   {colors.map((c: any) => (
@@ -388,10 +486,14 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
                           </>
                         )}
 
-                        <div className={`relative h-10 ${(colors.length > 0 || isFragrance) ? 'w-20' : 'flex-grow'}`}>
+                        <div
+                          className={`relative h-10 ${colors.length > 0 || isFragrance ? "w-20" : "flex-grow"}`}
+                        >
                           <select
                             value={bundleSelections[idx].size}
-                            onChange={(e) => updateBundleSelection(idx, 'size', e.target.value)}
+                            onChange={(e) =>
+                              updateBundleSelection(idx, "size", e.target.value)
+                            }
                             className="w-full h-full bg-white/5 border border-white/10 rounded-md px-3 pr-8 text-[10px] font-bold uppercase tracking-widest text-white appearance-none focus:outline-none focus:border-accent/50 transition-colors cursor-pointer light:bg-black/5 light:border-black/10 light:text-black"
                           >
                             {sizes.map((s: string) => (
@@ -446,8 +548,12 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
             {/* Modal Header */}
             <div className="p-6 md:p-10 border-b border-white/5 flex items-center justify-between bg-black/50 backdrop-blur-md light:border-black/10 light:bg-black/[0.03]">
               <div className="space-y-1">
-                <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-white light:text-black">Fragrance Selection Vault</h2>
-                <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-accent italic">Select your next essence from the house of North Mind</p>
+                <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-white light:text-black">
+                  Fragrance Selection Vault
+                </h2>
+                <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-accent italic">
+                  Select your next essence from the house of North Mind
+                </p>
               </div>
               <button
                 onClick={() => setIsPickerOpen(false)}
@@ -461,7 +567,9 @@ export function ProductInteractions({ product, allProducts = [] }: ProductIntera
             <div className="flex-grow overflow-y-auto custom-scrollbar p-1 md:p-12">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1 md:gap-1">
                 {collectionProducts.map((p) => {
-                  const isSelected = activeSlotIdx !== null && bundleSelections[activeSlotIdx].productId === p.id;
+                  const isSelected =
+                    activeSlotIdx !== null &&
+                    bundleSelections[activeSlotIdx].productId === p.id;
 
                   return (
                     <div key={p.id} className="relative group">

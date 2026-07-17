@@ -70,61 +70,64 @@ export function WorldCupGrid({
 
   const desktopActive = Math.min(active, desktopMax);
 
-  const ProductCard = ({ product, i }: { product: Product; i: number }) => (
-    <Link
-      href={`/product/${product.handle}`}
-      className="group relative block overflow-hidden"
-    >
-      <div className="relative overflow-hidden aspect-[4/4.7] md:aspect-[4/5]">
-        {product.images?.[0] ? (
-          <Image
-            src={product.images[0]}
-            alt={product.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : (
-          <>
-            <div className="absolute inset-0 bg-zinc-950" />
-            <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/25 via-zinc-950 to-black" />
-            <div
-              className="absolute inset-0 opacity-25"
-              style={{
-                backgroundImage: `radial-gradient(ellipse at ${i % 2 === 0 ? "30% 35%" : "70% 60%"}, rgba(197,163,88,0.22) 0%, transparent 52%)`,
-              }}
+  const ProductCard = ({ product, i }: { product: Product; i: number }) => {
+    const isEyewear = product.collection?.toLowerCase() === "eyewear";
+
+    return (
+      <Link
+        href={`/product/${product.handle}`}
+        className="group relative block overflow-hidden"
+      >
+        <div
+          className={`relative overflow-hidden aspect-[4/4.7] md:aspect-[4/5] ${isEyewear ? "bg-[#F2F2F2] p-11" : ""}`}
+        >
+          {product.images?.[0] ? (
+            <Image
+              src={product.images[0]}
+              alt={product.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className={`${isEyewear ? "object-contain" : "object-cover"} transition-transform duration-700 group-hover:scale-105`}
             />
-          </>
-        )}
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-zinc-950" />
+              <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/25 via-zinc-950 to-black" />
+              <div
+                className="absolute inset-0 opacity-25"
+                style={{
+                  backgroundImage: `radial-gradient(ellipse at ${i % 2 === 0 ? "30% 35%" : "70% 60%"}, rgba(197,163,88,0.22) 0%, transparent 52%)`,
+                }}
+              />
+            </>
+          )}
 
-        <div className="absolute inset-x-0 top-0 bottom-0 light:top-auto light:h-1/4 bg-gradient-to-t from-black via-black/10 to-transparent light:from-white light:via-white/100" />
+          <div className="absolute inset-x-0 top-0 bottom-0 light:top-auto light:h-1/4 bg-gradient-to-t from-black via-black/10 to-transparent light:from-white light:via-white/100" />
 
-        <div className="absolute bottom-0 inset-x-0 p-5 md:p-8 z-10">
-          <p className="text-[9px] uppercase tracking-[0.5em]  text-accent font-black mb-2">
-            {editionLabel}
-          </p>
-          <h3 className="text-xl md:text-3xl font-black uppercase tracking-tight text-white mb-1 leading-tight group-hover:text-accent transition-colors duration-500 light:text-[#1f1f1f]">
-            {(() => {
-              let displayTitle =
-                titleMap?.[product.title] ??
-                (firstWordOnly ? product.title.split(" ")[0] : product.title);
-              if (stripWords?.length) {
-                const lower = stripWords.map((w) => w.toLowerCase());
-                displayTitle = displayTitle
-                  .split(" ")
-                  .filter((w) => !lower.includes(w.toLowerCase()))
-                  .join(" ");
-              }
-              return displayTitle;
-            })()}
-          </h3>
-          <p className="text-[10px] text-white/40 uppercase tracking-widest mb-6 light:text-accent">
-            {product.collection}
-          </p>
+          <div className="absolute bottom-0 inset-x-0 p-5 md:p-8 z-10">
+            <h3 className="text-xl md:text-3xl font-black uppercase tracking-tight text-white mb-1 leading-tight group-hover:text-accent transition-colors duration-500 light:text-[#1f1f1f]">
+              {(() => {
+                let displayTitle =
+                  titleMap?.[product.title] ??
+                  (firstWordOnly ? product.title.split(" ")[0] : product.title);
+                if (stripWords?.length) {
+                  const lower = stripWords.map((w) => w.toLowerCase());
+                  displayTitle = displayTitle
+                    .split(" ")
+                    .filter((w) => !lower.includes(w.toLowerCase()))
+                    .join(" ");
+                }
+                return displayTitle;
+              })()}
+            </h3>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest mb-6 light:text-accent">
+              {product.collection}
+            </p>
+          </div>
         </div>
-      </div>
-    </Link>
-  );
+      </Link>
+    );
+  };
 
   return (
     <section className="pt-12 pb-2 px-2 md:px-8 max-w-[1600px] mx-auto w-full">

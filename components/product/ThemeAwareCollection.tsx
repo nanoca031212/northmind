@@ -19,6 +19,7 @@ interface ThemeAwareCollectionProps {
   categoryCardImages?: (string | undefined)[];
   outerwearProducts?: Product[];
   silentWarmthProducts?: Product[];
+  eyewearProducts?: Product[];
   fragranceProducts?: Product[];
 }
 
@@ -344,6 +345,7 @@ export function ThemeAwareCollection({
   categoryCardImages,
   outerwearProducts,
   silentWarmthProducts,
+  eyewearProducts,
   fragranceProducts,
 }: ThemeAwareCollectionProps) {
   const searchParams = useSearchParams();
@@ -392,6 +394,13 @@ export function ThemeAwareCollection({
               "Cable-Knit Quarter-Zip Jumper": "Cable-Knit Jumper",
               "Cable-Knit Wool-Cashmere Jumper": "Cable-Knit",
             }}
+          />
+        )}
+        {eyewearProducts && eyewearProducts.length > 0 && (
+          <WorldCupGrid
+            products={eyewearProducts}
+            title="Eyewear"
+            editionLabel="Heritage Collection"
           />
         )}
         {fragranceProducts && fragranceProducts.length > 0 && (
