@@ -537,8 +537,13 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
                 onClick={() => onShippingChange(method.id)}
               >
                 <div className="shipping-left">
-                  <span className="shipping-method">{method.name}</span>
-                  <span className="shipping-eta">{method.eta}</span>
+                  <span className="shipping-radio">
+                    <span className="shipping-radio-dot" />
+                  </span>
+                  <div className="shipping-left-text">
+                    <span className="shipping-method">{method.name}</span>
+                    <span className="shipping-eta">{method.eta}</span>
+                  </div>
                 </div>
                 <span className="shipping-price">
                   {method.price === 0 ? "FREE" : formatCurrency(method.price)}
@@ -856,8 +861,44 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
 
         .shipping-left {
           display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .shipping-left-text {
+          display: flex;
           flex-direction: column;
           gap: 2px;
+        }
+
+        .shipping-radio {
+          position: relative;
+          flex-shrink: 0;
+          width: 22px;
+          height: 22px;
+          border-radius: 9999px;
+          border: 2px solid #b0b8b3;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: border-color 0.3s;
+        }
+
+        .shipping-card.selected .shipping-radio {
+          border-color: #000000;
+        }
+
+        .shipping-radio-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 9999px;
+          background-color: #000000;
+          transform: scale(0);
+          transition: transform 0.3s;
+        }
+
+        .shipping-card.selected .shipping-radio-dot {
+          transform: scale(1);
         }
 
         .shipping-method {

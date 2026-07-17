@@ -3,7 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
-import { ShoppingBag, User, Search, Menu, X, ChevronRight, Sun, Moon } from "lucide-react";
+import {
+  ShoppingBag,
+  User,
+  Search,
+  Menu,
+  X,
+  ChevronRight,
+  Sun,
+  Moon,
+} from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { SearchPopup } from "./SearchPopup";
@@ -66,39 +75,58 @@ export function Header({ overHero = false }: HeaderProps) {
   }, []);
 
   const isAdmin = (session?.user as any)?.type === "ADMIN";
-  const accountHref = status === "authenticated" ? (isAdmin ? "/admin" : "/user") : "/login";
+  const accountHref =
+    status === "authenticated" ? (isAdmin ? "/admin" : "/user") : "/login";
 
   const icons = [
-    { id: "search", icon: Search, label: "Search", action: () => setIsSearchOpen(true) },
+    {
+      id: "search",
+      icon: Search,
+      label: "Search",
+      action: () => setIsSearchOpen(true),
+    },
+    {
+      id: "theme",
+      icon: theme === "dark" ? Moon : Sun,
+      label: theme === "dark" ? "Modo Noturno" : "Modo Claro",
+      action: toggleTheme,
+    },
     {
       id: "auth",
       icon: User,
-      label: status === "authenticated" ? (isAdmin ? "Admin" : (session?.user?.name?.split(" ")[0] || "Account")) : "Login",
+      label:
+        status === "authenticated"
+          ? isAdmin
+            ? "Admin"
+            : session?.user?.name?.split(" ")[0] || "Account"
+          : "Login",
       action: () => router.push(accountHref),
-      desktopOnly: true
+      desktopOnly: true,
     },
     {
       id: "cart",
       icon: ShoppingBag,
       label: "Basket",
       action: () => setIsDrawerOpen(true),
-      badge: totalItems
+      badge: totalItems,
     },
   ];
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? "bg-black/90 backdrop-blur-md border-b border-white/5 h-16 md:h-20 light:bg-white/90 light:border-black/5"
-          : "bg-transparent border-b border-white/0 h-16 md:h-24"
-          }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-black/90 backdrop-blur-md border-b border-white/5 h-16 md:h-20 light:bg-white/90 light:border-black/5"
+            : "bg-transparent border-b border-white/0 h-16 md:h-24"
+        }`}
       >
-        <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 h-full flex items-center justify-between">
           {/* Mobile Menu Button - 44px minimum touch target */}
           <button
-            className={`md:hidden flex items-center justify-center min-h-[44px] min-w-[44px] hover:text-accent active:text-accent/70 transition-colors ${themeAware ? "text-white/90 light:text-black/70" : "text-white/90"
-              }`}
+            className={`md:hidden flex items-center justify-center min-h-[44px] min-w-[44px] hover:text-accent active:text-accent/70 transition-colors ${
+              themeAware ? "text-white/90 light:text-black/70" : "text-white/90"
+            }`}
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Open navigation menu"
           >
@@ -107,16 +135,25 @@ export function Header({ overHero = false }: HeaderProps) {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-12">
-            <Link href="/collections/outerwear" className={`text-[10px] uppercase font-bold tracking-luxury hover:text-accent hover:underline transition-all duration-300 ${themeAware ? "text-white/80 light:text-black/70" : "text-white/80"}`}>
+            <Link
+              href="/collections/outerwear"
+              className={`text-[10px] uppercase font-bold tracking-luxury hover:text-accent hover:underline transition-all duration-300 ${themeAware ? "text-white/80 light:text-black/70" : "text-white/80"}`}
+            >
               Outerwear
             </Link>
-            <Link href="/collections/silent-warmth" className={`text-[10px] uppercase font-bold tracking-luxury hover:text-accent hover:underline transition-all duration-300 ${themeAware ? "text-white/80 light:text-black/70" : "text-white/80"}`}>
+            <Link
+              href="/collections/silent-warmth"
+              className={`text-[10px] uppercase font-bold tracking-luxury hover:text-accent hover:underline transition-all duration-300 ${themeAware ? "text-white/80 light:text-black/70" : "text-white/80"}`}
+            >
               Silent Warmth
             </Link>
           </nav>
 
           {/* Logo */}
-          <Link href="/" className="absolute left-1/2 -translate-x-1/2 transition-transform duration-500 hover:scale-105">
+          <Link
+            href="/"
+            className="absolute left-1/2 -translate-x-1/2 transition-transform duration-500 hover:scale-105"
+          >
             <Image
               src="/assets/logo.svg"
               alt="NORTH MIND"
@@ -128,7 +165,7 @@ export function Header({ overHero = false }: HeaderProps) {
           </Link>
 
           {/* Icon Buttons - 44px minimum touch targets */}
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-1 md:gap-4">
             {icons.map((item) => {
               const Icon = item.icon;
               return (
@@ -138,11 +175,17 @@ export function Header({ overHero = false }: HeaderProps) {
                   onMouseLeave={() => setHoveredIcon(null)}
                   onClick={item.action}
                   aria-label={item.label}
-                  className={`flex items-center gap-2 min-h-[44px] min-w-[44px] justify-center rounded-full px-4 transition-all duration-300 ${item.desktopOnly ? "hidden md:flex" : "flex"
-                    } ${hoveredIcon === item.id
-                      ? themeAware ? "bg-white/5 text-white light:bg-black/5 light:text-black" : "bg-white/5 text-white"
-                      : themeAware ? "text-white/80 light:text-black/70" : "text-white/80"
-                    }`}
+                  className={`flex items-center gap-2 min-h-[44px] min-w-[36px] md:min-w-[44px] justify-center rounded-full px-0.5 md:px-4 transition-all duration-300 ${
+                    item.desktopOnly ? "hidden md:flex" : "flex"
+                  } ${
+                    hoveredIcon === item.id
+                      ? themeAware
+                        ? "bg-white/5 text-white light:bg-black/5 light:text-black"
+                        : "bg-white/5 text-white"
+                      : themeAware
+                        ? "text-white/80 light:text-black/70"
+                        : "text-white/80"
+                  }`}
                 >
                   <div className="relative">
                     <Icon size={20} strokeWidth={1.5} />
@@ -227,14 +270,22 @@ export function Header({ overHero = false }: HeaderProps) {
                       className="flex items-center justify-between px-6 py-4 text-sm font-bold uppercase tracking-widest text-white/80 hover:text-white hover:bg-white/5 active:bg-white/10 transition-all min-h-[52px] light:text-black/70 light:hover:text-black light:hover:bg-black/5 light:active:bg-black/10"
                     >
                       <span>{link.label}</span>
-                      <ChevronRight size={16} className="text-white/20 light:text-black/20" />
+                      <ChevronRight
+                        size={16}
+                        className="text-white/20 light:text-black/20"
+                      />
                     </Link>
                   </motion.div>
                 ))}
               </nav>
 
               {/* Drawer Footer - Theme toggle + Login/Profile */}
-              <div className="p-6 border-t border-white/5 light:border-black/5 space-y-3" style={{ paddingBottom: 'max(24px, env(safe-area-inset-bottom))' }}>
+              <div
+                className="p-6 border-t border-white/5 light:border-black/5 space-y-3"
+                style={{
+                  paddingBottom: "max(24px, env(safe-area-inset-bottom))",
+                }}
+              >
                 <button
                   onClick={toggleTheme}
                   className="flex items-center justify-between w-full gap-4 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all min-h-[52px] light:bg-black/5 light:hover:bg-black/10 light:active:bg-black/15"
@@ -251,12 +302,14 @@ export function Header({ overHero = false }: HeaderProps) {
                     </span>
                   </span>
                   <span
-                    className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${theme === "dark" ? "bg-white/15" : "bg-accent"
-                      }`}
+                    className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                      theme === "dark" ? "bg-white/15" : "bg-accent"
+                    }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${theme === "dark" ? "translate-x-1" : "translate-x-6"
-                        }`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        theme === "dark" ? "translate-x-1" : "translate-x-6"
+                      }`}
                     />
                   </span>
                 </button>
@@ -268,7 +321,11 @@ export function Header({ overHero = false }: HeaderProps) {
                 >
                   <User size={20} className="text-accent" />
                   <span className="text-xs font-bold uppercase tracking-widest text-white light:text-black">
-                    {status === "authenticated" ? (isAdmin ? "Admin" : (session?.user?.name?.split(" ")[0] || "Profile")) : "Sign In"}
+                    {status === "authenticated"
+                      ? isAdmin
+                        ? "Admin"
+                        : session?.user?.name?.split(" ")[0] || "Profile"
+                      : "Sign In"}
                   </span>
                 </Link>
               </div>
@@ -277,7 +334,10 @@ export function Header({ overHero = false }: HeaderProps) {
         )}
       </AnimatePresence>
 
-      <SearchPopup isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <SearchPopup
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </>
   );
 }

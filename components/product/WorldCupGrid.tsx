@@ -72,11 +72,14 @@ export function WorldCupGrid({
 
   const ProductCard = ({ product, i }: { product: Product; i: number }) => {
     const isEyewear = product.collection?.toLowerCase() === "eyewear";
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
       <Link
         href={`/product/${product.handle}`}
         className="group relative block overflow-hidden"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <div
           className={`relative overflow-hidden aspect-[4/4.7] md:aspect-[4/5] ${isEyewear ? "bg-[#F2F2F2] p-11" : ""}`}
@@ -87,7 +90,11 @@ export function WorldCupGrid({
               alt={product.title}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className={`${isEyewear ? "object-contain" : "object-cover"} transition-transform duration-700 group-hover:scale-105`}
+              className={
+                isEyewear
+                  ? `object-contain transition-all duration-1000 ease-in-out ${isHovered && product.images[1] ? "opacity-0 scale-105" : "opacity-100 scale-100"}`
+                  : "object-cover transition-transform duration-700 group-hover:scale-105"
+              }
             />
           ) : (
             <>
@@ -100,6 +107,16 @@ export function WorldCupGrid({
                 }}
               />
             </>
+          )}
+
+          {isEyewear && product.images?.[1] && (
+            <Image
+              src={product.images[1]}
+              alt={`${product.title} alternate view`}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className={`object-contain transition-all duration-1000 ease-in-out absolute inset-0 ${isHovered ? "opacity-100 scale-100" : "opacity-0 scale-110"}`}
+            />
           )}
 
           <div className="absolute inset-x-0 top-0 bottom-0 light:top-auto light:h-1/4 bg-gradient-to-t from-black via-black/10 to-transparent light:from-white light:via-white/100" />
