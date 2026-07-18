@@ -7,13 +7,13 @@ export interface ShippingMethod {
 
 export const SHIPPING_METHODS: ShippingMethod[] = [
   {
-    id: "shr_1Tr33VHWAF0tmQjWBLvT5pg7",
+    id: "shr_1TuOvrHWAF0tmQjWWGsX9dK5",
     name: "Free Delivery",
     price: 0,
     eta: "15-20 business days",
   },
   {
-    id: "shr_1Tr31vHWAF0tmQjWoHUyNitL",
+    id: "shr_1TuOzWHWAF0tmQjWt55w9gPX",
     name: "Fast Delivery",
     price: 9.99,
     eta: "7-8 business days",
