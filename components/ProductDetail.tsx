@@ -77,7 +77,7 @@ export function ProductDetail({
                 discount={discount}
                 opcoesCor={product.opcoesCor}
                 isFragrance={product.collection?.toLowerCase().includes('fragrance') || product.collection?.toLowerCase().includes('offer')}
-                isEyewear={product.collection?.toLowerCase() === 'eyewear'}
+                isEyewear={['eyewear', 'prada'].includes(product.collection?.toLowerCase() ?? '')}
               />
             ) : (
               <div className="aspect-[4/5] bg-white/5 border border-white/10 rounded-xl flex items-center justify-center light:bg-black/5 light:border-black/10">

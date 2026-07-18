@@ -24,7 +24,7 @@ export function ProductCard({ product, priority = false, onClick, index = 0 }: P
   // Elite Pricing Logic: Check if there are variants with different prices
   const variants = product.variantes || [];
   const isFragrance = product.tipo === "PERFUME" || product.collection?.toLowerCase().includes("fragrance");
-  const isEyewear = product.collection?.toLowerCase() === "eyewear";
+  const isEyewear = ["eyewear", "prada"].includes(product.collection?.toLowerCase() ?? "");
   
   // For fragrances, we prioritize the 100ml variant price if available, 
   // as it is the default selected variant on the product page.

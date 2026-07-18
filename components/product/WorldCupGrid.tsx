@@ -14,6 +14,7 @@ interface WorldCupGridProps {
   editionLabel?: string;
   stripWords?: string[];
   titleMap?: Record<string, string>;
+  autoPlay?: boolean;
 }
 
 export function WorldCupGrid({
@@ -23,6 +24,7 @@ export function WorldCupGrid({
   editionLabel = "World Cup Edition",
   stripWords,
   titleMap,
+  autoPlay = false,
 }: WorldCupGridProps) {
   const [active, setActive] = useState(0);
   const touchStartX = useRef(0);
@@ -37,10 +39,11 @@ export function WorldCupGrid({
 
   const resetTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
+    if (!autoPlay) return;
     timerRef.current = setInterval(() => {
       setActive((prev) => (prev + 1) % products.length);
     }, 3000);
-  }, [products.length]);
+  }, [autoPlay, products.length]);
 
   const goTo = useCallback(
     (idx: number) => {
@@ -51,12 +54,12 @@ export function WorldCupGrid({
   );
 
   useEffect(() => {
-    if (products.length < 2) return;
+    if (!autoPlay || products.length < 2) return;
     resetTimer();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [resetTimer, products.length]);
+  }, [autoPlay, resetTimer, products.length]);
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -71,7 +74,7 @@ export function WorldCupGrid({
   const desktopActive = Math.min(active, desktopMax);
 
   const ProductCard = ({ product, i }: { product: Product; i: number }) => {
-    const isEyewear = product.collection?.toLowerCase() === "eyewear";
+    const isEyewear = ["eyewear", "prada"].includes(product.collection?.toLowerCase() ?? "");
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -157,7 +160,7 @@ export function WorldCupGrid({
           <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic light:text-black/90">
             {leadWords}
             {leadWords ? " " : ""}
-            <span className="font-bold not-italic ">{lastWord}</span>
+            <span className="font-bold not-italic ml-1">{lastWord}</span>
           </h2>
         </div>
       </div>

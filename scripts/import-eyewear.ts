@@ -117,11 +117,14 @@ async function main() {
     },
   });
 
+  const folderFilter = process.argv[2];
+
   const productFolders = fs
     .readdirSync(OCULOS_DIR, { withFileTypes: true })
     .filter((d) => d.isDirectory())
     .map((d) => d.name)
-    .filter((name) => !SKIP_FOLDERS.has(name));
+    .filter((name) => !SKIP_FOLDERS.has(name))
+    .filter((name) => !folderFilter || name === folderFilter);
 
   let firstImageUrl: string | null = null;
   let importedCount = 0;

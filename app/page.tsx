@@ -22,8 +22,16 @@ async function HomeCollections() {
     return 0;
   });
 
+  // Prada gets its own collection but should stay right above Eyewear
+  const pradaIndex = sortedCollections.findIndex((c) => c.handle === "prada");
+  const eyewearIndex = sortedCollections.findIndex((c) => c.handle === "eyewear");
+  if (pradaIndex !== -1 && eyewearIndex !== -1 && pradaIndex > eyewearIndex) {
+    const [prada] = sortedCollections.splice(pradaIndex, 1);
+    sortedCollections.splice(eyewearIndex, 0, prada);
+  }
+
   // Fetch products for all collections + outerwear separately
-  const [collectionsWithProducts, outerwearProducts, silentWarmthProducts, eyewearProducts, fragranceProducts] = await Promise.all([
+  const [collectionsWithProducts, outerwearProducts, silentWarmthProducts, eyewearProducts, pradaProducts, fragranceProducts] = await Promise.all([
     Promise.all(
       sortedCollections.map(async (c) => {
         const products = await getProductsByCollection(c.name);
@@ -33,6 +41,7 @@ async function HomeCollections() {
     getProductsByCollection("Outerwear"),
     getProductsByCollection("Silent Warmth"),
     getProductsByCollection("Eyewear"),
+    getProductsByCollection("Prada"),
     getProductsByCollection("Fragrances"),
   ]);
 
@@ -86,6 +95,7 @@ async function HomeCollections() {
             outerwearProducts={outerwearProducts}
             silentWarmthProducts={silentWarmthProducts}
             eyewearProducts={eyewearProducts}
+            pradaProducts={pradaProducts}
             fragranceProducts={fragranceProducts}
           />
         </div>
