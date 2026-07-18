@@ -111,6 +111,7 @@ const LOCAL_COLLECTION_IMAGES: Record<string, string> = {
   "silent-warmth": "/collections/silent-warmth.png",
   fragrances: "/collections/3x1-fragrances-banner.png",
   eyewear: "/collections/kits.png",
+  prada: "/collections/special-promo.png",
   "t-shirts": "/collections/t-shirts.png",
   "special-promo": "/collections/special-promo.png",
   kits: "/collections/kits.png",
