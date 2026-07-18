@@ -170,24 +170,31 @@ export function ProductInteractions({
     ? Number(variant.originalPrice)
     : Number(product.originalPrice) || 0;
 
-  // World Cup jerseys and Eyewear use fixed bundle totals instead of the multiplier formula
+  // World Cup jerseys, Eyewear and Prada use fixed bundle totals instead of the multiplier formula
   const isWorldCupJersey = product.collection === "World Cup";
   const isEyewear = product.collection === "Eyewear";
+  const isPrada = product.collection === "Prada";
   const singlePrice = isWorldCupJersey
     ? 39.99
     : isEyewear
       ? 39.9
-      : currentBasePrice;
+      : isPrada
+        ? 99.99
+        : currentBasePrice;
   const duoPrice = isWorldCupJersey
     ? 69.99
     : isEyewear
       ? 69.9
-      : currentBasePrice * 1.8;
+      : isPrada
+        ? 149.99
+        : currentBasePrice * 1.8;
   const trioPrice = isWorldCupJersey
     ? 99.99
     : isEyewear
       ? 99.9
-      : currentBasePrice * 2.4;
+      : isPrada
+        ? 199.99
+        : currentBasePrice * 2.4;
 
   const bundles = [
     {
