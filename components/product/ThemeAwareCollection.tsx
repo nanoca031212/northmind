@@ -20,6 +20,7 @@ interface ThemeAwareCollectionProps {
   outerwearProducts?: Product[];
   silentWarmthProducts?: Product[];
   eyewearProducts?: Product[];
+  pradaProducts?: Product[];
   fragranceProducts?: Product[];
 }
 
@@ -282,54 +283,6 @@ function WorldCupCategoryCards({
   );
 }
 
-function FragranceBannerCards({ products }: { products: Product[] }) {
-  const left = products[0];
-  const right = products[1];
-
-  const CardItem = ({ product }: { product: Product }) => (
-    <Link
-      href="/collections/fragrances"
-      className="group relative block overflow-hidden"
-    >
-      <div className="relative overflow-hidden aspect-[1/0.93] md:aspect-[1/1]">
-        {product.images?.[0] ? (
-          <Image
-            src={product.images[0]}
-            alt={product.title}
-            fill
-            sizes="50vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : (
-          <>
-            <div className="absolute inset-0 bg-zinc-950" />
-            <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/20 via-zinc-950 to-black" />
-            <div
-              className="absolute inset-0 opacity-20"
-              style={{
-                backgroundImage:
-                  "radial-gradient(ellipse at 50% 40%, rgba(197,163,88,0.18) 0%, transparent 55%)",
-              }}
-            />
-          </>
-        )}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black to-transparent light:hidden" />
-        <div className="absolute bottom-4 left-4 z-10">
-          <span className="text-xs uppercase tracking-[0.35em] font-black text-white/90 border border-white/10 px-3 py-1.5 group-hover:text-white group-hover:border-white/25 transition-all duration-300">
-            Fragrances
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-
-  if (!left && !right) return null;
-
-  return (
-    <div className="max-w-[1600px] mx-auto w-full px-5 md:px-8 pb-2"></div>
-  );
-}
-
 export function ThemeAwareCollection({
   products,
   title,
@@ -341,6 +294,7 @@ export function ThemeAwareCollection({
   outerwearProducts,
   silentWarmthProducts,
   eyewearProducts,
+  pradaProducts,
   fragranceProducts,
 }: ThemeAwareCollectionProps) {
   const searchParams = useSearchParams();
@@ -391,23 +345,30 @@ export function ThemeAwareCollection({
             }}
           />
         )}
+        {pradaProducts && pradaProducts.length > 0 && (
+          <WorldCupGrid
+            products={pradaProducts}
+            title="Prada"
+            editionLabel="Heritage Collection"
+            autoPlay
+          />
+        )}
         {eyewearProducts && eyewearProducts.length > 0 && (
           <WorldCupGrid
             products={eyewearProducts}
             title="Eyewear"
             editionLabel="Heritage Collection"
+            autoPlay
           />
         )}
         {fragranceProducts && fragranceProducts.length > 0 && (
-          <>
-            <FragranceBannerCards products={fragranceProducts} />
-            <WorldCupGrid
-              products={fragranceProducts}
-              title="Fragrances"
-              editionLabel="Signature Scents"
-              firstWordOnly
-            />
-          </>
+          <WorldCupGrid
+            products={fragranceProducts}
+            title="Fragrances"
+            editionLabel="Signature Scents"
+            firstWordOnly
+            autoPlay
+          />
         )}
       </>
     );
