@@ -14,7 +14,7 @@ export const SHIPPING_METHODS: ShippingMethod[] = [
   },
   {
     id: "shr_1TuOzWHWAF0tmQjWt55w9gPX",
-    name: "Fast Delivery",
+    name: "Priority Delivery",
     price: 9.99,
     eta: "7-9 Working Days",
   },
