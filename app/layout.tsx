@@ -8,7 +8,6 @@ import { ThemeProvider, THEME_BOOTSTRAP_SCRIPT } from "@/lib/ThemeContext";
 import { CartDrawer } from "@/components/CartDrawer";
 import { PixelTracker } from "@/components/PixelTracker";
 import { ConsentScripts } from "@/components/ConsentScripts";
-import { LgpdBanner } from "@/components/LgpdBanner";
 import { cn } from "@/lib/utils";
 import AuthContext from "@/components/AuthContext";
 import { unstable_cache } from "next/cache";
@@ -105,7 +104,7 @@ export default async function RootLayout({
           strategy="afterInteractive"
         />
 
-        {/* Meta, TikTok, Google — PageView sempre disparado; demais eventos exigem consent="all" (ver lib/tracking.ts) */}
+        {/* Meta, TikTok, Google */}
         <ConsentScripts
           metaPixelId={metaPixelId}
           tiktokPixelId={tiktokPixelId}
@@ -124,8 +123,6 @@ export default async function RootLayout({
             </CartProvider>
           </ThemeProvider>
         </AuthContext>
-
-        <LgpdBanner />
       </body>
     </html>
   );

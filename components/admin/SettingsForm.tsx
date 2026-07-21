@@ -26,7 +26,7 @@ const PLATFORMS = [
     dot: "bg-blue-500",
     pixelKey: "metaPixelId" as const,
     pixelLabel: "Meta Pixel ID",
-    pixelHint: "Pixel nativo — injetado após consentimento LGPD",
+    pixelHint: "Pixel nativo — injetado no carregamento da página",
     apiKey: "utmifyMetaApiKey" as const,
     apiLabel: "UTMify API Key → Meta",
     apiHint: "S2S: UTMify roteia conversões para o Meta",
@@ -38,7 +38,7 @@ const PLATFORMS = [
     dot: "bg-rose-500",
     pixelKey: "tiktokPixelId" as const,
     pixelLabel: "TikTok Pixel ID",
-    pixelHint: "Pixel nativo — injetado após consentimento LGPD",
+    pixelHint: "Pixel nativo — injetado no carregamento da página",
     apiKey: "utmifyTiktokApiKey" as const,
     apiLabel: "UTMify API Key → TikTok",
     apiHint: "S2S: UTMify roteia conversões para o TikTok",
@@ -50,7 +50,7 @@ const PLATFORMS = [
     dot: "bg-red-500",
     pixelKey: "googleTagId" as const,
     pixelLabel: "Google Tag ID",
-    pixelHint: "GTM/GA4 — injetado após consentimento LGPD",
+    pixelHint: "GTM/GA4 — injetado no carregamento da página",
     apiKey: "utmifyGoogleApiKey" as const,
     apiLabel: "UTMify API Key → Google",
     apiHint: "S2S: UTMify roteia conversões para o Google Ads",
@@ -301,7 +301,7 @@ export function SettingsForm({ initialSettings }: { initialSettings: StoreSettin
       <div className="p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
         <p className="text-[10px] text-white/25 leading-relaxed">
           <span className="text-white/40 font-black">Como funciona:</span> os pixels nativos (Meta, TikTok, Google) são carregados
-          no browser somente após consentimento LGPD. As API keys UTMify disparam S2S para cada plataforma configurada em paralelo —
+          no browser assim que a página carrega. As API keys UTMify disparam S2S para cada plataforma configurada em paralelo —
           enviando nome, e-mail, telefone e endereço do cliente para máximo grau de correspondência. A taxa GBP→BRL é lida em runtime
           via <code className="bg-white/5 px-1 rounded">window.__NM_CONFIG__</code> e nos routes S2S, eliminando o valor fixo no código.
         </p>

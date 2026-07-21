@@ -22,11 +22,8 @@ const getCustomerData = () => {
   return email ? { email } : {};
 };
 
-// PageView dispara sempre (ver ConsentScripts/PixelTracker); demais eventos de
-// conversão exigem consent="all" no banner LGPD.
 const hasMarketingConsent = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  return localStorage.getItem('nm_cookie_consent') === 'all';
+  return typeof window !== 'undefined';
 };
 
 export const trackViewProduct = (product: Product) => {
