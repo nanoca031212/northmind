@@ -26,8 +26,127 @@ const hasMarketingConsent = (): boolean => {
   return typeof window !== 'undefined';
 };
 
+let homeWorldCupFired = false;
+
+export const trackHomeWorldCup = () => {
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
+  if (homeWorldCupFired) return;
+  homeWorldCupFired = true;
+
+  const fbq = (window as any).fbq;
+  const ttq = (window as any).ttq;
+
+  console.group('🏠 Tracking: home (worldcup)');
+
+  if (fbq) {
+    fbq('trackCustom', 'home');
+  }
+
+  if (ttq) {
+    ttq.track('home');
+  }
+
+  console.groupEnd();
+};
+
+let pradaCollectionFired = false;
+
+export const trackPradaCollection = () => {
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
+  if (pradaCollectionFired) return;
+  pradaCollectionFired = true;
+
+  const fbq = (window as any).fbq;
+  const ttq = (window as any).ttq;
+
+  console.group('🕶️ Tracking: Prada');
+
+  if (fbq) {
+    fbq('trackCustom', 'Prada');
+  }
+
+  if (ttq) {
+    ttq.track('Prada');
+  }
+
+  console.groupEnd();
+};
+
+let lastPageProductFiredFor: string | null = null;
+
+export const trackPageProduct = (pathname: string) => {
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
+  if (lastPageProductFiredFor === pathname) return;
+  lastPageProductFiredFor = pathname;
+
+  const fbq = (window as any).fbq;
+  const ttq = (window as any).ttq;
+
+  console.group('📄 Tracking: Page Product');
+
+  if (fbq) {
+    fbq('trackCustom', 'Page Product');
+  }
+
+  if (ttq) {
+    ttq.track('Page Product');
+  }
+
+  console.groupEnd();
+};
+
+let registerPageFired = false;
+
+export const trackRegisterPage = () => {
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
+  if (registerPageFired) return;
+  registerPageFired = true;
+
+  const fbq = (window as any).fbq;
+  const ttq = (window as any).ttq;
+
+  console.group('📝 Tracking: Página cadastro');
+
+  if (fbq) {
+    fbq('trackCustom', 'Página cadastro');
+  }
+
+  if (ttq) {
+    ttq.track('Página cadastro');
+  }
+
+  console.groupEnd();
+};
+
+let loginPageFired = false;
+
+export const trackLoginPage = () => {
+  if (typeof window === 'undefined' || !hasMarketingConsent()) return;
+  if (loginPageFired) return;
+  loginPageFired = true;
+
+  const fbq = (window as any).fbq;
+  const ttq = (window as any).ttq;
+
+  console.group('🔑 Tracking: Login');
+
+  if (fbq) {
+    fbq('trackCustom', 'Login');
+  }
+
+  if (ttq) {
+    ttq.track('Login');
+  }
+
+  console.groupEnd();
+};
+
+let lastViewProductFiredFor: string | null = null;
+
 export const trackViewProduct = (product: Product) => {
   if (typeof window === 'undefined' || !hasMarketingConsent()) return;
+  if (lastViewProductFiredFor === product.id) return;
+  lastViewProductFiredFor = product.id;
 
   const fbq = (window as any).fbq;
   const ttq = (window as any).ttq;
