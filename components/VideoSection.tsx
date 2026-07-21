@@ -38,8 +38,8 @@ export function VideoSection({ items = [] }: VideoSectionProps) {
 
   return (
     <section className="relative w-full h-[80vh] md:h-screen overflow-hidden bg-black">
-      {/* Background Frame Sequence - PURE BACKGROUND LAYER */}
-      <div className="absolute inset-0 z-0">
+      {/* Background Frame Sequence - PURE BACKGROUND LAYER (never touchable, prevents mobile carousel drag from leaking to it) */}
+      <div className="absolute inset-0 z-0 pointer-events-none touch-none">
         <FrameSequence
           key={isMobile ? "mobile" : "desktop"}
           basePath={isMobile ? "/assets/video-section-frames/mobile" : "/assets/video-section-frames/desktop"}

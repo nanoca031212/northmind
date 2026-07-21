@@ -564,6 +564,8 @@ class App {
 
   onTouchMove(e: MouseEvent | TouchEvent) {
     if (!this.isDown) return;
+    // Stop the page/background from scrolling underneath while dragging the gallery.
+    if ('touches' in e && e.cancelable) e.preventDefault();
     const x = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = (this.scroll.position ?? 0) + distance;
@@ -687,12 +689,14 @@ class App {
     // Only capture 'down' events on the canvas itself to prevent global interference
     const canvas = this.renderer.gl.canvas;
     canvas.addEventListener('mousedown', this.boundOnTouchDown);
-    canvas.addEventListener('touchstart', this.boundOnTouchDown);
+    canvas.addEventListener('touchstart', this.boundOnTouchDown, { passive: false });
 
-    // Move and Up should stay on window to ensure we catch the end of a drag outside the canvas
+    // Move and Up should stay on window to ensure we catch the end of a drag outside the canvas.
+    // touchmove must be non-passive so preventDefault() in onTouchMove can actually stop the
+    // page/background from scrolling underneath while the gallery is being dragged on mobile.
     window.addEventListener('mousemove', this.boundOnTouchMove);
     window.addEventListener('mouseup', this.boundOnTouchUp);
-    window.addEventListener('touchmove', this.boundOnTouchMove);
+    window.addEventListener('touchmove', this.boundOnTouchMove, { passive: false });
     window.addEventListener('touchend', this.boundOnTouchUp);
   }
 
@@ -754,5 +758,5 @@ export default function CircularGallery({
       app.destroy();
     };
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, onItemClick]);
-  return <div className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing" ref={containerRef} />;
+  return <div className="w-full h-full overflow-hidden touch-none cursor-grab active:cursor-grabbing" ref={containerRef} />;
 }
