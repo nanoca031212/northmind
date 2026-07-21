@@ -79,7 +79,7 @@ export default async function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={cn("dark", "font-sans", inter.variable)}
+      className={cn("dark", "light", "font-sans", inter.variable)}
       suppressHydrationWarning
     >
       <head>

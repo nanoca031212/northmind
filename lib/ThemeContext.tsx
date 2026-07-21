@@ -14,10 +14,10 @@ const STORAGE_KEY = "nm-theme";
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Always starts as "dark" on both server and first client render to match
+  // Always starts as "light" on both server and first client render to match
   // the SSR markup — the bootstrap script in <head> sets the class on <html>
   // synchronously before paint, we just sync React state to it after mount.
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     const isLight = document.documentElement.classList.contains("light");
@@ -47,5 +47,7 @@ export function useTheme() {
 }
 
 // Inline script string injected in <head> to set the theme class before
-// first paint, avoiding a flash of the wrong theme.
-export const THEME_BOOTSTRAP_SCRIPT = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='light'){document.documentElement.classList.add('light');}}catch(e){}})();`;
+// first paint, avoiding a flash of the wrong theme. Light is the default —
+// the SSR markup already has the "light" class, so we only need to remove
+// it when the stored preference is explicitly "dark".
+export const THEME_BOOTSTRAP_SCRIPT = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');if(t==='dark'){document.documentElement.classList.remove('light');}}catch(e){}})();`;
