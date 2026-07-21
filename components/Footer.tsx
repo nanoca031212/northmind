@@ -1,11 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Mail, Instagram } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#0c0c0b] border-t border-white/5 pt-16 pb-8 px-4 text-white/60 light:bg-white light:border-black/5 light:text-black/60" style={{ paddingBottom: 'max(32px, env(safe-area-inset-bottom))' }}>
+    <footer
+      className="bg-[#0c0c0b] border-t border-white/5 pt-16 pb-8 px-4 text-white/60 light:bg-white light:border-black/5 light:text-black/60"
+      style={{ paddingBottom: "max(32px, env(safe-area-inset-bottom))" }}
+    >
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-12 mb-16">
         <div className="col-span-1">
           <Image
@@ -21,30 +25,47 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">Customer Care</h4>
+          <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">
+            Customer Care
+          </h4>
           <ul className="grid grid-cols-1 gap-4">
             <li>
-              <Link href="/user" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+              <Link
+                href="/user"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Member Area
               </Link>
             </li>
             <li>
-              <Link href="/faq" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+              <Link
+                href="/faq"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Common Inquiries
               </Link>
             </li>
             <li>
-              <Link href="/shipping" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+              <Link
+                href="/shipping"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Shipping Info
               </Link>
             </li>
             <li>
-              <Link href="/refund" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+              <Link
+                href="/refund"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Returns & Refund
               </Link>
             </li>
-             <li>
-              <Link href="/warranty" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+            <li>
+              <Link
+                href="/warranty"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Warranty
               </Link>
             </li>
@@ -52,25 +73,39 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">Legal</h4>
+          <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">
+            Legal
+          </h4>
           <ul className="space-y-4">
             <li>
-              <Link href="/privacy" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+              <Link
+                href="/privacy"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link href="/terms" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+              <Link
+                href="/terms"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Terms & Conditions
               </Link>
             </li>
             <li>
-              <Link href="/cookies" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+              <Link
+                href="/cookies"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Cookies Policy
               </Link>
             </li>
             <li>
-              <Link href="/data-deletion" className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40">
+              <Link
+                href="/data-deletion"
+                className="text-sm text-white/40 hover:text-accent transition-colors uppercase tracking-widest text-[10px] font-bold light:text-black/40"
+              >
                 Data Erasure
               </Link>
             </li>
@@ -78,19 +113,49 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">Our House</h4>
+          <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">
+            Our House
+          </h4>
           <ul className="space-y-4 text-sm">
-            <li><Link href="/about" className="hover:text-gold transition-colors">About Us</Link></li>
-            <li><Link href="#" className="hover:text-gold transition-colors">Careers</Link></li>
-            <li><Link href="#" className="hover:text-gold transition-colors">Press & Collaborations</Link></li>
+            <li>
+              <Link href="/about" className="hover:text-gold transition-colors">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link href="#" className="hover:text-gold transition-colors">
+                Careers
+              </Link>
+            </li>
+            <li>
+              <Link href="#" className="hover:text-gold transition-colors">
+                Press & Collaborations
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div>
-          <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">Contact</h4>
-          <p className="text-sm mb-4"><strong>support@northmind.store</strong></p>
-          <div className="pt-4 border-t border-white/5 light:border-black/10">
-            <p className="text-[10px] uppercase font-bold tracking-widest">Subscribe to our newsletter</p>
+          <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">
+            Contact
+          </h4>
+          <p className="flex items-center gap-2 text-sm mb-4">
+            <Mail className="w-4 h-4 shrink-0" />
+            <strong>support@northmind.store</strong>
+          </p>
+          <a
+            href="https://www.instagram.com/northmindstore/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm font-bold"
+          >
+            <Instagram className="w-4 h-4 shrink-0" />
+            @northmindstore
+          </a>
+          <div className="pt-4 mt-4 border-t border-white/5 light:border-black/10">
+            <p className="text-[10px] uppercase font-bold tracking-widest">
+              Subscribe to our newsletter
+            </p>
             <div className="mt-4 flex">
               <input
                 type="email"
@@ -109,9 +174,7 @@ export function Footer() {
         <p className="text-[10px] font-medium tracking-[0.2em] uppercase">
           © {currentYear} NORTH MIND. ALL RIGHTS RESERVED.
         </p>
-        <div className="flex gap-6">
-          {/* Payment Icons would go here */}
-        </div>
+        <div className="flex gap-6">{/* Payment Icons would go here */}</div>
       </div>
     </footer>
   );

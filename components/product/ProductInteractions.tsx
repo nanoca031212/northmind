@@ -292,48 +292,50 @@ export function ProductInteractions({
       )}
 
       {/* Visual Size Selection */}
-      <div>
-        <div className="flex items-center justify-between mb-5">
-          <h4 className="text-xs uppercase font-medium tracking-[0.2em] text-white/60 light:text-black/60">
-            {isFragrance ? "Select Volume" : "Select Size"}
-          </h4>
-          {!isFragrance && product.guiaTamanho && (
-            <button
-              onClick={() => setIsSizeGuideOpen(true)}
-              className="text-[10px] font-black uppercase tracking-widest text-[#C5A358] hover:text-white transition-colors underline underline-offset-4 flex items-center gap-1.5 light:hover:text-black"
-            >
-              <Ruler size={12} /> Size Guide
-            </button>
+      {!isEyewear && !isPrada && (
+        <div>
+          <div className="flex items-center justify-between mb-5">
+            <h4 className="text-xs uppercase font-medium tracking-[0.2em] text-white/60 light:text-black/60">
+              {isFragrance ? "Select Volume" : "Select Size"}
+            </h4>
+            {!isFragrance && product.guiaTamanho && (
+              <button
+                onClick={() => setIsSizeGuideOpen(true)}
+                className="text-[10px] font-black uppercase tracking-widest text-[#C5A358] hover:text-white transition-colors underline underline-offset-4 flex items-center gap-1.5 light:hover:text-black"
+              >
+                <Ruler size={12} /> Size Guide
+              </button>
+            )}
+          </div>
+          {product.detalhesModelo && (
+            <p className="text-[10px] font-medium text-white/90 italic mb-4 light:text-black/70">
+              * {product.detalhesModelo}
+            </p>
           )}
-        </div>
-        {product.detalhesModelo && (
-          <p className="text-[10px] font-medium text-white/90 italic mb-4 light:text-black/70">
-            * {product.detalhesModelo}
-          </p>
-        )}
 
-        {/* ELITE UPGRADE: Size Guide Drawer */}
-        <ProductSizeGuide
-          isOpen={isSizeGuideOpen}
-          onClose={() => setIsSizeGuideOpen(false)}
-          guide={product.guiaTamanho}
-        />
-        <div className="flex flex-wrap gap-4">
-          {sizes.map((size: string) => (
-            <button
-              key={size}
-              onClick={() => setSelectedSize(size)}
-              className={`aspect-square h-12 w-20 flex items-center justify-center text-sm font-medium transition-all duration-300 rounded-md ${
-                selectedSize === size
-                  ? "bg-white text-black shadow-lg light:bg-black light:text-white"
-                  : "bg-white/[0.03] text-white/40 hover:bg-white/10 hover:text-white light:bg-black/[0.03] light:text-black/40 light:hover:bg-black/10 light:hover:text-black"
-              }`}
-            >
-              {size}
-            </button>
-          ))}
+          {/* ELITE UPGRADE: Size Guide Drawer */}
+          <ProductSizeGuide
+            isOpen={isSizeGuideOpen}
+            onClose={() => setIsSizeGuideOpen(false)}
+            guide={product.guiaTamanho}
+          />
+          <div className="flex flex-wrap gap-4">
+            {sizes.map((size: string) => (
+              <button
+                key={size}
+                onClick={() => setSelectedSize(size)}
+                className={`aspect-square h-12 w-20 flex items-center justify-center text-sm font-medium transition-all duration-300 rounded-md ${
+                  selectedSize === size
+                    ? "bg-white text-black shadow-lg light:bg-black light:text-white"
+                    : "bg-white/[0.03] text-white/40 hover:bg-white/10 hover:text-white light:bg-black/[0.03] light:text-black/40 light:hover:bg-black/10 light:hover:text-black"
+                }`}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Bundle Selection */}
       <div className="">
