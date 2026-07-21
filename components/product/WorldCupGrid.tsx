@@ -72,6 +72,7 @@ export function WorldCupGrid({
   if (products.length === 0) return null;
 
   const desktopActive = Math.min(active, desktopMax);
+  const collectionHref = `/collections/${encodeURIComponent(title.toLowerCase().replace(/ /g, "-"))}`;
 
   const ProductCard = ({ product, i }: { product: Product; i: number }) => {
     const isEyewear = ["eyewear", "prada"].includes(product.collection?.toLowerCase() ?? "");
@@ -153,16 +154,16 @@ export function WorldCupGrid({
     <section className="pt-12 pb-2 px-2 md:px-8 max-w-[1600px] mx-auto w-full">
       {/* Título da coleção */}
       <div className="flex items-end justify-between mb-8 md:mb-12 pb-4">
-        <div className="space-y-1">
-          <span className="text-[9px] uppercase font-black tracking-[0.5em] text-accent/60 pl-2">
+        <Link href={collectionHref} className="space-y-1 block group">
+          <span className="text-[9px] uppercase font-black tracking-[0.5em] text-accent/60 pl-2 group-hover:text-accent transition-colors">
             {editionLabel}
           </span>
-          <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic light:text-black/90">
+          <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter text-white px-1 leading-none italic light:text-black/90 group-hover:text-accent transition-colors">
             {leadWords}
             {leadWords ? " " : ""}
             <span className="font-bold not-italic ml-1">{lastWord}</span>
           </h2>
-        </div>
+        </Link>
       </div>
 
       {/* Mobile — 1 card por slide */}
