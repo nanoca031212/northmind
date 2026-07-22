@@ -102,7 +102,7 @@ async function HomeCollections() {
 
 // Local collection photos in public/collections, keyed by collection handle.
 const LOCAL_COLLECTION_IMAGES: Record<string, string> = {
-  "world-cup": "/collections/world-cup-brazil.png",
+  "world-cup": "/harry.png",
   outerwear: "/collections/jackets.png",
   "silent-warmth": "/collections/silent-warmth.png",
   fragrances: "/collections/3x1-fragrances-banner.png",
