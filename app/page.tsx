@@ -54,16 +54,12 @@ async function HomeCollections() {
   }
 
   // Hero card images
-  const worldCupHeroImage = "/Card/cardcopa.png";
+  const worldCupHeroImage = "/banner.png";
   const limitedEditionHeroImage = "/Card/card2.png";
 
   // Category card images
   const allProducts = collectionsWithProducts.flatMap((c) => c.products);
-  const worldCupCatImage = allProducts.find(
-    (p) =>
-      p.collection.toLowerCase().includes("world") ||
-      p.title.toLowerCase().includes("world")
-  )?.images?.[1];
+  const worldCupCatImage = "/harry.png";
   const gorhamCatImage = allProducts.find((p) =>
     p.title.toLowerCase().includes("gorham")
   )?.images?.[1];
