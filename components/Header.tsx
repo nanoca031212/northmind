@@ -91,7 +91,7 @@ export function Header({ overHero = false }: HeaderProps) {
     {
       id: "theme",
       icon: theme === "dark" ? Moon : Sun,
-      label: theme === "dark" ? "Modo Noturno" : "Modo Claro",
+      label: theme === "dark" ? "Dark Mode" : "Light Mode",
       action: toggleTheme,
     },
     {
@@ -292,7 +292,7 @@ export function Header({ overHero = false }: HeaderProps) {
                 <button
                   onClick={toggleTheme}
                   className="flex items-center justify-between w-full gap-4 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all min-h-[52px] light:bg-black/5 light:hover:bg-black/10 light:active:bg-black/15"
-                  aria-label="Alternar modo claro e escuro"
+                  aria-label="Toggle light and dark mode"
                 >
                   <span className="flex items-center gap-4">
                     {theme === "dark" ? (
@@ -301,7 +301,7 @@ export function Header({ overHero = false }: HeaderProps) {
                       <Sun size={20} className="text-accent" />
                     )}
                     <span className="text-xs font-bold uppercase tracking-widest text-white light:text-black">
-                      {theme === "dark" ? "Modo Noturno" : "Modo Claro"}
+                      {theme === "dark" ? "Dark Mode" : "Light Mode"}
                     </span>
                   </span>
                   <span
