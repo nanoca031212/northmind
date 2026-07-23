@@ -158,18 +158,12 @@ function EyewearHeroBanner() {
         >
           <div className="relative overflow-hidden aspect-[3/1] md:aspect-[4/1] bg-[#6B6B6B]">
             <Image
-              src="/BannerEye2.png"
+              src="/bannerEye3.jpeg"
               alt="Eyewear"
               fill
               sizes="100vw"
-              className="object-cover object-[50%_20%] md:object-[50%_32%] transition-transform duration-700 group-hover:scale-105"
+              className="object-cover object-[50%_20%] md:object-[50%_42%] transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black to-transparent light:hidden" />
-            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-10">
-              <h3 className="text-base md:text-2xl font-black uppercase tracking-tight text-white leading-tight mb-3">
-                Eyewear
-              </h3>
-            </div>
           </div>
         </Link>
       </div>
