@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Mail, Instagram } from "lucide-react";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2020;
 
   return (
     <footer

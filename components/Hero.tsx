@@ -45,12 +45,12 @@ export function Hero() {
         </p>
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 w-full md:w-auto">
           <Link
-            href="/collections/outerwear"
+            href="/collections/shop-collection"
             className="btn-premium bg-white block w-full md:w-auto text-center active:scale-[0.97] active:opacity-90"
           >
             Shop Collection
           </Link>
-          <Link href="/collections/silent-warmth" className="text-[10px] font-bold uppercase tracking-luxury text-white/80 hover:text-white transition-all duration-300 px-6 py-4 active:text-accent min-h-[44px] flex items-center">
+          <Link href="/collections/view-lookbook" className="text-[10px] font-bold uppercase tracking-luxury text-white/80 hover:text-white transition-all duration-300 px-6 py-4 active:text-accent min-h-[44px] flex items-center">
             View Lookbook
           </Link>
         </div>

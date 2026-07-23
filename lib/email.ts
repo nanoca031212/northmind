@@ -27,14 +27,18 @@ function renderEmailTemplate(bodyHtml: string) {
       </div>
       <p style="margin:0;font-size:11px;line-height:1.6;color:#666666; letter-spacing: 0.05em;">
         This is an automated order notification.<br>
-        &copy; 2026 North Mind. ALL RIGHTS RESERVED.
+        &copy; 2020 North Mind. ALL RIGHTS RESERVED.
       </p>
     </div>
   </div>
 </div>`;
 }
 
-export async function sendBrandEmail(to: string, subject: string, bodyHtml: string) {
+export async function sendBrandEmail(
+  to: string,
+  subject: string,
+  bodyHtml: string,
+) {
   await transporter.sendMail({
     from: process.env.SMTP_USER,
     to,

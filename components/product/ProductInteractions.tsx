@@ -59,9 +59,12 @@ export function ProductInteractions({
         }))
       : [];
 
-  const collectionProducts = allProducts.filter(
-    (p) => p.collection === product.collection,
-  );
+  const collectionProducts = allProducts.some((p) => p.id === product.id)
+    ? allProducts.filter((p) => p.collection === product.collection)
+    : [
+        product,
+        ...allProducts.filter((p) => p.collection === product.collection),
+      ];
 
   const [bundleSelections, setBundleSelections] = useState([
     { productId: product.id, color: colors[0]?.name || "", size: sizes[0] },
@@ -432,7 +435,7 @@ export function ProductInteractions({
                         <div className="size-10 bg-[#F2F2F2] rounded-md overflow-hidden flex items-center justify-center p-1 shrink-0 border border-white/5 light:border-black/10">
                           <img
                             src={
-                              isFragrance
+                              isFragrance || isPrada
                                 ? itemThumb
                                 : colors.find(
                                     (c) =>
@@ -444,7 +447,7 @@ export function ProductInteractions({
                           />
                         </div>
 
-                        {isFragrance ? (
+                        {isFragrance || isPrada ? (
                           <div className="relative flex-grow">
                             <button
                               onClick={() => handleOpenPicker(idx)}
@@ -452,7 +455,7 @@ export function ProductInteractions({
                             >
                               <div className="flex flex-col items-start">
                                 <span className="text-[8px] font-black uppercase tracking-widest text-[#C5A358]">
-                                  Select Fragrance
+                                  {isFragrance ? "Select Fragrance" : "Select Item"}
                                 </span>
                                 <span className="text-[10px] font-bold uppercase tracking-widest text-white truncate max-w-[120px] light:text-black">
                                   {selectedItemProduct.title}
@@ -496,7 +499,7 @@ export function ProductInteractions({
                         )}
 
                         <div
-                          className={`relative h-10 ${colors.length > 0 || isFragrance ? "w-20" : "flex-grow"}`}
+                          className={`relative h-10 ${colors.length > 0 || isFragrance || isPrada ? "w-20" : "flex-grow"}`}
                         >
                           <select
                             value={bundleSelections[idx].size}
@@ -558,10 +561,12 @@ export function ProductInteractions({
             <div className="p-6 md:p-10 border-b border-white/5 flex items-center justify-between bg-black/50 backdrop-blur-md light:border-black/10 light:bg-black/[0.03]">
               <div className="space-y-1">
                 <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-white light:text-black">
-                  Fragrance Selection Vault
+                  {isFragrance ? "Fragrance Selection Vault" : "Selection Vault"}
                 </h2>
                 <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-accent italic">
-                  Select your next essence from the house of North Mind
+                  {isFragrance
+                    ? "Select your next essence from the house of North Mind"
+                    : "Select any item from this collection for your bundle"}
                 </p>
               </div>
               <button

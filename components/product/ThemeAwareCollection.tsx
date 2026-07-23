@@ -148,6 +148,28 @@ function WorldCupHeroCards({
   );
 }
 
+function EyewearHeroBanner() {
+  return (
+    <div className="max-w-[1600px] mx-auto w-full pt-12 px-2 md:px-8">
+      <div className="grid grid-cols-1 gap-0 mb-3 md:mb-4">
+        <Link
+          href="/collections/eyewear"
+          className="group relative block overflow-hidden"
+        >
+          <div className="relative overflow-hidden aspect-[3/1] md:aspect-[5/1] bg-[#6B6B6B]">
+            <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black to-transparent light:hidden" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-10">
+              <h3 className="text-base md:text-2xl font-black uppercase tracking-tight text-white leading-tight mb-3">
+                Eyewear
+              </h3>
+            </div>
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function WorldCupCategoryCards({
   categoryCardImages = [],
 }: {
@@ -309,11 +331,25 @@ export function ThemeAwareCollection({
 
     return (
       <>
-        <WorldCupHeroCards
-          worldCupImage={worldCupHeroImage}
-          limitedEditionImage={limitedEditionHeroImage}
-        />
-        <WorldCupGrid products={products} title={title} firstWordOnly />
+        {eyewearProducts && eyewearProducts.length > 0 && (
+          <>
+            <EyewearHeroBanner />
+            <WorldCupGrid
+              products={eyewearProducts}
+              title="Eyewear"
+              editionLabel="Heritage Collection"
+              autoPlay
+            />
+          </>
+        )}
+        {pradaProducts && pradaProducts.length > 0 && (
+          <WorldCupGrid
+            products={pradaProducts}
+            title="Prada"
+            editionLabel="Heritage Collection"
+            autoPlay
+          />
+        )}
         <WorldCupCategoryCards categoryCardImages={categoryCardImages} />
         {outerwearProducts && outerwearProducts.length > 0 && (
           <WorldCupGrid
@@ -345,22 +381,11 @@ export function ThemeAwareCollection({
             }}
           />
         )}
-        {pradaProducts && pradaProducts.length > 0 && (
-          <WorldCupGrid
-            products={pradaProducts}
-            title="Prada"
-            editionLabel="Heritage Collection"
-            autoPlay
-          />
-        )}
-        {eyewearProducts && eyewearProducts.length > 0 && (
-          <WorldCupGrid
-            products={eyewearProducts}
-            title="Eyewear"
-            editionLabel="Heritage Collection"
-            autoPlay
-          />
-        )}
+        <WorldCupHeroCards
+          worldCupImage={worldCupHeroImage}
+          limitedEditionImage={limitedEditionHeroImage}
+        />
+        <WorldCupGrid products={products} title={title} firstWordOnly />
         {fragranceProducts && fragranceProducts.length > 0 && (
           <WorldCupGrid
             products={fragranceProducts}
