@@ -338,25 +338,11 @@ export function ThemeAwareCollection({
 
     return (
       <>
-        {eyewearProducts && eyewearProducts.length > 0 && (
-          <>
-            <EyewearHeroBanner />
-            <WorldCupGrid
-              products={eyewearProducts}
-              title="Eyewear"
-              editionLabel="Heritage Collection"
-              autoPlay
-            />
-          </>
-        )}
-        {pradaProducts && pradaProducts.length > 0 && (
-          <WorldCupGrid
-            products={pradaProducts}
-            title="Prada"
-            editionLabel="Heritage Collection"
-            autoPlay
-          />
-        )}
+        <WorldCupHeroCards
+          worldCupImage={worldCupHeroImage}
+          limitedEditionImage={limitedEditionHeroImage}
+        />
+        <WorldCupGrid products={products} title={title} firstWordOnly />
         <WorldCupCategoryCards categoryCardImages={categoryCardImages} />
         {outerwearProducts && outerwearProducts.length > 0 && (
           <WorldCupGrid
@@ -388,11 +374,25 @@ export function ThemeAwareCollection({
             }}
           />
         )}
-        <WorldCupHeroCards
-          worldCupImage={worldCupHeroImage}
-          limitedEditionImage={limitedEditionHeroImage}
-        />
-        <WorldCupGrid products={products} title={title} firstWordOnly />
+        {pradaProducts && pradaProducts.length > 0 && (
+          <WorldCupGrid
+            products={pradaProducts}
+            title="Prada"
+            editionLabel="Heritage Collection"
+            autoPlay
+          />
+        )}
+        {eyewearProducts && eyewearProducts.length > 0 && (
+          <>
+            <EyewearHeroBanner />
+            <WorldCupGrid
+              products={eyewearProducts}
+              title="Eyewear"
+              editionLabel="Heritage Collection"
+              autoPlay
+            />
+          </>
+        )}
         {fragranceProducts && fragranceProducts.length > 0 && (
           <WorldCupGrid
             products={fragranceProducts}
