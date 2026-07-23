@@ -158,7 +158,7 @@ function EyewearHeroBanner() {
         >
           <div className="relative overflow-hidden aspect-[3/1] md:aspect-[4/1] bg-[#6B6B6B]">
             <Image
-              src="/BannerEye.png"
+              src="/BannerEye2.png"
               alt="Eyewear"
               fill
               sizes="100vw"
