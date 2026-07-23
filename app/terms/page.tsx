@@ -49,7 +49,7 @@ export default function TermsAndConditions() {
 
       <h2>7. Contact Information</h2>
       <p>
-        Questions about the Terms of Service should be sent to us at <strong>legal@northmind.store</strong>.
+        Questions about the Terms of Service should be sent to us at <strong>contact@northmind.shop</strong>.
       </p>
     </PolicyLayout>
   );

@@ -36,7 +36,7 @@ export default function DataDeletionPolicy() {
         To exercise your right to data erasure, you must submit a formal request from the email address associated with your account to our Data Protection Officer at:
       </p>
       <p>
-        <strong>data@northmind.store</strong>
+        <strong>contact@northmind.shop</strong>
       </p>
     </PolicyLayout>
   );

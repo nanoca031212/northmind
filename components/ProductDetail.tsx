@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useEffect } from "react";
 import {
   Star,
-  ShieldCheck,
   CheckCircle2,
   Package,
   Truck,
@@ -52,6 +51,9 @@ export function ProductDetail({
     safeOriginalPrice > safePrice
       ? Math.round(((safeOriginalPrice - safePrice) / safeOriginalPrice) * 100)
       : 0;
+
+  const isPrada = product.collection?.toLowerCase() === "prada";
+  const isWorldCup = product.collection?.toLowerCase() === "world cup";
 
   const selectedColor = searchParams?.color;
 
@@ -176,7 +178,53 @@ export function ProductDetail({
                         ? "Fragrance Profile"
                         : "Product Details",
                     icon: <Info size={16} />,
-                    content: (
+                    content: isPrada ? (
+                      <div className="space-y-3">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-white light:text-black">
+                          Prada Sunglasses
+                        </h4>
+                        <p className="leading-relaxed">
+                          Crafted in Italy with meticulous attention to
+                          detail, these Prada sunglasses combine bold,
+                          contemporary design with timeless craftsmanship.
+                          Made from premium acetate, each pair features
+                          precision-cut lenses that offer full UV protection
+                          without compromising on style.
+                        </p>
+                        <p className="leading-relaxed">
+                          The signature Prada lettering logo, faceted temple
+                          detailing, and refined geometric silhouette reflect
+                          the brand&apos;s iconic design language — instantly
+                          recognizable, endlessly versatile. Whether paired
+                          with casual or elevated looks, these sunglasses are
+                          a statement piece built to last.
+                        </p>
+                      </div>
+                    ) : isWorldCup ? (
+                      <div className="space-y-3">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-white light:text-black">
+                          World Cup Football Jersey
+                        </h4>
+                        <p className="leading-relaxed">
+                          Celebrate the passion of the game with this
+                          official-style World Cup jersey, designed for fans
+                          who live and breathe football. Made from
+                          lightweight, breathable fabric, it&apos;s built to
+                          keep you comfortable whether you&apos;re on the
+                          pitch, at the stadium, or cheering from home.
+                        </p>
+                        <p className="leading-relaxed">
+                          Featuring the team crest, authentic colorway, and a
+                          modern athletic fit, this jersey captures the energy
+                          and pride of international football at its biggest
+                          stage. A true collector&apos;s piece for any true
+                          supporter.
+                        </p>
+                        <p className="leading-relaxed">
+                          Available in multiple sizes. Machine washable.
+                        </p>
+                      </div>
+                    ) : (
                       <ul className="space-y-2">
                         {(product.especificacoes || []).length > 0 ? (
                           product.especificacoes?.map((spec, i) => (
@@ -191,39 +239,6 @@ export function ProductDetail({
                           </li>
                         )}
                       </ul>
-                    ),
-                  },
-                  // SECTION 2: Fabrication & Care
-                  {
-                    id: "fabrication",
-                    title:
-                      product.tipo === "PERFUME" ||
-                      product.collection?.toLowerCase().includes("fragrance")
-                        ? "Fragrance Notes & Care"
-                        : "Fabrication & Care",
-                    icon: <ShieldCheck size={16} />,
-                    content: (
-                      <div className="space-y-2">
-                        {product.materiais && product.materiais.length > 0 && (
-                          <div className="flex flex-wrap gap-x-8 gap-y-2">
-                            {product.materiais.map((m, i) => (
-                              <div key={i} className="space-y-1">
-                                <p className="text-[10px] font-black uppercase tracking-widest text-[#C5A358]">
-                                  {m.percentage}
-                                </p>
-                                <p className="text-[11px] font-medium text-white/60 light:text-black/60">
-                                  {m.item}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        {product.instrucoesCuidado && (
-                          <p className="text-[11px] font-medium leading-relaxed italic border-l border-accent/20 pl-4">
-                            &quot;{product.instrucoesCuidado}&quot;
-                          </p>
-                        )}
-                      </div>
                     ),
                   },
                   // SECTION 3: Custom highlights (Storytelling)
@@ -264,7 +279,7 @@ export function ProductDetail({
                           <span className="w-1.5 h-1.5 rounded-full bg-white mt-2 shrink-0 light:bg-black" />
                           <p>
                             <strong>Free Standard Shipping</strong> on all UK
-                            orders. Delivered within 10-20 business days.
+                            orders. Dispatched within 1–2 business days.
                           </p>
                         </div>
                         <div className="flex gap-3">

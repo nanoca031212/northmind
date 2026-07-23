@@ -36,7 +36,7 @@ export default function WarrantyPolicy() {
 
       <h2>4. Claim Process</h2>
       <p>
-        To initiate a warranty evaluation, please contact <strong>support@northmind.store</strong> with detailed photographs of the defect, a description of the issue, and your original order number. Our quality assurance team will assess the claim within 48 hours.
+        To initiate a warranty evaluation, please contact <strong>contact@northmind.shop</strong> with detailed photographs of the defect, a description of the issue, and your original order number. Our quality assurance team will assess the claim within 48 hours.
       </p>
     </PolicyLayout>
   );

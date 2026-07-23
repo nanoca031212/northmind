@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Plane, MapPin, RotateCcw, HelpCircle } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Plane,
+  MapPin,
+  RotateCcw,
+  HelpCircle,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const faqData = [
@@ -38,18 +45,20 @@ const faqData = [
     icon: <RotateCcw size={18} className="text-white/60 light:text-black/60" />,
     answer: (
       <>
-        We accept returns within <strong>14 days</strong> of delivery,
-        provided the item is unused and in its original condition.
+        We accept returns within <strong>14 days</strong> of delivery, provided
+        the item is unused and in its original condition.
         <br />
         <br />
-        To start a return, contact: <strong>support@northmind.store</strong>
+        To start a return, contact: <strong>contact@northmind.shop</strong>
       </>
     ),
   },
   {
     id: 4,
     question: "What should I do if my item is faulty?",
-    icon: <HelpCircle size={18} className="text-white/60 light:text-black/60" />,
+    icon: (
+      <HelpCircle size={18} className="text-white/60 light:text-black/60" />
+    ),
     answer: (
       <>
         If your product arrives damaged or defective, please email us within{" "}
@@ -77,8 +86,11 @@ export function ProductFaqBox() {
         {faqData.map((faq) => (
           <div
             key={faq.id}
-            className={`overflow-hidden transition-all duration-300 border-b ${activeFaq === faq.id ? "border-white/30 bg-white/[0.02] light:border-black/30 light:bg-black/[0.02]" : "border-white/10 bg-transparent light:border-black/10"
-              }`}
+            className={`overflow-hidden transition-all duration-300 border-b ${
+              activeFaq === faq.id
+                ? "border-white/30 bg-white/[0.02] light:border-black/30 light:bg-black/[0.02]"
+                : "border-white/10 bg-transparent light:border-black/10"
+            }`}
           >
             <button
               onClick={() => setActiveFaq(activeFaq === faq.id ? null : faq.id)}
@@ -86,9 +98,7 @@ export function ProductFaqBox() {
               aria-expanded={activeFaq === faq.id}
             >
               <div className="flex items-center gap-4">
-                <span className="p-0 transition-colors">
-                  {faq.icon}
-                </span>
+                <span className="p-0 transition-colors">{faq.icon}</span>
                 <span className="text-[11px] font-medium uppercase tracking-widest text-white/80 group-hover:text-white transition-colors light:text-black/70 light:group-hover:text-black">
                   {faq.question}
                 </span>
@@ -96,7 +106,10 @@ export function ProductFaqBox() {
               {activeFaq === faq.id ? (
                 <ChevronUp size={16} className="text-accent" />
               ) : (
-                <ChevronDown size={16} className="text-white/20 group-hover:text-white/60 transition-colors light:text-black/20 light:group-hover:text-black/50" />
+                <ChevronDown
+                  size={16}
+                  className="text-white/20 group-hover:text-white/60 transition-colors light:text-black/20 light:group-hover:text-black/50"
+                />
               )}
             </button>
             <AnimatePresence>

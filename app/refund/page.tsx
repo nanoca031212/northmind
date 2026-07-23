@@ -20,7 +20,7 @@ export default function RefundPolicy() {
 
       <h2>2. EU/UK Right of Withdrawal</h2>
       <p>
-        In accordance with the Consumer Rights Directive for EU and UK customers, you have the legal right to cancel your contract and return your purchase for any reason within 14 days from the day you, or a designated third party, receives the goods. To exercise this right, you must inform us via a clear statement to <strong>returns@northmind.store</strong> before the period expires.
+        In accordance with the Consumer Rights Directive for EU and UK customers, you have the legal right to cancel your contract and return your purchase for any reason within 14 days from the day you, or a designated third party, receives the goods. To exercise this right, you must inform us via a clear statement to <strong>contact@northmind.shop</strong> before the period expires.
       </p>
 
       <h2>3. Return Shipping & International Fees</h2>

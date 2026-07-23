@@ -59,7 +59,7 @@ async function HomeCollections() {
 
   // Category card images
   const allProducts = collectionsWithProducts.flatMap((c) => c.products);
-  const worldCupCatImage = "/harry2.png";
+  const worldCupCatImage = "/harry3.png";
   const gorhamCatImage = allProducts.find((p) =>
     p.title.toLowerCase().includes("gorham")
   )?.images?.[1];
@@ -102,7 +102,7 @@ async function HomeCollections() {
 
 // Local collection photos in public/collections, keyed by collection handle.
 const LOCAL_COLLECTION_IMAGES: Record<string, string> = {
-  "world-cup": "/harry2.png",
+  "world-cup": "/harry3.png",
   outerwear: "/collections/jackets.png",
   "silent-warmth": "/collections/silent-warmth.png",
   fragrances: "/collections/3x1-fragrances-banner.png",

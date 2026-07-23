@@ -56,8 +56,8 @@ export function PolicyLayout({
         <div className="mt-24 pt-12 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 light:border-black/10">
            <div className="space-y-1">
              <p className="text-[9px] font-black uppercase tracking-widest text-white/40 light:text-black/40">Direct Inquiries</p>
-             <a href="mailto:support@northmind.store" className="text-sm font-medium hover:text-white/70 transition-colors light:hover:text-black/70">
-               support@northmind.store
+             <a href="mailto:contact@northmind.shop" className="text-sm font-medium hover:text-white/70 transition-colors light:hover:text-black/70">
+               contact@northmind.shop
              </a>
            </div>
         </div>

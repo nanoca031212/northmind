@@ -116,7 +116,7 @@ export function Footer() {
           <h4 className="text-white text-xs uppercase font-bold tracking-widest mb-6 light:text-black">
             Our House
           </h4>
-          <ul className="space-y-4 text-sm">
+          <ul className="space-y-4 uppercase font-bold text-sm">
             <li>
               <Link href="/about" className="hover:text-gold transition-colors">
                 About Us
@@ -141,7 +141,7 @@ export function Footer() {
           </h4>
           <p className="flex items-center gap-2 text-sm mb-4">
             <Mail className="w-4 h-4 shrink-0" />
-            <strong>support@northmind.store</strong>
+            <strong>contact@northmind.shop</strong>
           </p>
           <a
             href="https://www.instagram.com/northmindstore/"

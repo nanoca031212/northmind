@@ -53,7 +53,7 @@ export default function PrivacyPolicy() {
         For inquiries regarding this policy or to exercise your rights, please direct your correspondence to our legal department:
       </p>
       <p>
-        <strong>Email:</strong> legal@northmind.store<br />
+        <strong>Email:</strong> contact@northmind.shop<br />
         <strong>Address:</strong> North Mind Legal Dept, 71-75 Shelton Street, Covent Garden, London, WC2H 9JQ, United Kingdom
       </p>
     </PolicyLayout>
