@@ -332,6 +332,7 @@ export function ThemeAwareCollection({
 
     return (
       <>
+        {eyewearProducts && eyewearProducts.length > 0 && <EyewearHeroBanner />}
         <WorldCupHeroCards
           worldCupImage={worldCupHeroImage}
           limitedEditionImage={limitedEditionHeroImage}
@@ -377,15 +378,12 @@ export function ThemeAwareCollection({
           />
         )}
         {eyewearProducts && eyewearProducts.length > 0 && (
-          <>
-            <EyewearHeroBanner />
-            <WorldCupGrid
-              products={eyewearProducts}
-              title="Eyewear"
-              editionLabel="Heritage Collection"
-              autoPlay
-            />
-          </>
+          <WorldCupGrid
+            products={eyewearProducts}
+            title="Eyewear"
+            editionLabel="Heritage Collection"
+            autoPlay
+          />
         )}
         {fragranceProducts && fragranceProducts.length > 0 && (
           <WorldCupGrid
