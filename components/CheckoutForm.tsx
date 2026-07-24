@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { PaymentElement, ExpressCheckoutElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Search, Lock, ChevronDown } from "lucide-react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
@@ -337,6 +337,133 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
     setIsLoading(false);
   };
 
+  // Express Checkout (Apple Pay / Google Pay) submission handling.
+  // These wallets collect contact/billing details in their own native sheet,
+  // so we fall back to whatever the wallet returns instead of the manual form state.
+  const handleExpressCheckoutConfirm = async (event: any) => {
+    if (!stripe || !elements) return;
+
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      const utmifyId = localStorage.getItem('utmify_id') || localStorage.getItem('success-id');
+      const utmSource = localStorage.getItem('utm_source');
+
+      const billingDetails = event.billingDetails;
+      const addr = billingDetails?.address || {};
+      const expName = billingDetails?.name || `${firstName} ${lastName}`.trim() || 'Guest';
+      const [expFirstName, ...expLastRest] = expName.split(" ");
+      const expLastName = expLastRest.join(" ");
+      const expEmail = billingDetails?.email || email;
+      const expPhone = billingDetails?.phone || phone;
+
+      if (!icTriggered.current) {
+        icTriggered.current = true;
+        const eventId = icEventId.current || (icEventId.current = crypto.randomUUID());
+        trackBeginCheckout(
+          items.map(i => ({ id: i.id, title: i.name, price: i.price, quantity: i.quantity })),
+          total,
+          eventId
+        );
+        axios.post(`/api/payment/track-ic`, {
+          customer: {
+            name: expName,
+            email: expEmail || 'guest@northmind.store',
+            phone: expPhone || '00000000000',
+            country: addr.country || country || 'GB',
+            state: addr.state || county || null,
+            city: addr.city || city || null,
+            postcode: addr.postal_code || postcode || null,
+            address: addr.line1 || address || null,
+            complement: addr.line2 || complement || null,
+          },
+          trackingParameters: {
+            utmify_id: utmifyId,
+            utm_source: utmSource,
+            utm_medium: localStorage.getItem('utm_medium'),
+            utm_campaign: localStorage.getItem('utm_campaign'),
+            utm_content: localStorage.getItem('utm_content'),
+            utm_term: localStorage.getItem('utm_term'),
+          },
+          amount: total,
+          products: items.map(i => ({ id: i.id, name: i.name, quantity: i.quantity, priceInCents: Math.round(i.price * 100) })),
+          eventId
+        }).catch(e => console.warn('IC tracking fallback failed', e));
+      }
+
+      const cleanTotal = Number(total.toFixed(2));
+      const { data: orderResponse } = await axios.post(`/api/orders`, {
+        items,
+        total: cleanTotal,
+        status: "PAID",
+        userEmail: session?.user?.email,
+        customerInfo: {
+          email: expEmail,
+          phone: expPhone,
+          firstName: expFirstName || firstName,
+          lastName: expLastName || lastName,
+          address: addr.line1 || address,
+          city: addr.city || city,
+          postcode: addr.postal_code || postcode,
+          country: addr.country || country,
+          county: addr.state || county,
+          complement: addr.line2 || complement,
+        }
+      });
+
+      if (!orderResponse?.id || !orderResponse?.userId) {
+        throw new Error(orderResponse?.error || "Erro ao criar pedido. Tente novamente.");
+      }
+
+      const intentId = clientSecret ? clientSecret.split('_secret')[0] : null;
+      if (intentId) {
+        await axios.post(`/api/payment/update-metadata`, {
+          intentId,
+          metadata: {
+            customer_name: expName,
+            customer_email: expEmail || '',
+            customer_phone: expPhone || '',
+            customer_country: addr.country || country || 'GB',
+            customer_state: addr.state || county || '',
+            customer_city: addr.city || city || '',
+            customer_postal_code: addr.postal_code || postcode || '',
+            customer_address: addr.line1 || address || '',
+            customer_complement: addr.line2 || complement || '',
+            utmify_id: utmifyId || '',
+            utm_source: utmSource || '',
+            utm_medium: localStorage.getItem('utm_medium') || '',
+            utm_campaign: localStorage.getItem('utm_campaign') || '',
+            utm_content: localStorage.getItem('utm_content') || '',
+            utm_term: localStorage.getItem('utm_term') || '',
+            order_id: orderResponse.id,
+            user_id: orderResponse.userId,
+            shipping_rate_id: selectedShipping.id,
+            shipping_method: selectedShipping.name,
+          }
+        });
+      }
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location.origin}/success?o=${orderResponse.id}&u=${orderResponse.userId}&utmify_id=${utmifyId}`,
+        },
+      });
+
+      if (error) {
+        setErrorMessage(error.message || "An unexpected error occurred.");
+      }
+    } catch (err: any) {
+      console.error("EXPRESS_CHECKOUT_ERROR:", err);
+      const serverMessage = err.response?.data?.message || err.response?.data?.error || err.message;
+      setErrorMessage(serverMessage || "Error processing order. Please try again.");
+      event.paymentFailed({ reason: "fail", message: serverMessage });
+    }
+
+    setIsLoading(false);
+  };
+
   return (
     <div className="checkout-container">
       {/* 
@@ -571,10 +698,10 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
                 }
               }}
               options={{
-                layout: "accordion", 
+                layout: "accordion",
                 wallets: {
-                  applePay: "auto",
-                  googlePay: "auto",
+                  applePay: "never",
+                  googlePay: "never",
                 },
                 fields: {
                   billingDetails: { name: "never", email: "never" },
@@ -600,6 +727,17 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
                 </>
               )}
             </button>
+
+            <div className="express-checkout-wrapper">
+              <ExpressCheckoutElement
+                options={{
+                  buttonType: { applePay: "buy", googlePay: "buy" },
+                  buttonHeight: 48,
+                  layout: { maxColumns: 1 },
+                }}
+                onConfirm={handleExpressCheckoutConfirm}
+              />
+            </div>
           </div>
 
           <div className="footer-links">
@@ -939,6 +1077,10 @@ export default function CheckoutForm({ items, clientSecret, shippingMethodId, on
         .submit-section {
           margin-top: 32px;
           margin-bottom: 24px;
+        }
+
+        .express-checkout-wrapper {
+          margin-top: 12px;
         }
 
         .submit-btn {
